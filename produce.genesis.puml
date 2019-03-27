@@ -1,0 +1,8 @@
+@startuml
+
+boss -> boss: produce an private key and its boss_addr on an offline machine
+
+boss -> dev: show dev the boss_addr
+
+dev -> dev: use the boss_addr to generate a genesis.json with 1 billion OKB fed to boss_addr
+
