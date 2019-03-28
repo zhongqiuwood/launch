@@ -1,8 +1,25 @@
 @startuml
 
-boss -> boss: produce an private key and its boss_addr on an offline machine
+boss -> boss: produce a private key and its \nboss_addr on an offline machine
 
 boss -> dev: show dev the boss_addr
 
-dev -> dev: use the boss_addr to generate a genesis.json with 1 billion OKB fed to boss_addr
+dev -> dev: use the boss_addr to \ngenerate a genesis.json \nwith 1 billion OKB \nfed to boss_addr
 
+dev -> okdexd: start up by the genesis.json
+
+okdexd -> okdexd: InitChain: set the OKB \nmint information\n into Mint store(application.db): \nsymbol, total_supply, mintable...
+
+boss -> dev: transfer OKB from boss_addr\n(with lock period?)
+
+dev -> dev: use the genesis.json to build \nthe OKDEX mainnet
+
+
+boss -> anyone: transfer OKB from boss_addr\n(with lock period?)
+
+anyone -> anyone: download the genesis.json \nand okdexd source code \nto build a full node of OKDEX
+
+
+anyone -> anyone: use OKB to make the full \nnode a validator
+
+@endpuml
