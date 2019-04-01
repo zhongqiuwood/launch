@@ -1,69 +1,69 @@
-# Cosmos Hub Launch
+# OKDEX Launch
 
-This is the Interchain Foundation's recommendation for the Genesis Block Release
-Software and marks the initiation of [phase
-one](https://blog.cosmos.network/the-3-phases-of-the-cosmos-hub-mainnet-fdff3a68c4c0) of the Cosmos Hub launch.
+## okdex launch 使用流程
 
-Please be aware that there is no guarantee a network will start from this
-recommendation - nodes and validators may never come online, the community may disregard the
-recommendation and choose different genesis files, and/or they may modify the
-software in arbitrary ways. Such outcomes and many more are outside the Interchain
-Foundation's control and completely in the hands of the community.
+1. 创建账户
 
-The recommended genesis file is [genesis.json](https://raw.githubusercontent.com/cosmos/launch/master/genesis.json). It has the
-following SHA256 hash:
+   ```shell
+   okdexcli keys add boss
+   ```
 
-```
-$ shasum -a 256 genesis.json 
-73a866b21723ecbc28b6d15951b2eb3aa2f2443650ff6df489bf55ac5edceefa  genesis.json
-$ b2sum genesis.json 
-8c90b58efe9e0959953fe27ba431137c24c514e357b8025f5252c85ea7401247a909fac95313b907bb48579c6e389b4bbf06df626bff19aae554028964fa189d  genesis.json
-```
+   查看账户地址
 
-It includes a genesis time of `2019-03-13 23:00:00 UTC`.
-Please read [GENESIS.md](GENESIS.md) for details on how it was generated and
-to recompute it for yourself.
+   ```shell
+   okdexcli keys show boss -a
+   ```
 
-The recommended software version is [v0.33.0 of the
-Cosmos-SDK](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.33.0).
-See the [installation
-instructions](https://cosmos.network/docs/gaia/installation.html)
-and the [guide to joining mainnet](https://cosmos.network/docs/gaia/join-mainnet.html).
+1. 生成签名交易
 
-Users wishing to interact with the network should carefully review [how to
-protect themselves](https://cosmos.network/atom-protection) and the security
-advisories in the recent blog post on 
-[preparing for main net
-launch](https://blog.cosmos.network/cosmos-hub-to-launch-mainnet-a453d2247a34).
+   1. 初始化okdexd
 
-Please note that this is *highly* experimental software. In these early days, we can
-expect to have issues, updates, and bugs. The existing tools require advanced
-technical skills and involve risks which are outside of the control of the
-Interchain Foundation and/or the Tendermint team (see also the risk section in
-the Interchain Cosmos Contribution Terms). Any use of this open source Apache
-2.0 licensed software is done at your *own risk and on a “AS IS” basis, without
-warranties or conditions of any kind*, and any and all liability of the
-Interchain Foundation and/or the Tendermint team for damages arising in
-connection to the software is excluded. **Please exercise extreme caution!**
+      ```shell
+       okdexd init --chain-id okchain
+      ```
 
-Further, please note that it remains in the community's sole discretion to
-adopt or not to adopt the recommended Genesis Block Release Software. Therefore, the Interchain
-Foundation cannot guarantee that (i) ATOMs will be created and (ii) the recommended
-allocation as set forth in GENESIS.md will actually take place. The recommended Genesis Block
-Release Software has no support for interoperability (IBC), and the Atoms will not be
-transferable.
+   1. 将账户信息写入genesis file
 
+      ```shell
+      okdexd add-genesis-account $(okdexcli keys show boss -a) 1000000000okb
+      ```
 
-## Seed Nodes
+   1. 生成签名交易
 
-We request known community members who wish to run public p2p seed nodes make pull requests to add community run seed nodes below.
+      ```shell
+      okdexd gentx --amount 1000000okb --min-self-delegation 1 --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.001 --pubkey $(okdexd tendermint show-validator) --name boss
+      ```
 
-```
-Seed nodes
+   1. 查看交易，`$HOME/.okdexd/config/gentx/`中的文件内容
 
-- `3e16af0cead27979e1fc3dac57d03df3c7a77acc@3.87.179.235:26656` - Bison Trails
-- `ba3bacc714817218562f743178228f23678b2873@public-seed-node.cosmoshub.certus.one:26656` - Certus One
-- `2626942148fd39830cb7a3acccb235fab0332d86@173.212.199.36:26656` - syncnode
-- `3028c6ee9be21f0d34be3e97a59b093e15ec0658@91.205.173.168:26656` - syncnode
-- `89e4b72625c0a13d6f62e3cd9d40bfc444cbfa77@34.65.6.52:26656` - Cryptium Labs (@adrianbrink, @awasunyin, @cwgoes)
-```
+1. 将上述两步骤中的执行结果放到okdex launch
+
+   1. 将账户地址及发币数量写入`launch/accounts/initOKB.json`中，格式如下：
+
+      ```json
+      {
+        "cosmos14s3dfqterut5flk9py9yurve7kvjwrp52e2ufe": 1000000000
+      }
+      ```
+
+   1. 将签名的交易内容完整复制到`launch/gentx/`中，格式如下：
+
+      ```json
+      {"type":"auth/StdTx","value":{"msg":[{"type":"cosmos-sdk/MsgCreateValidator","value":{"description":{"moniker":"yulinshengdeMacBook-Pro.local","identity":"","website":"","details":""},"commission":{"rate":"0.100000000000000000","max_rate":"0.500000000000000000","max_change_rate":"0.001000000000000000"},"min_self_delegation":"1","delegator_address":"cosmos14s3dfqterut5flk9py9yurve7kvjwrp52e2ufe","validator_address":"cosmosvaloper14s3dfqterut5flk9py9yurve7kvjwrp50d7f92","pubkey":"cosmosvalconspub1zcjduepqa9ad9ksej6ywkzne3vcle4vewglq5xcan4km7x4vp5uw45qcsdkqsxskrv","value":{"denom":"okb","amount":"1000000"}}}],"fee":{"amount":null,"gas":"200000"},"signatures":[{"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"Aw6QKYLwNVyVHPofaxKOUTtOkUy3nO0OiKjEtpqsslxW"},"signature":"dnk3828ZvLWYw76WTqXTzeD2CjR8TJJndelCY6R3XGU9cXyCw2wCu6/pB7e6Xu8++Y/vjjHt0VdmZstHliDHmQ=="}],"memo":"5aa3315b66480b9a0575dd0c67e2469c00388be9@192.168.26.129:26656"}}
+      ```
+
+1. 在`launch`下执行`go run main.go`生成最终的`genesis file`，即`launch/genesis.json`
+
+1. 利用launch的`genesis file`启动一个节点
+
+   1. 初始化okdexd
+
+      ```shell
+       okdexd init --chain-id okchain
+      ```
+
+   1. 用`genesis file`覆盖`$HOME/.okdexd/config/genesis.json`，启动节点：
+
+      ```shell
+      okdexd start
+      ```
