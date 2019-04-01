@@ -8,6 +8,7 @@ import (
 	"math"
 	"path"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -21,7 +22,7 @@ import (
 
 const (
 	// processed contributors files
-	okbJSON     = "token/info.json"
+	tokenJSON   = "token/info.json"
 	okbDisJSON  = "accounts/distribution.json"
 	icfJSON     = "accounts/icf/contributors.json"
 	privateJSON = "accounts/private/contributors.json"
@@ -81,7 +82,8 @@ func atomToUAtomInt(amt float64) sdk.Int {
 
 // convert atoms with two decimal precision to coins
 func newCoins(amt float64) sdk.Coins {
-	uAtoms := atomToUAtomInt(amt)
+	// uAtoms := atomToUAtomInt(amt)
+	uAtoms := sdk.NewIntFromBigInt(sdk.MustNewDecFromStr(strconv.FormatFloat(amt, 'f', -1, 64)).Int)
 	return sdk.Coins{
 		sdk.Coin{
 			Denom:  atomDenomination,
@@ -140,20 +142,12 @@ func main() {
 	// doesn't seem like we need to register anything though
 	cdc := amino.NewCodec()
 
-	// load okb info
-	b, err := ioutil.ReadFile(okbJSON)
-	if err != nil {
-		panic(err)
-	}
-	var okb token.Token
-	err = cdc.UnmarshalJSON(b, &okb)
-	if err != nil {
-		panic(err)
-	}
+	// load token info
+	tokens := makeGenesisToken()
 	fmt.Println("-----------")
-	fmt.Println("OKB info", okb)
+	fmt.Println("token info", tokens)
 
-	genesisDoc := makeGenesisDoc(cdc, genesisAccounts, genTxs, okb)
+	genesisDoc := makeGenesisDoc(cdc, genesisAccounts, genTxs, tokens)
 	// write the genesis file
 	bz, err := cdc.MarshalJSON(genesisDoc)
 	if err != nil {
@@ -168,6 +162,20 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func makeGenesisToken() []token.Token {
+	bz, err := ioutil.ReadFile(tokenJSON)
+	if err != nil {
+		panic(err)
+	}
+	var tokens []token.Token
+	err = json.Unmarshal(bz, &tokens)
+	if err != nil {
+		panic(err)
+	}
+
+	return tokens
 }
 
 func fromBech32(address string) sdk.AccAddress {
@@ -322,10 +330,10 @@ func checkTotals(genesisAccounts []okdex.GenesisAccount) {
 	for _, account := range genesisAccounts {
 		uAtomTotal = uAtomTotal.Add(account.Coins[0].Amount)
 	}
-	if !uAtomTotal.Equal(atomToUAtomInt(atomGenesisTotal)) {
-		panicStr := fmt.Sprintf("expected %s atoms, got %s atoms allocated in genesis", atomToUAtomInt(atomGenesisTotal), uAtomTotal.String())
-		panic(panicStr)
-	}
+	// if !uAtomTotal.Equal(atomToUAtomInt(atomGenesisTotal)) {
+	// 	panicStr := fmt.Sprintf("expected %s atoms, got %s atoms allocated in genesis", atomToUAtomInt(atomGenesisTotal), uAtomTotal.String())
+	// 	panic(panicStr)
+	// }
 	if len(genesisAccounts) != addressGenesisTotal {
 		panicStr := fmt.Sprintf("expected %d addresses, got %d addresses allocated in genesis", addressGenesisTotal, len(genesisAccounts))
 		panic(panicStr)
@@ -345,7 +353,7 @@ func checkTotals(genesisAccounts []okdex.GenesisAccount) {
 }
 
 // json marshal the initial app state (accounts and gentx) and add them to the template
-func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, genTxs []json.RawMessage, okb token.Token) *tmtypes.GenesisDoc {
+func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, genTxs []json.RawMessage, tokens []token.Token) *tmtypes.GenesisDoc {
 
 	// read the template with the params
 	genesisDoc, err := tmtypes.GenesisDocFromFile(genesisTemplate)
@@ -365,7 +373,7 @@ func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, ge
 	}
 	genesisState.Accounts = genesisAccounts
 	genesisState.GenTxs = genTxs
-	genesisState.OKB = okb
+	genesisState.Token.Info = tokens
 
 	// fix staking data
 	genesisState.StakingData.Pool.NotBondedTokens = atomToUAtomInt(atomGenesisTotal)
