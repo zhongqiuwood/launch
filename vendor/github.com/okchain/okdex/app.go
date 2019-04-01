@@ -273,6 +273,12 @@ func (app *DexApp) initChainer(ctx sdk.Context, req abci.RequestInitChain) abci.
 
 	validators := app.initFromGenesisState(ctx, genesisState)
 
+	if genesisState.OKB.Name != "" && genesisState.OKB.Symbol != "" && genesisState.OKB.TotalSupply > 0 && genesisState.OKB.Owner != nil {
+		err = app.issueOKB(ctx, genesisState.OKB)
+		if err != nil {
+			panic(err)
+		}
+	}
 	// sanity check
 	//if len(req.Validators) > 0 {
 	//	if len(req.Validators) != len(validators) {
@@ -294,6 +300,11 @@ func (app *DexApp) initChainer(ctx sdk.Context, req abci.RequestInitChain) abci.
 	return abci.ResponseInitChain{
 		Validators: validators,
 	}
+}
+
+func (app *DexApp) issueOKB(ctx sdk.Context, okb token.Token) error {
+	app.tokenKeeper.NewToken(ctx, okb)
+	return nil
 }
 
 func (app *DexApp) endBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci.ResponseEndBlock {

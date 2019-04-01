@@ -33,7 +33,7 @@
     },
     "accounts": [
       {
-        "address": "cosmos14s3dfqterut5flk9py9yurve7kvjwrp52e2ufe",
+        "address": "cosmos146ascssylkqx8tf0gu5dja7hp3gh5lk003alvg",
         "coins": [
           {
             "denom": "okb",
@@ -137,7 +137,7 @@
               "type": "cosmos-sdk/MsgCreateValidator",
               "value": {
                 "description": {
-                  "moniker": "yulinshengdeMacBook-Pro.local",
+                  "moniker": "localhost",
                   "identity": "",
                   "website": "",
                   "details": ""
@@ -148,9 +148,9 @@
                   "max_change_rate": "0.001000000000000000"
                 },
                 "min_self_delegation": "1",
-                "delegator_address": "cosmos14s3dfqterut5flk9py9yurve7kvjwrp52e2ufe",
-                "validator_address": "cosmosvaloper14s3dfqterut5flk9py9yurve7kvjwrp50d7f92",
-                "pubkey": "cosmosvalconspub1zcjduepqa9ad9ksej6ywkzne3vcle4vewglq5xcan4km7x4vp5uw45qcsdkqsxskrv",
+                "delegator_address": "cosmos146ascssylkqx8tf0gu5dja7hp3gh5lk003alvg",
+                "validator_address": "cosmosvaloper146ascssylkqx8tf0gu5dja7hp3gh5lk029f2qm",
+                "pubkey": "cosmosvalconspub1zcjduepq4eprtfwgwje2kwhxfcgrqvqtr0k4k96p0luj0ga0fjrgznt70n4sqrt03d",
                 "value": {
                   "denom": "okb",
                   "amount": "1000000"
@@ -166,12 +166,12 @@
             {
               "pub_key": {
                 "type": "tendermint/PubKeySecp256k1",
-                "value": "Aw6QKYLwNVyVHPofaxKOUTtOkUy3nO0OiKjEtpqsslxW"
+                "value": "AzLushSTCOCfca55c/JAwySwW3mIGUfwVHyATQuTkmrD"
               },
-              "signature": "dnk3828ZvLWYw76WTqXTzeD2CjR8TJJndelCY6R3XGU9cXyCw2wCu6/pB7e6Xu8++Y/vjjHt0VdmZstHliDHmQ=="
+              "signature": "ckcj5weXRgUiBFp5OfO8XTgtFtqs/Q820Xj0OeEP2PMgRMaX0XN9eCvQWI27s4Eg+TyHHV1nyE18u6xttbXHyA=="
             }
           ],
-          "memo": "5aa3315b66480b9a0575dd0c67e2469c00388be9@192.168.26.129:26656"
+          "memo": "b9cc5d426b9eb637ab111764ab7e244d8251bf95@192.168.26.129:26656"
         }
       }
     ],
@@ -198,6 +198,14 @@
         "list_period": "86400000000000",
         "list_proposal_min_deposit": "20000.000000000000000000"
       }
+    },
+    "OKB": {
+      "name": "OKB",
+      "symbol": "okb",
+      "original_symbol": "",
+      "total_supply": "1000000000",
+      "owner": "cosmos146ascssylkqx8tf0gu5dja7hp3gh5lk003alvg",
+      "mintable": false
     }
   }
 }

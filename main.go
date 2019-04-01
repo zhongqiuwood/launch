@@ -12,16 +12,17 @@ import (
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/launch/pkg"
 	okdex "github.com/okchain/okdex"
+	"github.com/okchain/okdex/x/token"
 	amino "github.com/tendermint/go-amino"
 	tmtypes "github.com/tendermint/tendermint/types"
-
-	"github.com/cosmos/launch/pkg"
 )
 
 const (
 	// processed contributors files
-	okbJSON     = "accounts/initOKB.json"
+	okbJSON     = "okb/init.json"
+	okbDisJSON  = "accounts/distribution.json"
 	icfJSON     = "accounts/icf/contributors.json"
 	privateJSON = "accounts/private/contributors.json"
 	publicJSON  = "accounts/public/contributors.json"
@@ -94,7 +95,7 @@ func main() {
 	// icf addresses are in bech32, fundraiser are in hex
 	contribs := make(map[string]float64)
 	{
-		accumulateBechContributors(okbJSON, contribs)
+		accumulateBechContributors(okbDisJSON, contribs)
 		// accumulateBechContributors(icfJSON, contribs)
 		// accumulateHexContributors(privateJSON, contribs)
 		// accumulateHexContributors(publicJSON, contribs)
@@ -139,8 +140,20 @@ func main() {
 	// doesn't seem like we need to register anything though
 	cdc := amino.NewCodec()
 
-	genesisDoc := makeGenesisDoc(cdc, genesisAccounts, genTxs)
+	// load okb info
+	b, err := ioutil.ReadFile(okbJSON)
+	if err != nil {
+		panic(err)
+	}
+	var okb token.Token
+	err = cdc.UnmarshalJSON(b, &okb)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("-----------")
+	fmt.Println("OKB info", okb)
 
+	genesisDoc := makeGenesisDoc(cdc, genesisAccounts, genTxs, okb)
 	// write the genesis file
 	bz, err := cdc.MarshalJSON(genesisDoc)
 	if err != nil {
@@ -332,7 +345,7 @@ func checkTotals(genesisAccounts []okdex.GenesisAccount) {
 }
 
 // json marshal the initial app state (accounts and gentx) and add them to the template
-func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, genTxs []json.RawMessage) *tmtypes.GenesisDoc {
+func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, genTxs []json.RawMessage, okb token.Token) *tmtypes.GenesisDoc {
 
 	// read the template with the params
 	genesisDoc, err := tmtypes.GenesisDocFromFile(genesisTemplate)
@@ -352,6 +365,7 @@ func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, ge
 	}
 	genesisState.Accounts = genesisAccounts
 	genesisState.GenTxs = genTxs
+	genesisState.OKB = okb
 
 	// fix staking data
 	genesisState.StakingData.Pool.NotBondedTokens = atomToUAtomInt(atomGenesisTotal)
