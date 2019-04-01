@@ -21,7 +21,7 @@ import (
 
 const (
 	// processed contributors files
-	okbJSON     = "okb/init.json"
+	okbJSON     = "token/info.json"
 	okbDisJSON  = "accounts/distribution.json"
 	icfJSON     = "accounts/icf/contributors.json"
 	privateJSON = "accounts/private/contributors.json"
