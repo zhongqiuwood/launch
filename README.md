@@ -37,10 +37,6 @@ okdexcli keys add admin
     okdexd init --chain-id okchain
 ```
 
-* 将"创世账户"账户信息写入genesis.json
-```
-    okdexd add-genesis-account cosmos1kyh26rw89f8a4ym4p49g5z59mcj0xs4jd0wf8x 1000000000okb
-```
 * 将"Admin账户"账户信息写入genesis.json
 ```
     okdexd add-genesis-account cosmos1m3gmu4zlnv2hmqfu2jwr97r2653w9yshxkhfea 1okb
@@ -68,8 +64,8 @@ okdexcli keys add admin
 
    1. 将签名的交易内容完整复制到`launch/gentx/`中，格式如下：
 
-      ```json
-      {"type":"auth/StdTx","value":{"msg":[{"type":"cosmos-sdk/MsgCreateValidator","value":{"description":{"moniker":"yulinshengdeMacBook-Pro.local","identity":"","website":"","details":""},"commission":{"rate":"0.100000000000000000","max_rate":"0.500000000000000000","max_change_rate":"0.001000000000000000"},"min_self_delegation":"1","delegator_address":"cosmos14s3dfqterut5flk9py9yurve7kvjwrp52e2ufe","validator_address":"cosmosvaloper14s3dfqterut5flk9py9yurve7kvjwrp50d7f92","pubkey":"cosmosvalconspub1zcjduepqa9ad9ksej6ywkzne3vcle4vewglq5xcan4km7x4vp5uw45qcsdkqsxskrv","value":{"denom":"okb","amount":"1000000"}}}],"fee":{"amount":null,"gas":"200000"},"signatures":[{"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"Aw6QKYLwNVyVHPofaxKOUTtOkUy3nO0OiKjEtpqsslxW"},"signature":"dnk3828ZvLWYw76WTqXTzeD2CjR8TJJndelCY6R3XGU9cXyCw2wCu6/pB7e6Xu8++Y/vjjHt0VdmZstHliDHmQ=="}],"memo":"5aa3315b66480b9a0575dd0c67e2469c00388be9@192.168.26.129:26656"}}
+      ```
+      okdexd collect-gentxs
       ```
 * 提交更新到launch repo
 
