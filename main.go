@@ -38,7 +38,7 @@ const (
 
 	atomDenomination    = "okb"
 	atomGenesisTotal    = 1000000000
-	addressGenesisTotal = 1
+	addressGenesisTotal = 2
 
 	timeGenesisString = "2019-03-13 23:00:00 -0000 UTC"
 )
@@ -210,7 +210,9 @@ func accumulateHexContributors(fileName string, contribs map[string]float64) err
 }
 
 func accumulateBechContributors(fileName string, contribs map[string]float64) error {
-	allocations := pkg.ObjToMap(fileName)
+	//allocations := pkg.ObjToMap(fileName)
+
+	allocations := pkg.ListToMap(fileName)
 
 	for addr, amt := range allocations {
 		if _, ok := contribs[addr]; ok {
