@@ -6,13 +6,25 @@ import (
 
 // GenesisState - all slashing state that must be provided at genesis
 type GenesisState struct {
-	Params Params `json:"params"`
+	Params Params  `json:"params"`
+	Info   []Token `json:"info"`
 }
 
 // DefaultGenesisState - default GenesisState used by Cosmos Hub
 func DefaultGenesisState() GenesisState {
 	return GenesisState{
 		Params: DefaultParams(),
+		Info:   []Token{DefaultGenesisStateOKB()},
+	}
+}
+
+func DefaultGenesisStateOKB() Token {
+	return Token{
+		Name:        "OKB",
+		Symbol:      "okb",
+		TotalSupply: 1000000000,
+		Owner:       nil,
+		Mintable:    false,
 	}
 }
 

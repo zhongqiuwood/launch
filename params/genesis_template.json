@@ -1,5 +1,5 @@
 {
-  "genesis_time": "2019-04-01T07:59:37.653527Z",
+  "genesis_time": "2019-04-01T13:27:19.775449Z",
   "chain_id": "okchain",
   "consensus_params": {
     "block": {
@@ -134,7 +134,17 @@
         "unfreeze_asset": "0.100000000000000000",
         "list_period": "86400000000000",
         "list_proposal_min_deposit": "20000.000000000000000000"
-      }
+      },
+      "info": [
+        {
+          "name": "OKB",
+          "symbol": "okb",
+          "original_symbol": "",
+          "total_supply": "1000000000",
+          "owner": "",
+          "mintable": false
+        }
+      ]
     }
   }
 }

@@ -37,7 +37,6 @@ type GenesisState struct {
 	GenTxs       []json.RawMessage     `json:"gentxs"`
 	Order        order.GenesisState    `json:"order"`
 	Token        token.GenesisState    `json:"token"`
-	OKB          token.Token           `json:"okb`
 }
 
 // Sanitize sorts accounts and coin sets.
@@ -65,17 +64,6 @@ func NewDefaultGenesisState() GenesisState {
 		GenTxs:       nil,
 		Order:        order.DefaultGenesisState(),
 		Token:        token.DefaultGenesisState(),
-		OKB:          DefaultGenesisStateOKB(),
-	}
-}
-
-func DefaultGenesisStateOKB() token.Token {
-	return token.Token{
-		Name:        "OKB",
-		Symbol:      "okb",
-		TotalSupply: 1000000000,
-		Owner:       nil,
-		Mintable:    false,
 	}
 }
 

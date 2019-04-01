@@ -3,6 +3,8 @@ package app
 import (
 	"encoding/json"
 	"os"
+	"sort"
+	"strings"
 
 	bam "github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -273,10 +275,12 @@ func (app *DexApp) initChainer(ctx sdk.Context, req abci.RequestInitChain) abci.
 
 	validators := app.initFromGenesisState(ctx, genesisState)
 
-	if genesisState.OKB.Name != "" && genesisState.OKB.Symbol != "" && genesisState.OKB.TotalSupply > 0 && genesisState.OKB.Owner != nil {
-		err = app.issueOKB(ctx, genesisState.OKB)
-		if err != nil {
-			panic(err)
+	for _, token := range genesisState.Token.Info {
+		if token.Name != "" && token.Symbol != "" && token.TotalSupply > 0 && token.Owner != nil {
+			err = app.issueOKB(ctx, token)
+			if err != nil {
+				panic(err)
+			}
 		}
 	}
 	// sanity check
@@ -303,6 +307,17 @@ func (app *DexApp) initChainer(ctx sdk.Context, req abci.RequestInitChain) abci.
 }
 
 func (app *DexApp) issueOKB(ctx sdk.Context, okb token.Token) error {
+	coins := app.tokenKeeper.GetCoins(ctx, okb.Owner)
+	if !strings.Contains(coins.String(), okb.Symbol) {
+		coins = append(coins, sdk.NewCoin(okb.Symbol, token.ToUnit(okb.TotalSupply)))
+		sort.Sort(coins)
+
+		err := app.tokenKeeper.SetCoins(ctx, okb.Owner, coins)
+		if err != nil {
+			return err
+		}
+	}
+
 	app.tokenKeeper.NewToken(ctx, okb)
 	return nil
 }

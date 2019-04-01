@@ -48,9 +48,9 @@ func (app *DexApp) InitChain(req abci.RequestInitChain) (res abci.ResponseInitCh
 
 func (app *DexApp) CheckTx(txBytes []byte) (res abci.ResponseCheckTx) {
 
-	app.log("===============================")
-	app.log("[ABCI interface] ---> CheckTx in")
-	defer app.log("[ABCI interface] ---> CheckTx out")
+	//app.log("===============================")
+	//app.log("[ABCI interface] ---> CheckTx in")
+	//defer app.log("[ABCI interface] ---> CheckTx out")
 
 	//time.Sleep(5 * time.Second)
 
@@ -67,8 +67,8 @@ func (app *DexApp) BeginBlock(req abci.RequestBeginBlock) (res abci.ResponseBegi
 }
 
 func (app *DexApp) DeliverTx(txBytes []byte) (res abci.ResponseDeliverTx) {
-	app.log("[ABCI interface] ---> DeliverTx in")
-	defer app.log("[ABCI interface] ---> DeliverTx out")
+	//app.log("[ABCI interface] ---> DeliverTx in")
+	//defer app.log("[ABCI interface] ---> DeliverTx out")
 	return app.BaseApp.DeliverTx(txBytes)
 }
 
