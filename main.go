@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	gaia "github.com/cosmos/cosmos-sdk/cmd/gaia/app"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	okdex "github.com/okchain/okdex"
 	amino "github.com/tendermint/go-amino"
 	tmtypes "github.com/tendermint/tendermint/types"
 
@@ -21,6 +21,7 @@ import (
 
 const (
 	// processed contributors files
+	okbJSON     = "accounts/initOKB.json"
 	icfJSON     = "accounts/icf/contributors.json"
 	privateJSON = "accounts/private/contributors.json"
 	publicJSON  = "accounts/public/contributors.json"
@@ -33,9 +34,9 @@ const (
 	genTxPath       = "gentx"
 	genesisFile     = "genesis.json"
 
-	atomDenomination    = "uatom"
-	atomGenesisTotal    = 236198958.12
-	addressGenesisTotal = 984
+	atomDenomination    = "okb"
+	atomGenesisTotal    = 1000000000
+	addressGenesisTotal = 1
 
 	timeGenesisString = "2019-03-13 23:00:00 -0000 UTC"
 )
@@ -93,16 +94,17 @@ func main() {
 	// icf addresses are in bech32, fundraiser are in hex
 	contribs := make(map[string]float64)
 	{
-		accumulateBechContributors(icfJSON, contribs)
-		accumulateHexContributors(privateJSON, contribs)
-		accumulateHexContributors(publicJSON, contribs)
+		accumulateBechContributors(okbJSON, contribs)
+		// accumulateBechContributors(icfJSON, contribs)
+		// accumulateHexContributors(privateJSON, contribs)
+		// accumulateHexContributors(publicJSON, contribs)
 	}
 
 	// load the aib pieces
-	employees, multisig := aibAtoms(aibEmployeeJSON, aibMultisigJSON, contribs)
+	// employees, multisig := aibAtoms(aibEmployeeJSON, aibMultisigJSON, contribs)
 
 	// construct the genesis accounts :)
-	genesisAccounts := makeGenesisAccounts(contribs, employees, multisig)
+	genesisAccounts := makeGenesisAccounts(contribs, nil, MultisigAccount{})
 
 	// check totals
 	checkTotals(genesisAccounts)
@@ -251,13 +253,13 @@ func aibAtoms(employeesFile, multisigFile string, contribs map[string]float64) (
 func makeGenesisAccounts(
 	contribs map[string]float64,
 	employees []Account,
-	multisig MultisigAccount) []gaia.GenesisAccount {
+	multisig MultisigAccount) []okdex.GenesisAccount {
 
-	var genesisAccounts []gaia.GenesisAccount
+	var genesisAccounts []okdex.GenesisAccount
 	{
 		// public, private, and icf contribs
 		for addr, amt := range contribs {
-			acc := gaia.GenesisAccount{
+			acc := okdex.GenesisAccount{
 				Address: fromBech32(addr),
 				Coins:   newCoins(amt),
 			}
@@ -265,28 +267,28 @@ func makeGenesisAccounts(
 		}
 
 		// aib employees vesting for 1 year cliff
-		for _, aibAcc := range employees {
-			coins := newCoins(aibAcc.Amount)
-			genAcc := gaia.GenesisAccount{
-				Address:         fromBech32(aibAcc.Address),
-				Coins:           coins,
-				OriginalVesting: coins,
-				EndTime:         timeGenesisOneYear.Unix(),
-			}
-			genesisAccounts = append(genesisAccounts, genAcc)
-		}
+		// for _, aibAcc := range employees {
+		// 	coins := newCoins(aibAcc.Amount)
+		// 	genAcc := okdex.GenesisAccount{
+		// 		Address:         fromBech32(aibAcc.Address),
+		// 		Coins:           coins,
+		// 		OriginalVesting: coins,
+		// 		EndTime:         timeGenesisOneYear.Unix(),
+		// 	}
+		// 	genesisAccounts = append(genesisAccounts, genAcc)
+		// }
 
 		// aib multisig vesting continuosuly for 2 years
 		// starting after 2 months
-		multisigCoins := newCoins(multisig.Amount)
-		genAcc := gaia.GenesisAccount{
-			Address:         fromBech32(multisig.Address),
-			Coins:           multisigCoins,
-			OriginalVesting: multisigCoins,
-			StartTime:       timeGenesisTwoMonths.Unix(),
-			EndTime:         timeGenesisTwoYears.Unix(),
-		}
-		genesisAccounts = append(genesisAccounts, genAcc)
+		// multisigCoins := newCoins(multisig.Amount)
+		// genAcc := okdex.GenesisAccount{
+		// 	Address:         fromBech32(multisig.Address),
+		// 	Coins:           multisigCoins,
+		// 	OriginalVesting: multisigCoins,
+		// 	StartTime:       timeGenesisTwoMonths.Unix(),
+		// 	EndTime:         timeGenesisTwoYears.Unix(),
+		// }
+		// genesisAccounts = append(genesisAccounts, genAcc)
 	}
 
 	// sort the accounts
@@ -301,7 +303,7 @@ func makeGenesisAccounts(
 }
 
 // check total atoms and no duplicates
-func checkTotals(genesisAccounts []gaia.GenesisAccount) {
+func checkTotals(genesisAccounts []okdex.GenesisAccount) {
 	// check uAtom total
 	uAtomTotal := sdk.NewInt(0)
 	for _, account := range genesisAccounts {
@@ -330,7 +332,7 @@ func checkTotals(genesisAccounts []gaia.GenesisAccount) {
 }
 
 // json marshal the initial app state (accounts and gentx) and add them to the template
-func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []gaia.GenesisAccount, genTxs []json.RawMessage) *tmtypes.GenesisDoc {
+func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, genTxs []json.RawMessage) *tmtypes.GenesisDoc {
 
 	// read the template with the params
 	genesisDoc, err := tmtypes.GenesisDocFromFile(genesisTemplate)
@@ -343,7 +345,7 @@ func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []gaia.GenesisAccount, gen
 
 	// read the gaia state from the generic tendermint app state bytes
 	// and populate with the accounts and gentxs
-	var genesisState gaia.GenesisState
+	var genesisState okdex.GenesisState
 	err = cdc.UnmarshalJSON(genesisDoc.AppState, &genesisState)
 	if err != nil {
 		panic(err)
@@ -353,6 +355,7 @@ func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []gaia.GenesisAccount, gen
 
 	// fix staking data
 	genesisState.StakingData.Pool.NotBondedTokens = atomToUAtomInt(atomGenesisTotal)
+	genesisState.StakingData.Params.BondDenom = atomDenomination
 
 	// marshal the gaia app state back to json and update the genesisDoc
 	genesisStateJSON, err := cdc.MarshalJSON(genesisState)
