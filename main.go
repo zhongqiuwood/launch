@@ -114,7 +114,7 @@ func main() {
 
 	fmt.Println("-----------")
 	fmt.Println("TOTAL addrs", len(genesisAccounts))
-	fmt.Println("TOTAL uAtoms", atomGenesisTotal)
+	fmt.Println("TOTAL OKBs", atomGenesisTotal)
 
 	// load gentxs
 	fs, err := ioutil.ReadDir(genTxPath)
