@@ -2,8 +2,8 @@
 
 ## okdex launch 使用流程
 
-### 1. 生成创世账户
-* 在一台离线机器创建"创世账户". 该账户将保存10亿个OKB
+### 1. 生成Captain账户
+* 在一台离线机器创建"Captain账户". 该账户将保存10亿个OKB
     ```
     okdexcli keys add genesis_addr
     
@@ -15,7 +15,7 @@
       "mnemonic": "******"
     }
     ```
-* 将创世账户地址公开给研发人员 "cosmos1kyh26rw89f8a4ym4p49g5z59mcj0xs4jd0wf8x"
+* 将Captain账户地址公开给研发人员 "cosmos1kyh26rw89f8a4ym4p49g5z59mcj0xs4jd0wf8x"
 
 ### 2. 生成Admin账户
 * 在另外一台机器创建"Admin账户". 该账户为第一个Validator的委托账户, 负责启动OKChain第一个超级节点, 和生成创世块
@@ -52,11 +52,19 @@ okdexcli keys add admin
 ### 4. 更新launch
 * 将上述两步骤中的执行结果放到okdex launch
 
-   1. 将账户地址及发币数量写入`launch/accounts/distribution.json`中，格式如下：
+   1. 将Captain账户地址及发币数量写入`launch/accounts/captain.json`中，格式如下：
 
       ```json
       [
-      { "cosmos1kyh26rw89f8a4ym4p49g5z59mcj0xs4jd0wf8x": 1000000000},
+      { "cosmos1kyh26rw89f8a4ym4p49g5z59mcj0xs4jd0wf8x": 1000000000}
+      ]
+
+      ```
+
+   1. 将Admin账户地址及发币数量写入`launch/accounts/admin.json`中，格式如下：
+
+      ```json
+      [
       { "cosmos1m3gmu4zlnv2hmqfu2jwr97r2653w9yshxkhfea": 1}
       ]
 
