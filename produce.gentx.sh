@@ -23,3 +23,5 @@ cp ~/.okdexd/config/gentx/gentx-*.json gentx/data
 go run main.go
 
 cp ~/.okdexd/config/genesis.json genesis.tmp.json
+
+okdexd tendermint show-node-id
