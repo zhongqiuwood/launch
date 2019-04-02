@@ -16,6 +16,18 @@
       ]
     }
   },
+
+  "validators": [
+    {
+      "address": "08759EDCB0BBF8B2039F5736A9E59C17638AE478",
+      "pub_key": {
+        "type": "tendermint/PubKeyEd25519",
+        "value": "0lh3Wm4NoJpCzeqYBpjVGN4okLpWkbu2S6t5h++l2YE="
+      },
+      "power": "10",
+      "name": ""
+    }
+  ],
   "app_hash": "",
   "app_state": {
     "auth": {
@@ -53,7 +65,7 @@
         "coins": [
           {
             "denom": "okb",
-            "amount": "100000000000000000000"
+            "amount": "2000000000000000000"
           }
         ],
         "sequence_number": "0",
@@ -153,7 +165,7 @@
               "type": "cosmos-sdk/MsgCreateValidator",
               "value": {
                 "description": {
-                  "moniker": "star",
+                  "moniker": "macpro.local",
                   "identity": "",
                   "website": "",
                   "details": ""
@@ -166,7 +178,7 @@
                 "min_self_delegation": "1",
                 "delegator_address": "cosmos1m3gmu4zlnv2hmqfu2jwr97r2653w9yshxkhfea",
                 "validator_address": "cosmosvaloper1m3gmu4zlnv2hmqfu2jwr97r2653w9yshrzru4w",
-                "pubkey": "cosmosvalconspub1zcjduepqynwhlscpsn55mheys26dua87c57tphrxd26g3gk2qrwcn3g0mwzs9fsmjm",
+                "pubkey": "cosmosvalconspub1zcjduepq6fv8wknwpksf5skda2vqdxx4rr0z3y9626gmhdjt4duc0ma9mxqslh9a67",
                 "value": {
                   "denom": "okb",
                   "amount": "1"
@@ -184,10 +196,10 @@
                 "type": "tendermint/PubKeySecp256k1",
                 "value": "A4bc2y7DiaZu3z7BynM4UXuySAA1lnc2OTSa9JDhnVgE"
               },
-              "signature": "jW7V0VvyRoG5xOsJVHiFxiVUrq6SxZwwQzELIsvz+81fQzgdhEYPjZdK1gul7/QPdv3D+DoBglQYphSypmKIuw=="
+              "signature": "JATrU1StcJZ6LH6jyHp39WZYc0+/ul3F++XwZ3PQQFNHGNAcjTK3bQrt7n2F41kHoWJepgZT8bWgttOXnYvgoA=="
             }
           ],
-          "memo": "e106b477893bfedcd723dedf012898914f73c414@192.168.124.5:26656"
+          "memo": "7eb59e47ce93fd20c8a449449b2337c77d411cc3@192.168.124.5:26656"
         }
       }
     ],
