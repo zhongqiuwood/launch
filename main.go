@@ -20,7 +20,8 @@ import (
 )
 
 const (
-	okbDisJSON  = "accounts/distribution.json"
+	captainJSON  = "accounts/captain.json"
+	adminJSON  = "accounts/admin.json"
 
 	genesisTemplate = "params/genesis_template.json"
 	genTxPath       = "gentx/data"
@@ -86,11 +87,14 @@ func main() {
 	// for each path, accumulate the contributors file.
 	// icf addresses are in bech32, fundraiser are in hex
 	contribs := make(map[string]float64)
-	{
-		accumulateBechContributors(okbDisJSON, contribs)
+	accumulateBechContributors(captainJSON, contribs)
+	captainAccount := makeGenesisAccounts(contribs, nil, MultisigAccount{})
+
+	if len(captainAccount) != 1 {
+		panic(fmt.Errorf("Invalid captain account!"))
 	}
 
-	// construct the genesis accounts :)
+	accumulateBechContributors(adminJSON, contribs)
 	genesisAccounts := makeGenesisAccounts(contribs, nil, MultisigAccount{})
 
 	// check totals
@@ -126,7 +130,7 @@ func main() {
 	// doesn't seem like we need to register anything though
 	cdc := amino.NewCodec()
 
-	genesisDoc := makeGenesisDoc(cdc, genesisAccounts, genTxs)
+	genesisDoc := makeGenesisDoc(cdc, captainAccount[0], genesisAccounts, genTxs)
 	// write the genesis file
 	bz, err := cdc.MarshalJSON(genesisDoc)
 	if err != nil {
@@ -228,10 +232,7 @@ func checkTotals(genesisAccounts []okdex.GenesisAccount) {
 	for _, account := range genesisAccounts {
 		uAtomTotal = uAtomTotal.Add(account.Coins[0].Amount)
 	}
-	// if !uAtomTotal.Equal(atomToUAtomInt(okbGenesisTotal)) {
-	// 	panicStr := fmt.Sprintf("expected %s atoms, got %s atoms allocated in genesis", atomToUAtomInt(okbGenesisTotal), uAtomTotal.String())
-	// 	panic(panicStr)
-	// }
+
 	if len(genesisAccounts) != addressGenesisTotal {
 		panicStr := fmt.Sprintf("expected %d addresses, got %d addresses allocated in genesis", addressGenesisTotal, len(genesisAccounts))
 		panic(panicStr)
@@ -251,7 +252,7 @@ func checkTotals(genesisAccounts []okdex.GenesisAccount) {
 }
 
 // json marshal the initial app state (accounts and gentx) and add them to the template
-func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, genTxs []json.RawMessage) *tmtypes.GenesisDoc {
+func makeGenesisDoc(cdc *amino.Codec, captainAccounts okdex.GenesisAccount, genesisAccounts []okdex.GenesisAccount, genTxs []json.RawMessage) *tmtypes.GenesisDoc {
 
 	// read the template with the params
 	genesisDoc, err := tmtypes.GenesisDocFromFile(genesisTemplate)
@@ -271,6 +272,11 @@ func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, ge
 	}
 	genesisState.Accounts = genesisAccounts
 	genesisState.GenTxs = genTxs
+
+	if len(genesisState.Token.Info) != 1 {
+		panic(fmt.Errorf("No genesis denom!"))
+	}
+	genesisState.Token.Info[0].Owner = captainAccounts.Address
 
 	// fix staking data
 	genesisState.StakingData.Pool.NotBondedTokens = atomToUAtomInt(okbGenesisTotal)
