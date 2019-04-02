@@ -15,29 +15,19 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/launch/pkg"
 	okdex "github.com/okchain/okdex"
-	"github.com/okchain/okdex/x/token"
-	amino "github.com/tendermint/go-amino"
+	"github.com/tendermint/go-amino"
 	tmtypes "github.com/tendermint/tendermint/types"
 )
 
 const (
-	// processed contributors files
-	tokenJSON   = "token/info.json"
 	okbDisJSON  = "accounts/distribution.json"
-	icfJSON     = "accounts/icf/contributors.json"
-	privateJSON = "accounts/private/contributors.json"
-	publicJSON  = "accounts/public/contributors.json"
-
-	// seperate because vesting
-	aibEmployeeJSON = "accounts/aib/employees.json"
-	aibMultisigJSON = "accounts/aib/multisig.json"
 
 	genesisTemplate = "params/genesis_template.json"
 	genTxPath       = "gentx/data"
 	genesisFile     = "genesis.json"
 
-	atomDenomination    = "okb"
-	atomGenesisTotal    = 1000000000
+	okbDenomination    = "okb"
+	okbGenesisTotal    = 1000000000
 	addressGenesisTotal = 2
 
 	timeGenesisString = "2019-03-13 23:00:00 -0000 UTC"
@@ -86,7 +76,7 @@ func newCoins(amt float64) sdk.Coins {
 	uAtoms := sdk.NewIntFromBigInt(sdk.MustNewDecFromStr(strconv.FormatFloat(amt, 'f', -1, 64)).Int)
 	return sdk.Coins{
 		sdk.Coin{
-			Denom:  atomDenomination,
+			Denom:  okbDenomination,
 			Amount: uAtoms,
 		},
 	}
@@ -98,13 +88,7 @@ func main() {
 	contribs := make(map[string]float64)
 	{
 		accumulateBechContributors(okbDisJSON, contribs)
-		// accumulateBechContributors(icfJSON, contribs)
-		// accumulateHexContributors(privateJSON, contribs)
-		// accumulateHexContributors(publicJSON, contribs)
 	}
-
-	// load the aib pieces
-	// employees, multisig := aibAtoms(aibEmployeeJSON, aibMultisigJSON, contribs)
 
 	// construct the genesis accounts :)
 	genesisAccounts := makeGenesisAccounts(contribs, nil, MultisigAccount{})
@@ -114,7 +98,7 @@ func main() {
 
 	fmt.Println("-----------")
 	fmt.Println("TOTAL addrs", len(genesisAccounts))
-	fmt.Println("TOTAL uAtoms", atomGenesisTotal)
+	fmt.Println("TOTAL okbs", okbGenesisTotal)
 
 	// load gentxs
 	fs, err := ioutil.ReadDir(genTxPath)
@@ -142,12 +126,7 @@ func main() {
 	// doesn't seem like we need to register anything though
 	cdc := amino.NewCodec()
 
-	// load token info
-	//tokens := makeGenesisToken()
-	//fmt.Println("-----------")
-	//fmt.Println("token info", tokens)
-
-	genesisDoc := makeGenesisDoc(cdc, genesisAccounts, genTxs, nil)
+	genesisDoc := makeGenesisDoc(cdc, genesisAccounts, genTxs)
 	// write the genesis file
 	bz, err := cdc.MarshalJSON(genesisDoc)
 	if err != nil {
@@ -164,20 +143,6 @@ func main() {
 	}
 }
 
-//func makeGenesisToken() []token.Token {
-//	bz, err := ioutil.ReadFile(tokenJSON)
-//	if err != nil {
-//		panic(err)
-//	}
-//	var tokens []token.Token
-//	err = json.Unmarshal(bz, &tokens)
-//	if err != nil {
-//		panic(err)
-//	}
-//
-//	return tokens
-//}
-
 func fromBech32(address string) sdk.AccAddress {
 	bech32PrefixAccAddr := "cosmos"
 	bz, err := sdk.GetFromBech32(address, bech32PrefixAccAddr)
@@ -190,27 +155,8 @@ func fromBech32(address string) sdk.AccAddress {
 	return sdk.AccAddress(bz)
 }
 
-// load a map of hex addresses and convert them to bech32
-func accumulateHexContributors(fileName string, contribs map[string]float64) error {
-	allocations := pkg.ObjToMap(fileName)
-
-	for addr, amt := range allocations {
-		bech32Addr, err := sdk.AccAddressFromHex(addr)
-		if err != nil {
-			return err
-		}
-		addr = bech32Addr.String()
-
-		if _, ok := contribs[addr]; ok {
-			fmt.Println("Duplicate addr", addr)
-		}
-		contribs[addr] += amt
-	}
-	return nil
-}
 
 func accumulateBechContributors(fileName string, contribs map[string]float64) error {
-	//allocations := pkg.ObjToMap(fileName)
 
 	allocations := pkg.ListToMap(fileName)
 
@@ -239,33 +185,6 @@ type MultisigAccount struct {
 	Amount    float64  `json:"amount"`
 }
 
-// load the aib atoms and ensure there are no duplicates with the contribs
-func aibAtoms(employeesFile, multisigFile string, contribs map[string]float64) (employees []Account, multisigAcc MultisigAccount) {
-	bz, err := ioutil.ReadFile(employeesFile)
-	if err != nil {
-		panic(err)
-	}
-	err = json.Unmarshal(bz, &employees)
-	if err != nil {
-		panic(err)
-	}
-
-	bz, err = ioutil.ReadFile(multisigFile)
-	if err != nil {
-		panic(err)
-	}
-	err = json.Unmarshal(bz, &multisigAcc)
-	if err != nil {
-		panic(err)
-	}
-
-	for _, acc := range employees {
-		if _, ok := contribs[acc.Address]; ok {
-			fmt.Println("AiB Addr Duplicate", acc.Address)
-		}
-	}
-	return
-}
 
 //---------------------------------------------------------------
 // gaia accounts and genesis doc
@@ -289,29 +208,6 @@ func makeGenesisAccounts(
 			genesisAccounts = append(genesisAccounts, acc)
 		}
 
-		// aib employees vesting for 1 year cliff
-		// for _, aibAcc := range employees {
-		// 	coins := newCoins(aibAcc.Amount)
-		// 	genAcc := okdex.GenesisAccount{
-		// 		Address:         fromBech32(aibAcc.Address),
-		// 		Coins:           coins,
-		// 		OriginalVesting: coins,
-		// 		EndTime:         timeGenesisOneYear.Unix(),
-		// 	}
-		// 	genesisAccounts = append(genesisAccounts, genAcc)
-		// }
-
-		// aib multisig vesting continuosuly for 2 years
-		// starting after 2 months
-		// multisigCoins := newCoins(multisig.Amount)
-		// genAcc := okdex.GenesisAccount{
-		// 	Address:         fromBech32(multisig.Address),
-		// 	Coins:           multisigCoins,
-		// 	OriginalVesting: multisigCoins,
-		// 	StartTime:       timeGenesisTwoMonths.Unix(),
-		// 	EndTime:         timeGenesisTwoYears.Unix(),
-		// }
-		// genesisAccounts = append(genesisAccounts, genAcc)
 	}
 
 	// sort the accounts
@@ -332,8 +228,8 @@ func checkTotals(genesisAccounts []okdex.GenesisAccount) {
 	for _, account := range genesisAccounts {
 		uAtomTotal = uAtomTotal.Add(account.Coins[0].Amount)
 	}
-	// if !uAtomTotal.Equal(atomToUAtomInt(atomGenesisTotal)) {
-	// 	panicStr := fmt.Sprintf("expected %s atoms, got %s atoms allocated in genesis", atomToUAtomInt(atomGenesisTotal), uAtomTotal.String())
+	// if !uAtomTotal.Equal(atomToUAtomInt(okbGenesisTotal)) {
+	// 	panicStr := fmt.Sprintf("expected %s atoms, got %s atoms allocated in genesis", atomToUAtomInt(okbGenesisTotal), uAtomTotal.String())
 	// 	panic(panicStr)
 	// }
 	if len(genesisAccounts) != addressGenesisTotal {
@@ -355,7 +251,7 @@ func checkTotals(genesisAccounts []okdex.GenesisAccount) {
 }
 
 // json marshal the initial app state (accounts and gentx) and add them to the template
-func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, genTxs []json.RawMessage, tokens []token.Token) *tmtypes.GenesisDoc {
+func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, genTxs []json.RawMessage) *tmtypes.GenesisDoc {
 
 	// read the template with the params
 	genesisDoc, err := tmtypes.GenesisDocFromFile(genesisTemplate)
@@ -377,8 +273,8 @@ func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, ge
 	genesisState.GenTxs = genTxs
 
 	// fix staking data
-	genesisState.StakingData.Pool.NotBondedTokens = atomToUAtomInt(atomGenesisTotal)
-	genesisState.StakingData.Params.BondDenom = atomDenomination
+	genesisState.StakingData.Pool.NotBondedTokens = atomToUAtomInt(okbGenesisTotal)
+	genesisState.StakingData.Params.BondDenom = okbDenomination
 
 	// marshal the gaia app state back to json and update the genesisDoc
 	genesisStateJSON, err := cdc.MarshalJSON(genesisState)
