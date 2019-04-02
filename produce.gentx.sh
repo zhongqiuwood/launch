@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-/killbyname.sh okdexd
+./killbyname.sh okdexd
 
 rm -rf ~/.okdexd
 rm -rf ~/.okdecli
