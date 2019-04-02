@@ -33,7 +33,7 @@ const (
 	aibMultisigJSON = "accounts/aib/multisig.json"
 
 	genesisTemplate = "params/genesis_template.json"
-	genTxPath       = "gentx"
+	genTxPath       = "gentx/data"
 	genesisFile     = "genesis.json"
 
 	atomDenomination    = "okb"
@@ -143,11 +143,11 @@ func main() {
 	cdc := amino.NewCodec()
 
 	// load token info
-	tokens := makeGenesisToken()
-	fmt.Println("-----------")
-	fmt.Println("token info", tokens)
+	//tokens := makeGenesisToken()
+	//fmt.Println("-----------")
+	//fmt.Println("token info", tokens)
 
-	genesisDoc := makeGenesisDoc(cdc, genesisAccounts, genTxs, tokens)
+	genesisDoc := makeGenesisDoc(cdc, genesisAccounts, genTxs, nil)
 	// write the genesis file
 	bz, err := cdc.MarshalJSON(genesisDoc)
 	if err != nil {
@@ -164,19 +164,19 @@ func main() {
 	}
 }
 
-func makeGenesisToken() []token.Token {
-	bz, err := ioutil.ReadFile(tokenJSON)
-	if err != nil {
-		panic(err)
-	}
-	var tokens []token.Token
-	err = json.Unmarshal(bz, &tokens)
-	if err != nil {
-		panic(err)
-	}
-
-	return tokens
-}
+//func makeGenesisToken() []token.Token {
+//	bz, err := ioutil.ReadFile(tokenJSON)
+//	if err != nil {
+//		panic(err)
+//	}
+//	var tokens []token.Token
+//	err = json.Unmarshal(bz, &tokens)
+//	if err != nil {
+//		panic(err)
+//	}
+//
+//	return tokens
+//}
 
 func fromBech32(address string) sdk.AccAddress {
 	bech32PrefixAccAddr := "cosmos"
@@ -375,7 +375,6 @@ func makeGenesisDoc(cdc *amino.Codec, genesisAccounts []okdex.GenesisAccount, ge
 	}
 	genesisState.Accounts = genesisAccounts
 	genesisState.GenTxs = genTxs
-	genesisState.Token.Info = tokens
 
 	// fix staking data
 	genesisState.StakingData.Pool.NotBondedTokens = atomToUAtomInt(atomGenesisTotal)

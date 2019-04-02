@@ -1,0 +1,34 @@
+# OS
+.DS_Store
+*.swp
+*.swo
+.vscode
+.idea
+
+# Build
+# vendor
+.vendor-new
+build
+
+# IDE
+.idea/
+*.iml
+#vendor/*
+dev/cache
+dev/okdexd
+dev/okdexcli
+okdexd.0.log
+home_gaiacli
+dev/okdex_testnet/cache
+dev/gaiad_testnet/cache
+home_gaiad
+*.bz2
+v3.0.2.tar.gz
+Dockerfile
+__home
+iavl.1*
+tendermint.1*
+cosmos-sdk.1*
+built-in-stubs.jar
+press_cache
+.idea
