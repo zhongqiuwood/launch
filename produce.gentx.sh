@@ -3,7 +3,7 @@
 ./killbyname.sh okdexd
 
 rm -rf ~/.okdexd
-rm -rf ~/.okdecli
+rm -rf ~/.okdexcli
 
 ./recover.admin.sh
 

@@ -4,9 +4,6 @@ source /root/go/src/github.com/cosmos/launch/systemctl/seednode/okdexd.profile
 
 if [ ! -d /root/.okdexd ]; then
 
-    rm -rf /root/.okdexd
-    rm -rf /root/.okdexcli
-
     /root/go/bin/okdexcli keys add --recover admin --home /root/.okdexcli <<EOF
 12345678
 keen border system oil inject hotel hood potato shed pumpkin legend actor
