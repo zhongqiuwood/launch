@@ -1,0 +1,12 @@
+[Unit]
+Description=okdexd
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh /root/go/src/github.com/cosmos/launch/systemctl/fullnode/okdexd_start.sh
+ExecStop=/bin/sh /root/go/src/github.com/cosmos/launch/systemctl/okdexd_kill.sh
+
+[Install]
+WantedBy=multi-user.target
+Alias=okdexd
