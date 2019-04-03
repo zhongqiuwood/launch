@@ -5,7 +5,6 @@ Description=okdexd
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/sh /root/go/src/github.com/cosmos/launch/systemctl/seednode/okdexd_start.sh
-ExecReload=/bin/sh /root/go/src/github.com/cosmos/launch/systemctl/seednode/okdexd_restart.sh
 ExecStop=/bin/sh /root/go/src/github.com/cosmos/launch/systemctl/okdexd_kill.sh
 
 [Install]
