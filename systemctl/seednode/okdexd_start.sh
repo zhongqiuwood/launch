@@ -2,8 +2,10 @@
 
 source /root/go/src/github.com/cosmos/launch/systemctl/seednode/okdexd.profile
 
-if [ ! -d /root/.okdexd ]; then
 
+LOCAL_IP=`ifconfig  | grep 192.168 | awk '{print $2}' | cut -d: -f2`
+
+if [ ! -d /root/.okdexd ]; then
     /root/go/bin/okdexcli keys add --recover admin --home /root/.okdexcli <<EOF
 12345678
 keen border system oil inject hotel hood potato shed pumpkin legend actor
@@ -30,4 +32,8 @@ EOF
     cp /root/go/src/github.com/cosmos/launch/genesis.json /root/.okdexd/config
 fi
 
-/root/go/bin/okdexd start --home /root/.okdexd --p2p.seed_mode=true --p2p.addr_book_strict=false --log_level *:info --p2p.laddr tcp://${LOCAL_IP}:26656 2>&1 > /root/okdexd.log &
+/root/go/bin/okdexd start --home /root/.okdexd \
+    --p2p.seed_mode=true \
+    --p2p.addr_book_strict=false \
+    --log_level *:info \
+    --p2p.laddr tcp://${LOCAL_IP}:26656 2>&1 >> /root/okdexd.log &
