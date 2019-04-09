@@ -1,7 +1,6 @@
 #!/bin/bash
 
-source /root/go/src/github.com/cosmos/launch/systemctl/seednode/okdexd.profile
-
+. /root/go/src/github.com/cosmos/launch/systemctl/seednode/okdexd.profile
 
 LOCAL_IP=`ifconfig  | grep 192.168 | awk '{print $2}' | cut -d: -f2`
 
@@ -25,9 +24,7 @@ EOF
     rm /root/go/src/github.com/cosmos/launch/gentx/data/gentx-*
     cp /root/.okdexd/config/gentx/gentx-*.json /root/go/src/github.com/cosmos/launch/gentx/data
 
-    cd /root/go/src/github.com/cosmos/launch
-
-    /root/go/bin/go run /root/go/src/github.com/cosmos/launch/main.go
+    /root/go/src/github.com/cosmos/launch/launch
 
     cp /root/go/src/github.com/cosmos/launch/genesis.json /root/.okdexd/config
 fi
