@@ -5,33 +5,30 @@
 
 **注意修改`okdexd.profile`中参数**
 
-1. 加载systemctl service 文件
+1. 编译
 ```sh
-cp okdexd.service /etc/systemd/system
+go install github.com/okchain/okdex/cmd/okdexcli
+go install github.com/okchain/okdex/cmd/okdexd
 ```
-2. 初始化okdexd
+2. 加载systemctl service 文件
 ```sh
-okdexd init --chain-id okchain --home /root/.okdexd
-```
+cp /root/go/src/github.com/cosmos/launch/systemctl/fullnode/okdexd.service /etc/systemd/system
 
-3. 从seed node处获取genesis file
-```sh
-scp root@192.168.13.116:/root/.okdexd/config/genesis.json /root/.okdexd/config
+systemctl daemon-reload
 ```
-
-4. 启动seed node okdexd服务
+3. 启动seed node okdexd服务
 ```sh
-systemctl start okdexd.service
+systemctl start okdexd
 ```
-
-5. 停止seed node okdexd服务
+4. 停止seed node okdexd服务
 ```sh
-systemctl stop okdexd.service
+systemctl stop okdexd
 ```
-
-6. 重启seed node okdexd服务
+5. 重启seed node okdexd服务
 ```sh
-systemctl restart okdexd.service
+systemctl restart okdexd
 ```
-
-*说明：以上2、3两步理应写到`okdexd_start.sh`中，但测试一直有错，所以临时单独拿出来操作，以后继续完善*
+6. 查看systemctl状态
+```sh
+systemctl status okdexd
+```
