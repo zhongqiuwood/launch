@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. /root/go/src/github.com/cosmos/launch/systemctl/fullnode/okchaind.profile
+
 scp root@${SEED_NODE_IP}:/root/go/src/github.com/cosmos/launch/systemctl/seednode/okchaind.profile /root/go/src/github.com/cosmos/launch/systemctl/fullnode/
 
 . /root/go/src/github.com/cosmos/launch/systemctl/fullnode/okchaind.profile
