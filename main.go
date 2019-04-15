@@ -20,15 +20,15 @@ import (
 )
 
 const (
-	captainJSON  = "accounts/captain.json"
-	adminJSON  = "accounts/admin.json"
+	captainJSON = "accounts/captain.json"
+	adminJSON   = "accounts/admin.json"
 
 	genesisTemplate = "params/genesis_template.json"
 	genTxPath       = "gentx/data"
 	genesisFile     = "genesis.json"
 
-	okbDenomination    = "okb"
-	okbGenesisTotal    = 1000000000
+	okbDenomination     = "okb"
+	okbGenesisTotal     = 1000000000
 	addressGenesisTotal = 2
 
 	timeGenesisString = "2019-03-13 23:00:00 -0000 UTC"
@@ -148,7 +148,7 @@ func main() {
 }
 
 func fromBech32(address string) sdk.AccAddress {
-	bech32PrefixAccAddr := "cosmos"
+	bech32PrefixAccAddr := "okchain"
 	bz, err := sdk.GetFromBech32(address, bech32PrefixAccAddr)
 	if err != nil {
 		panic(err)
@@ -158,7 +158,6 @@ func fromBech32(address string) sdk.AccAddress {
 	}
 	return sdk.AccAddress(bz)
 }
-
 
 func accumulateBechContributors(fileName string, contribs map[string]float64) error {
 
@@ -188,7 +187,6 @@ type MultisigAccount struct {
 	Pubs      []string `json:"pubs"`
 	Amount    float64  `json:"amount"`
 }
-
 
 //---------------------------------------------------------------
 // gaia accounts and genesis doc

@@ -7,7 +7,7 @@ LOCAL_IP=`ifconfig  | grep 192.168 | awk '{print $2}' | cut -d: -f2`
 if [ ! -d /root/.okchaind ]; then
     /usr/local/go/bin/okchaincli keys add --recover admin --home /root/.okchaincli <<EOF
 12345678
-keen border system oil inject hotel hood potato shed pumpkin legend actor
+mouse symptom casino left tornado aerobic bargain property fog execute hover also
 EOF
 
     /usr/local/go/bin/okchaind init --chain-id okchain --home /root/.okchaind
@@ -17,7 +17,7 @@ EOF
     /usr/local/go/bin/okchaincli config trust-node true --home /root/.okchaincli
     /usr/local/go/bin/okchaincli config indent true --home /root/.okchaincli
 
-    /usr/local/go/bin/okchaind add-genesis-account cosmos1m3gmu4zlnv2hmqfu2jwr97r2653w9yshxkhfea 2000000okb --home /root/.okchaind
+    /usr/local/go/bin/okchaind add-genesis-account okchain1krmfwu676ac575z8qk7cklurpnjtsmtjke7fzs 2000000okb --home /root/.okchaind
 
     /usr/local/go/bin/okchaind gentx --amount 1000000okb --min-self-delegation 1 --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.001 --pubkey $(/usr/local/go/bin/okchaind tendermint show-validator --home /root/.okchaind) --name admin --home /root/.okchaind --home-client /root/.okchaincli 
 

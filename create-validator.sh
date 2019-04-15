@@ -6,7 +6,7 @@ EOF
 
 okdexcli keys add --recover org <<EOF
 12345678
-puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer
+matrix stick science toy park tongue day cigar reduce chaos process furnace
 EOF
 
 okdexcli tx send $(okdexcli keys show $1 -a) 500okb --from=org --yes --chain-id okchain
