@@ -15,6 +15,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/launch/pkg"
 	okdex "github.com/ok-chain/okchain/app"
+	"github.com/ok-chain/okchain/x/token"
 	"github.com/tendermint/go-amino"
 	tmtypes "github.com/tendermint/tendermint/types"
 )
@@ -73,7 +74,6 @@ func atomToUAtomInt(amt float64) sdk.Int {
 
 // convert atoms with two decimal precision to coins
 func newCoins(amt float64) sdk.DecCoins {
-	// uAtoms := atomToUAtomInt(amt)
 	uAtoms := sdk.MustNewDecFromStr(strconv.FormatFloat(amt, 'f', -1, 64))
 
 	return sdk.DecCoins{sdk.NewDecCoinFromDec(okbDenomination, uAtoms)}
@@ -273,7 +273,7 @@ func makeGenesisDoc(cdc *amino.Codec, captainAccounts okdex.GenesisAccount, gene
 	genesisState.Token.Info[0].Owner = captainAccounts.Address
 
 	// fix staking data
-	genesisState.StakingData.Pool.NotBondedTokens = atomToUAtomInt(okbGenesisTotal)
+	genesisState.StakingData.Pool.NotBondedTokens = token.ToUnit(okbGenesisTotal) //atomToUAtomInt(okbGenesisTotal)
 	genesisState.StakingData.Params.BondDenom = okbDenomination
 
 	// marshal the gaia app state back to json and update the genesisDoc
