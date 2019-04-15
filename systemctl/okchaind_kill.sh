@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NAME=okdexd
-MYNAME="okdexd_kill.sh"
+NAME=okchaind
+MYNAME="okchaind_kill.sh"
 
 if [ $# -eq 0 ]; then
     echo "$MYNAME <process name>"
