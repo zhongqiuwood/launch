@@ -7,8 +7,8 @@
 
 1. 编译
 ```sh
-go install github.com/okchain/okchain/cmd/okchaincli
-go install github.com/okchain/okchain/cmd/okchaind
+go install github.com/ok-chain/okchain/cmd/okchaincli
+go install github.com/ok-chain/okchain/cmd/okchaind
 ```
 2. 加载systemctl service 文件
 ```sh

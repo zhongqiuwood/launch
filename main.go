@@ -14,7 +14,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/launch/pkg"
-	okdex "github.com/okchain/okdex"
+	okdex "github.com/ok-chain/okchain/app"
 	"github.com/tendermint/go-amino"
 	tmtypes "github.com/tendermint/tendermint/types"
 )
@@ -72,15 +72,11 @@ func atomToUAtomInt(amt float64) sdk.Int {
 }
 
 // convert atoms with two decimal precision to coins
-func newCoins(amt float64) sdk.Coins {
+func newCoins(amt float64) sdk.DecCoins {
 	// uAtoms := atomToUAtomInt(amt)
-	uAtoms := sdk.NewIntFromBigInt(sdk.MustNewDecFromStr(strconv.FormatFloat(amt, 'f', -1, 64)).Int)
-	return sdk.Coins{
-		sdk.Coin{
-			Denom:  okbDenomination,
-			Amount: uAtoms,
-		},
-	}
+	uAtoms := sdk.MustNewDecFromStr(strconv.FormatFloat(amt, 'f', -1, 64))
+
+	return sdk.DecCoins{sdk.NewDecCoinFromDec(okbDenomination, uAtoms)}
 }
 
 func main() {
@@ -226,7 +222,7 @@ func makeGenesisAccounts(
 // check total atoms and no duplicates
 func checkTotals(genesisAccounts []okdex.GenesisAccount) {
 	// check uAtom total
-	uAtomTotal := sdk.NewInt(0)
+	uAtomTotal := sdk.NewDec(0)
 	for _, account := range genesisAccounts {
 		uAtomTotal = uAtomTotal.Add(account.Coins[0].Amount)
 	}

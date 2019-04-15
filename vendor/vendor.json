@@ -22,230 +22,202 @@
 		},
 		{
 			"checksumSHA1": "844785jD5XNMy0Ct/+2lJ9Xo5h0=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/baseapp",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/baseapp",
 			"path": "github.com/cosmos/cosmos-sdk/baseapp",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "nPbyJSjyddGbqeb6rNGu2UAuQPs=",
 			"path": "github.com/cosmos/cosmos-sdk/codec",
-			"revision": "b32e25c2a475fbfe7e39395a669c2ba1e022298e",
-			"revisionTime": "2019-03-30T09:27:27Z"
+			"revision": "fa00a46ae1fd4755d6da5f09d4028ccad67bbbd9",
+			"revisionTime": "2019-04-13T15:28:15Z"
 		},
 		{
 			"checksumSHA1": "Tt1FvgPL+nSDv/He4gGHTEZj2IU=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/store",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/store",
 			"path": "github.com/cosmos/cosmos-sdk/store",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "lfDAp3L0bQoya1G2Gqix78P4u0o=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/store/cachekv",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/store/cachekv",
 			"path": "github.com/cosmos/cosmos-sdk/store/cachekv",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "qMse+m7ZrIHsXa9c+Om9b1JXfRc=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/store/cachemulti",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/store/cachemulti",
 			"path": "github.com/cosmos/cosmos-sdk/store/cachemulti",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "XsQJ7Sf6hluEw3DXJEbSdx2imfw=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/store/dbadapter",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/store/dbadapter",
 			"path": "github.com/cosmos/cosmos-sdk/store/dbadapter",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "jLBhd5YSh5j7SH2/Th3FM2tozmM=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/store/errors",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/store/errors",
 			"path": "github.com/cosmos/cosmos-sdk/store/errors",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "e9yoI0gdlkoU5lpgO77QZPvPMIE=",
 			"path": "github.com/cosmos/cosmos-sdk/store/gaskv",
-			"revision": "b32e25c2a475fbfe7e39395a669c2ba1e022298e",
-			"revisionTime": "2019-03-30T09:27:27Z"
+			"revision": "fa00a46ae1fd4755d6da5f09d4028ccad67bbbd9",
+			"revisionTime": "2019-04-13T15:28:15Z"
 		},
 		{
 			"checksumSHA1": "nYXBjrHlh+CM18vvBIN8hQp/hGQ=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/store/iavl",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/store/iavl",
 			"path": "github.com/cosmos/cosmos-sdk/store/iavl",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "8+iogUZvxY9E0jj4V0JFi3/smSc=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/store/prefix",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/store/prefix",
 			"path": "github.com/cosmos/cosmos-sdk/store/prefix",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "A4rGxp0w8Lra7FuVoxii+kkCBbQ=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/store/rootmulti",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/store/rootmulti",
 			"path": "github.com/cosmos/cosmos-sdk/store/rootmulti",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "EV4+Tm9xNgANnwhcZp8OiPkFKW4=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/store/tracekv",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/store/tracekv",
 			"path": "github.com/cosmos/cosmos-sdk/store/tracekv",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "lwmUrE4ZpnSqAjdIunLyDXtLDBI=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/store/transient",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/store/transient",
 			"path": "github.com/cosmos/cosmos-sdk/store/transient",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "t37I/3YzsOqjYbPIvDVRW05kxaw=",
 			"path": "github.com/cosmos/cosmos-sdk/store/types",
-			"revision": "b32e25c2a475fbfe7e39395a669c2ba1e022298e",
-			"revisionTime": "2019-03-30T09:27:27Z"
+			"revision": "fa00a46ae1fd4755d6da5f09d4028ccad67bbbd9",
+			"revisionTime": "2019-04-13T15:28:15Z"
 		},
 		{
-			"checksumSHA1": "SAaYUVaL196URVDl4RsFwtK1U5c=",
+			"checksumSHA1": "odGouWt/Cms4dnWs1FyPLKlILT4=",
 			"path": "github.com/cosmos/cosmos-sdk/types",
-			"revision": "b32e25c2a475fbfe7e39395a669c2ba1e022298e",
-			"revisionTime": "2019-03-30T09:27:27Z"
+			"revision": "fa00a46ae1fd4755d6da5f09d4028ccad67bbbd9",
+			"revisionTime": "2019-04-13T15:28:15Z"
 		},
 		{
 			"checksumSHA1": "c7rvn0gxNeYEjnbRoCx6oqX/gZA=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/version",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/version",
 			"path": "github.com/cosmos/cosmos-sdk/version",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "OBRqA2EnTX0WpAl33azjrJ5vkRE=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/auth",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/auth",
 			"path": "github.com/cosmos/cosmos-sdk/x/auth",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "GcDtVhx3xFmo1nCxfcnhvwSKj/Y=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/bank",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/bank",
 			"path": "github.com/cosmos/cosmos-sdk/x/bank",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
-		},
-		{
-			"checksumSHA1": "nppkTuzynniIloDlEBL1TcPFpo0=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/distribution",
-			"path": "github.com/cosmos/cosmos-sdk/x/distribution",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
-		},
-		{
-			"checksumSHA1": "1cboZsfKP61ojhLTN0ZTkD56Mx4=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/distribution/keeper",
-			"path": "github.com/cosmos/cosmos-sdk/x/distribution/keeper",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
-		},
-		{
-			"checksumSHA1": "0K25feClmWCdYu6lExqcVsiG55E=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/distribution/tags",
-			"path": "github.com/cosmos/cosmos-sdk/x/distribution/tags",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
-		},
-		{
-			"checksumSHA1": "JJxhDMhKc3F5RcEZBMRuz5p3FH0=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/distribution/types",
-			"path": "github.com/cosmos/cosmos-sdk/x/distribution/types",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "/6nV6w7B4ityV9sxQKj26YHTJVY=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/mint",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/mint",
 			"path": "github.com/cosmos/cosmos-sdk/x/mint",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "AO5z/NqzNIEwWhrzHUOTOKarrmc=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/mock",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/mock",
 			"path": "github.com/cosmos/cosmos-sdk/x/mock",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "dvm2B+wZusolCQAQxA9D0ic+63s=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/params",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/params",
 			"path": "github.com/cosmos/cosmos-sdk/x/params",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "l46chG7QrGU0OfirVPOIRIEHDLk=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/params/subspace",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/params/subspace",
 			"path": "github.com/cosmos/cosmos-sdk/x/params/subspace",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "YzZz6zngKPkxrEzB3ZzmTvsvpE4=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/slashing",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/slashing",
 			"path": "github.com/cosmos/cosmos-sdk/x/slashing",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "wHb7b196e9YmZUjqy9kJr2KwLLs=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/slashing/tags",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/slashing/tags",
 			"path": "github.com/cosmos/cosmos-sdk/x/slashing/tags",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "PNMOAnPKhnvsJkC7Biar1EyUvZI=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/staking",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/staking",
 			"path": "github.com/cosmos/cosmos-sdk/x/staking",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "7VHKkA6a4DyJMX6lkdWMa+IxTqo=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/staking/keeper",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/staking/keeper",
 			"path": "github.com/cosmos/cosmos-sdk/x/staking/keeper",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "S4v7c2P0xADrILGfml02efiuY6Q=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/staking/querier",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/staking/querier",
 			"path": "github.com/cosmos/cosmos-sdk/x/staking/querier",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "1xgEaiCXqxEz0ZjtS00ZhAcBIvQ=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/staking/tags",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/staking/tags",
 			"path": "github.com/cosmos/cosmos-sdk/x/staking/tags",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "Oc94ChvoGhRS4bQBMymy8pympVc=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/cosmos/cosmos-sdk/x/staking/types",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/cosmos/cosmos-sdk/x/staking/types",
 			"path": "github.com/cosmos/cosmos-sdk/x/staking/types",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "CSPbwbyzqA6sfORicn4HFtIhF/c=",
@@ -255,10 +227,10 @@
 		},
 		{
 			"checksumSHA1": "7NP1qUMF8Kx1y0zANxx0e+oq9Oo=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/fsnotify/fsnotify",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/fsnotify/fsnotify",
 			"path": "github.com/fsnotify/fsnotify",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "u9yPyzxDLfX3DomC0riuXvV2W6w=",
@@ -310,10 +282,10 @@
 		},
 		{
 			"checksumSHA1": "H8wo+NR5z+VRl0wqPYpVQfC06ks=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/go-stack/stack",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/go-stack/stack",
 			"path": "github.com/go-stack/stack",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "rasgUuf7DVFShc3hKeh9wjWBWO0=",
@@ -395,115 +367,129 @@
 		},
 		{
 			"checksumSHA1": "ZqEwha5gnqiPgKO1sCp6o9UMhM8=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/hashicorp/hcl",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/hashicorp/hcl",
 			"path": "github.com/hashicorp/hcl",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "XQmjDva9JCGGkIecOgwtBEMCJhU=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/hashicorp/hcl/hcl/ast",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/hashicorp/hcl/hcl/ast",
 			"path": "github.com/hashicorp/hcl/hcl/ast",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "1GmX7G0Pgf5XprOh+T3zXMXX0dc=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/hashicorp/hcl/hcl/parser",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/hashicorp/hcl/hcl/parser",
 			"path": "github.com/hashicorp/hcl/hcl/parser",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "encY+ZtDf4nJaMvsVL2c+EJ2r3Q=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/hashicorp/hcl/hcl/printer",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/hashicorp/hcl/hcl/printer",
 			"path": "github.com/hashicorp/hcl/hcl/printer",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "+qJTCxhkwC7r+VZlPlZz8S74KmU=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/hashicorp/hcl/hcl/scanner",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/hashicorp/hcl/hcl/scanner",
 			"path": "github.com/hashicorp/hcl/hcl/scanner",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "oS3SCN9Wd6D8/LG0Yx1fu84a7gI=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/hashicorp/hcl/hcl/strconv",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/hashicorp/hcl/hcl/strconv",
 			"path": "github.com/hashicorp/hcl/hcl/strconv",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "c6yprzj06ASwCo18TtbbNNBHljA=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/hashicorp/hcl/hcl/token",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/hashicorp/hcl/hcl/token",
 			"path": "github.com/hashicorp/hcl/hcl/token",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "PwlfXt7mFS8UYzWxOK5DOq0yxS0=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/hashicorp/hcl/json/parser",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/hashicorp/hcl/json/parser",
 			"path": "github.com/hashicorp/hcl/json/parser",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "afrZ8VmAwfTdDAYVgNSXbxa4GsA=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/hashicorp/hcl/json/scanner",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/hashicorp/hcl/json/scanner",
 			"path": "github.com/hashicorp/hcl/json/scanner",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "fNlXQCQEnb+B3k5UDL/r15xtSJY=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/hashicorp/hcl/json/token",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/hashicorp/hcl/json/token",
 			"path": "github.com/hashicorp/hcl/json/token",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "40vJyUB4ezQSn/NSadsKEOrudMc=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/inconshreveable/mousetrap",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/inconshreveable/mousetrap",
 			"path": "github.com/inconshreveable/mousetrap",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
-			"checksumSHA1": "BVLcEDQelqXp6x9u4mbrxE7rxKs=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/jinzhu/gorm",
+			"checksumSHA1": "PTjdwVQCZP870BNHcMkktJcQhG8=",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/jinzhu/gorm",
 			"path": "github.com/jinzhu/gorm",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
+		},
+		{
+			"checksumSHA1": "4VZ1gLZHMumRjV3fclS1aX8S1aQ=",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/jinzhu/gorm/dialects/sqlite",
+			"path": "github.com/jinzhu/gorm/dialects/sqlite",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "4eelJOSLZoDzLuaJvgilOBVNovU=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/jinzhu/inflection",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/jinzhu/inflection",
 			"path": "github.com/jinzhu/inflection",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "60CCu2ppev0/f8IoW905LWgO/FY=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/jmhodges/levigo",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/jmhodges/levigo",
 			"path": "github.com/jmhodges/levigo",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "abKzFXAn0KDr5U+JON1ZgJ2lUtU=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/kr/logfmt",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/kr/logfmt",
 			"path": "github.com/kr/logfmt",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "AYZGozgchqe4WcKH/jCZI1flnP8=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/magiconair/properties",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/magiconair/properties",
 			"path": "github.com/magiconair/properties",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
+		},
+		{
+			"checksumSHA1": "Qk7VIdrRPxkPBRG31IV/AtUsD64=",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/mattn/go-sqlite3",
+			"path": "github.com/mattn/go-sqlite3",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "bKMZjd2wPw13VwoE7mBeSv5djFA=",
@@ -513,59 +499,113 @@
 		},
 		{
 			"checksumSHA1": "J+g0oZePWp2zSIISD2dZZKTxmgg=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/mitchellh/mapstructure",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/mitchellh/mapstructure",
 			"path": "github.com/mitchellh/mapstructure",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
-			"checksumSHA1": "Z/7OjvUfqP/mWsD1U9Bx3q1GYEQ=",
-			"path": "github.com/okchain/okdex",
-			"revision": "9731b77db56b1e9e6bd2a9685f69be3a076dfd98",
-			"revisionTime": "2019-04-01T11:48:00Z"
+			"checksumSHA1": "Y2H/MUQ+msTlYJ5WfEh2qZpyL6k=",
+			"path": "github.com/ok-chain/okchain/app",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
-			"checksumSHA1": "G1nyFfL7uLlfG+7SonwbqHqPsKE=",
-			"path": "github.com/okchain/okdex/util",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"checksumSHA1": "TfnYqYr3WvBCoeObi4hGFOb13HY=",
+			"path": "github.com/ok-chain/okchain/util",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
-			"checksumSHA1": "eUDt7QeroecoP2Naq1giwzxDFME=",
-			"path": "github.com/okchain/okdex/x/backend",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"checksumSHA1": "1BTmD/g69XWcqimAPsMA9jneULk=",
+			"path": "github.com/ok-chain/okchain/x/backend",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
-			"checksumSHA1": "X0M1v8dVUtOlv6AbZvfSjVdKbZk=",
-			"path": "github.com/okchain/okdex/x/gov",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"checksumSHA1": "9vjtjArMTrMT1oNW9mSYMghSAZ4=",
+			"path": "github.com/ok-chain/okchain/x/common",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
-			"checksumSHA1": "ELq/QBQRpt5b2wmBDw3nugLwSpc=",
-			"path": "github.com/okchain/okdex/x/gov/tags",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"checksumSHA1": "v3Q59K7uODmIgrThUhL228Owuss=",
+			"path": "github.com/ok-chain/okchain/x/distribution",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
-			"checksumSHA1": "k90UNlxs88D4gCPRlXC1N7ODUQ4=",
-			"path": "github.com/okchain/okdex/x/order",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"checksumSHA1": "qmj1x0rTki6D3dcEuJY9lj7B46E=",
+			"path": "github.com/ok-chain/okchain/x/distribution/keeper",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
-			"checksumSHA1": "Jrxda+gYwKEo1UIS06BCyIhcHo0=",
-			"path": "github.com/okchain/okdex/x/token",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"checksumSHA1": "JeisyLJeeCoMY5mGZclGWXVIf2M=",
+			"path": "github.com/ok-chain/okchain/x/distribution/tags",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
+		},
+		{
+			"checksumSHA1": "mi9tZY8bTeqe2Rwgrq6qAvdXvwM=",
+			"path": "github.com/ok-chain/okchain/x/distribution/types",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
+		},
+		{
+			"checksumSHA1": "NSxeoabUx7kWzSBh3jolAv1vA6w=",
+			"path": "github.com/ok-chain/okchain/x/gov",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
+		},
+		{
+			"checksumSHA1": "f61uXt/Ag6KPlAXsNGSzqFZofpk=",
+			"path": "github.com/ok-chain/okchain/x/gov/tags",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
+		},
+		{
+			"checksumSHA1": "niCKXSJnUnV2pLho6/1vD3vcQxE=",
+			"path": "github.com/ok-chain/okchain/x/order",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
+		},
+		{
+			"checksumSHA1": "8NiCFlZ8uqLIhX0FKaQvRZv/nA0=",
+			"path": "github.com/ok-chain/okchain/x/staking",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
+		},
+		{
+			"checksumSHA1": "UwxpYkupX9wR4t05el9lpm2YFH4=",
+			"path": "github.com/ok-chain/okchain/x/staking/keeper",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
+		},
+		{
+			"checksumSHA1": "i2iOucMRDAmEFqX6ot3Zhtti3XI=",
+			"path": "github.com/ok-chain/okchain/x/staking/querier",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
+		},
+		{
+			"checksumSHA1": "FqdB798zNGPeRkkqmjRqDudD+qY=",
+			"path": "github.com/ok-chain/okchain/x/staking/types",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
+		},
+		{
+			"checksumSHA1": "oYEhisxtDFYHkeGciw4exXGe1gM=",
+			"path": "github.com/ok-chain/okchain/x/token",
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "hlXUEyUn6u1ZhZbunDqTTEz1gyw=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/pelletier/go-toml",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/pelletier/go-toml",
 			"path": "github.com/pelletier/go-toml",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "DTy0iJ2w5C+FDsN9EnzfhNmvS+o=",
@@ -575,10 +615,10 @@
 		},
 		{
 			"checksumSHA1": "LuFv4/jlrmFNnDb/5SCSEPAM9vU=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/pmezard/go-difflib/difflib",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/pmezard/go-difflib/difflib",
 			"path": "github.com/pmezard/go-difflib/difflib",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "gQVcoum3Wk1rKcUtaLOoZojxeLI=",
@@ -648,24 +688,24 @@
 		},
 		{
 			"checksumSHA1": "h+9Sb/jocXQ94U6GHjP4QuWuow4=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/spf13/afero",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/spf13/afero",
 			"path": "github.com/spf13/afero",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "HcOjO9+cwl+xYnkiGuIeesqwBs8=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/spf13/afero/mem",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/spf13/afero/mem",
 			"path": "github.com/spf13/afero/mem",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "So+ok+Fp2ztieiuZXD/wp8UJhS0=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/spf13/cast",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/spf13/cast",
 			"path": "github.com/spf13/cast",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "Tg05rfWxVqlqtB8G6QDHGo5wjAQ=",
@@ -675,10 +715,10 @@
 		},
 		{
 			"checksumSHA1": "kmcWtDErtMPA3+o7+B4MDC3z+T0=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/spf13/jwalterweatherman",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/spf13/jwalterweatherman",
 			"path": "github.com/spf13/jwalterweatherman",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "OJI0OgC5V8gZtfS1e0CDYMhkDNc=",
@@ -688,24 +728,24 @@
 		},
 		{
 			"checksumSHA1": "w/0Ny3z82+66YDZu5MopmEyUZ14=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/spf13/viper",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/spf13/viper",
 			"path": "github.com/spf13/viper",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "pbq5LYckA7/rqe03l9MtXDekmRg=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/stretchr/testify/assert",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/stretchr/testify/assert",
 			"path": "github.com/stretchr/testify/assert",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "rgS26tbD9zdX0xvmSH44lW3FMsA=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/stretchr/testify/require",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/stretchr/testify/require",
 			"path": "github.com/stretchr/testify/require",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "3QsnhPTXGytTbW3uDvQLgSo9s9M=",
@@ -787,10 +827,10 @@
 		},
 		{
 			"checksumSHA1": "iA8dSIMouYhhDoq8Bwc3zIumXmA=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/tendermint/iavl",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/tendermint/iavl",
 			"path": "github.com/tendermint/iavl",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "w7ora5szifya6qzFz05Ee0pE9ZM=",
@@ -896,10 +936,10 @@
 		},
 		{
 			"checksumSHA1": "bx5dXptPQI2sAdtDXUyGNTKMsJk=",
-			"origin": "github.com/okchain/okdex/vendor/github.com/tendermint/tendermint/libs/cli",
+			"origin": "github.com/ok-chain/okchain/vendor/github.com/tendermint/tendermint/libs/cli",
 			"path": "github.com/tendermint/tendermint/libs/cli",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "MitF+gR4T3iznXXvAWyi7WLa/v0=",
@@ -1131,10 +1171,10 @@
 		},
 		{
 			"checksumSHA1": "XJ4TterqeY89DOiG5um1kkilZZw=",
-			"origin": "github.com/okchain/okdex/vendor/golang.org/x/sys/unix",
+			"origin": "github.com/ok-chain/okchain/vendor/golang.org/x/sys/unix",
 			"path": "golang.org/x/sys/unix",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "CbpjEkkOeh0fdM/V8xKDdI0AA88=",
@@ -1192,10 +1232,10 @@
 		},
 		{
 			"checksumSHA1": "YyTUFAVju8wgb1s/3azC2CeSbfY=",
-			"origin": "github.com/okchain/okdex/vendor/google.golang.org/grpc/binarylog/grpc_binarylog_v1",
+			"origin": "github.com/ok-chain/okchain/vendor/google.golang.org/grpc/binarylog/grpc_binarylog_v1",
 			"path": "google.golang.org/grpc/binarylog/grpc_binarylog_v1",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "DmKj+1hxJ/0T+e2kwF1EgUaVcQg=",
@@ -1223,10 +1263,10 @@
 		},
 		{
 			"checksumSHA1": "Eqxca59xIMaL4EUNwWsozg7kFkk=",
-			"origin": "github.com/okchain/okdex/vendor/google.golang.org/grpc/credentials/internal",
+			"origin": "github.com/ok-chain/okchain/vendor/google.golang.org/grpc/credentials/internal",
 			"path": "google.golang.org/grpc/credentials/internal",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "cfLb+pzWB+Glwp82rgfcEST1mv8=",
@@ -1260,59 +1300,59 @@
 		},
 		{
 			"checksumSHA1": "uDJA7QK2iGnEwbd9TPqkLaM+xuU=",
-			"origin": "github.com/okchain/okdex/vendor/google.golang.org/grpc/internal/backoff",
+			"origin": "github.com/ok-chain/okchain/vendor/google.golang.org/grpc/internal/backoff",
 			"path": "google.golang.org/grpc/internal/backoff",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "Wxgih1pu+wvJRT/rCY9WgSMF4w4=",
-			"origin": "github.com/okchain/okdex/vendor/google.golang.org/grpc/internal/binarylog",
+			"origin": "github.com/ok-chain/okchain/vendor/google.golang.org/grpc/internal/binarylog",
 			"path": "google.golang.org/grpc/internal/binarylog",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "X8zn5E1oU4Ev2qbeiruRbbaTN8Y=",
-			"origin": "github.com/okchain/okdex/vendor/google.golang.org/grpc/internal/channelz",
+			"origin": "github.com/ok-chain/okchain/vendor/google.golang.org/grpc/internal/channelz",
 			"path": "google.golang.org/grpc/internal/channelz",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "HaAf+AYLf6KRjZ2ZW1K0xEqmKlE=",
-			"origin": "github.com/okchain/okdex/vendor/google.golang.org/grpc/internal/envconfig",
+			"origin": "github.com/ok-chain/okchain/vendor/google.golang.org/grpc/internal/envconfig",
 			"path": "google.golang.org/grpc/internal/envconfig",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "70gndc/uHwyAl3D45zqp7vyHWlo=",
-			"origin": "github.com/okchain/okdex/vendor/google.golang.org/grpc/internal/grpcrand",
+			"origin": "github.com/ok-chain/okchain/vendor/google.golang.org/grpc/internal/grpcrand",
 			"path": "google.golang.org/grpc/internal/grpcrand",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "psHSfNyU2y9L9zRK+s41e7ScTf4=",
-			"origin": "github.com/okchain/okdex/vendor/google.golang.org/grpc/internal/grpcsync",
+			"origin": "github.com/ok-chain/okchain/vendor/google.golang.org/grpc/internal/grpcsync",
 			"path": "google.golang.org/grpc/internal/grpcsync",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "3LK1XBsYw6P112yilUgf8E8ZZY8=",
-			"origin": "github.com/okchain/okdex/vendor/google.golang.org/grpc/internal/syscall",
+			"origin": "github.com/ok-chain/okchain/vendor/google.golang.org/grpc/internal/syscall",
 			"path": "google.golang.org/grpc/internal/syscall",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "4aMrwaTz+b3vbdDVnfjVa44cRhA=",
-			"origin": "github.com/okchain/okdex/vendor/google.golang.org/grpc/internal/transport",
+			"origin": "github.com/ok-chain/okchain/vendor/google.golang.org/grpc/internal/transport",
 			"path": "google.golang.org/grpc/internal/transport",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		},
 		{
 			"checksumSHA1": "hcuHgKp8W0wIzoCnNfKI8NUss5o=",
@@ -1382,10 +1422,10 @@
 		},
 		{
 			"checksumSHA1": "QqDq2x8XOU7IoOR98Cx1eiV5QY8=",
-			"origin": "github.com/okchain/okdex/vendor/gopkg.in/yaml.v2",
+			"origin": "github.com/ok-chain/okchain/vendor/gopkg.in/yaml.v2",
 			"path": "gopkg.in/yaml.v2",
-			"revision": "860a4eff54e991e64909d195c63c68056bf9035b",
-			"revisionTime": "2019-03-30T11:57:34Z"
+			"revision": "cdde976c35c8b41b902533c7d4f82da427ab2eea",
+			"revisionTime": "2019-04-15T00:54:42Z"
 		}
 	],
 	"rootPath": "github.com/cosmos/launch"

@@ -6,7 +6,6 @@ LOCAL_IP=`ifconfig  | grep 192.168 | awk '{print $2}' | cut -d: -f2`
 
 if [ ! -d /root/.okchaind ]; then
     /usr/local/go/bin/okchaincli keys add --recover admin --home /root/.okchaincli <<EOF
-12345678
 mouse symptom casino left tornado aerobic bargain property fog execute hover also
 EOF
 
