@@ -31,7 +31,7 @@ const (
 
 	okbDenomination     = "okb"
 	okbGenesisTotal     = 1000000000
-	addressGenesisTotal = 2
+	addressGenesisTotal = 7
 
 	timeGenesisString = "2019-03-13 23:00:00 -0000 UTC"
 )
