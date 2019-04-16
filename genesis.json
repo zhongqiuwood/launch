@@ -16,21 +16,10 @@
       ]
     }
   },
-  "validators": [
-    {
-      "address": "8FE85655EF6DE4B4D16494E909A803B2063E50CC",
-      "pub_key": {
-        "type": "tendermint/PubKeyEd25519",
-        "value": "9cEFqG3pZi47lqPdJQO3JZpqUPYiLQWScR3zV8C8hAI="
-      },
-      "power": "10",
-      "name": ""
-    }
-  ],
   "app_hash": "",
   "app_state": {
     "auth": {
-      "collected_fees": null,
+      "collected_fees": [],
       "params": {
         "max_memo_characters": "256",
         "tx_sig_limit": "7",
@@ -44,11 +33,11 @@
     },
     "accounts": [
       {
-        "address": "cosmos1kyh26rw89f8a4ym4p49g5z59mcj0xs4jd0wf8x",
+        "address": "okchain19tt06a38dvz7g4eqpu2k6kkpe4vkym4g29j55a",
         "coins": [
           {
             "denom": "okb",
-            "amount": "1000000000000000000000000000"
+            "amount": "2000000.000000000000000000"
           }
         ],
         "sequence_number": "0",
@@ -60,11 +49,91 @@
         "end_time": "0"
       },
       {
-        "address": "cosmos1m3gmu4zlnv2hmqfu2jwr97r2653w9yshxkhfea",
+        "address": "okchain1akvcavw0qwdwzqjuz9c56unrwg657t5z8xmzeh",
         "coins": [
           {
             "denom": "okb",
-            "amount": "2000000000000000000"
+            "amount": "2000000.000000000000000000"
+          }
+        ],
+        "sequence_number": "0",
+        "account_number": "0",
+        "original_vesting": null,
+        "delegated_free": null,
+        "delegated_vesting": null,
+        "start_time": "0",
+        "end_time": "0"
+      },
+      {
+        "address": "okchain1apclacks9k2ewcvytyhzrflfhuk7md756yy99y",
+        "coins": [
+          {
+            "denom": "okb",
+            "amount": "2000000.000000000000000000"
+          }
+        ],
+        "sequence_number": "0",
+        "account_number": "0",
+        "original_vesting": null,
+        "delegated_free": null,
+        "delegated_vesting": null,
+        "start_time": "0",
+        "end_time": "0"
+      },
+      {
+        "address": "okchain1kyh26rw89f8a4ym4p49g5z59mcj0xs4j045e39",
+        "coins": [
+          {
+            "denom": "okb",
+            "amount": "1000000000.000000000000000000"
+          }
+        ],
+        "sequence_number": "0",
+        "account_number": "0",
+        "original_vesting": null,
+        "delegated_free": null,
+        "delegated_vesting": null,
+        "start_time": "0",
+        "end_time": "0"
+      },
+      {
+        "address": "okchain1m3gmu4zlnv2hmqfu2jwr97r2653w9yshyvde07",
+        "coins": [
+          {
+            "denom": "okb",
+            "amount": "2000000.000000000000000000"
+          }
+        ],
+        "sequence_number": "0",
+        "account_number": "0",
+        "original_vesting": null,
+        "delegated_free": null,
+        "delegated_vesting": null,
+        "start_time": "0",
+        "end_time": "0"
+      },
+      {
+        "address": "okchain1mfh3k60w337gu8xyvwgehartvw2xzpcg66rp8p",
+        "coins": [
+          {
+            "denom": "okb",
+            "amount": "2000000.000000000000000000"
+          }
+        ],
+        "sequence_number": "0",
+        "account_number": "0",
+        "original_vesting": null,
+        "delegated_free": null,
+        "delegated_vesting": null,
+        "start_time": "0",
+        "end_time": "0"
+      },
+      {
+        "address": "okchain1xdmtslw6x5kryq74tjq8dn0m4a6wfs4n6uayrz",
+        "coins": [
+          {
+            "denom": "okb",
+            "amount": "2000000.000000000000000000"
           }
         ],
         "sequence_number": "0",
@@ -78,28 +147,28 @@
     ],
     "distr": {
       "fee_pool": {
-        "community_pool": null
+        "community_pool": []
       },
       "community_tax": "0.020000000000000000",
       "base_proposer_reward": "0.010000000000000000",
       "bonus_proposer_reward": "0.040000000000000000",
       "withdraw_addr_enabled": true,
-      "delegator_withdraw_infos": null,
+      "delegator_withdraw_infos": [],
       "previous_proposer": "",
-      "outstanding_rewards": null,
-      "validator_accumulated_commissions": null,
-      "validator_historical_rewards": null,
-      "validator_current_rewards": null,
-      "delegator_starting_infos": null,
-      "validator_slash_events": null
+      "outstanding_rewards": [],
+      "validator_accumulated_commissions": [],
+      "validator_historical_rewards": [],
+      "validator_current_rewards": [],
+      "delegator_starting_infos": [],
+      "validator_slash_events": []
     },
     "staking": {
       "pool": {
-        "not_bonded_tokens": "1000000000000000",
+        "not_bonded_tokens": "1000000000000000000000000000",
         "bonded_tokens": "0"
       },
       "params": {
-        "unbonding_time": "259200000000000",
+        "unbonding_time": "777600000000000",
         "max_validators": 21,
         "max_entries": 7,
         "bond_denom": "okb"
@@ -132,13 +201,36 @@
         "min_deposit": [
           {
             "denom": "okb",
-            "amount": "10000000"
+            "amount": "100.000000000000000000"
           }
         ],
         "voting_period": "60000000000",
+        "dex_list_max_deposit_period": "60000000000",
+        "dex_list_min_deposit": [
+          {
+            "denom": "okb",
+            "amount": "20000.000000000000000000"
+          }
+        ],
+        "dex_list_voting_period": "60000000000",
+        "dex_list_vote_fee": [
+          {
+            "denom": "okb",
+            "amount": "0.000000000000000000"
+          }
+        ],
+        "dex_list_max_block_height": "10000",
+        "dex_list_fee": [
+          {
+            "denom": "okb",
+            "amount": "100000.000000000000000000"
+          }
+        ],
+        "dex_list_expire_time": "86400000000000",
         "quorum": "0.334000000000000000",
         "threshold": "0.500000000000000000",
-        "veto": "0.334000000000000000"
+        "veto": "0.334000000000000000",
+        "max_block_height_period": "0"
       }
     },
     "mint": {
@@ -164,7 +256,7 @@
               "type": "cosmos-sdk/MsgCreateValidator",
               "value": {
                 "description": {
-                  "moniker": "okchain16",
+                  "moniker": "star",
                   "identity": "",
                   "website": "",
                   "details": ""
@@ -177,7 +269,7 @@
                 "min_self_delegation": "1",
                 "delegator_address": "cosmos1m3gmu4zlnv2hmqfu2jwr97r2653w9yshxkhfea",
                 "validator_address": "cosmosvaloper1m3gmu4zlnv2hmqfu2jwr97r2653w9yshrzru4w",
-                "pubkey": "cosmosvalconspub1zcjduepq7hqst2rda9nzuwuk50wj2qahykdx558kygkstyn3rhe40s9usspqq466q5",
+                "pubkey": "cosmosvalconspub1zcjduepqynwhlscpsn55mheys26dua87c57tphrxd26g3gk2qrwcn3g0mwzs9fsmjm",
                 "value": {
                   "denom": "okb",
                   "amount": "1"
@@ -195,10 +287,10 @@
                 "type": "tendermint/PubKeySecp256k1",
                 "value": "A4bc2y7DiaZu3z7BynM4UXuySAA1lnc2OTSa9JDhnVgE"
               },
-              "signature": "dx+Hf0GZtmPNYSgEVvVz8iu7KND8GbpYBE1JTdjmZ2lYnI4ISlvD2wkTr3SflZA0Q+H2NfA4WvxOjWRS5JK1aw=="
+              "signature": "jW7V0VvyRoG5xOsJVHiFxiVUrq6SxZwwQzELIsvz+81fQzgdhEYPjZdK1gul7/QPdv3D+DoBglQYphSypmKIuw=="
             }
           ],
-          "memo": "8ac17d229f7ea0f00ea11a376e56d61d199d5476@192.168.13.116:26656"
+          "memo": "e106b477893bfedcd723dedf012898914f73c414@192.168.124.5:26656"
         }
       }
     ],
@@ -206,9 +298,9 @@
       "params": {
         "new_order": "0.000000000000000000",
         "cancel": "0.010000000000000000",
-        "cancel_native": "0.020000000000000000",
+        "cancel_native": "0.002000000000000000",
         "expire": "0.010000000000000000",
-        "expire_native": "0.020000000000000000",
+        "expire_native": "0.002000000000000000",
         "trade_fee_rate": "0.001000000000000000",
         "trade_fee_rate_native": "0.000400000000000000"
       }
@@ -231,8 +323,8 @@
           "symbol": "okb",
           "original_symbol": "",
           "total_supply": "1000000000",
-          "owner": "cosmos1kyh26rw89f8a4ym4p49g5z59mcj0xs4jd0wf8x",
-          "mintable": true
+          "owner": "okchain1kyh26rw89f8a4ym4p49g5z59mcj0xs4j045e39",
+          "mintable": false
         }
       ]
     }

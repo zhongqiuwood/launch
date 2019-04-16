@@ -14,7 +14,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/launch/pkg"
-	okdex "github.com/ok-chain/okchain/app"
+	"github.com/ok-chain/okchain/app"
 	"github.com/ok-chain/okchain/x/token"
 	"github.com/tendermint/go-amino"
 	tmtypes "github.com/tendermint/tendermint/types"
@@ -25,15 +25,15 @@ const (
 	adminJSON   = "accounts/admin.json"
 	othersJSON  = "accounts/others.json"
 
-	genesisTemplate = "params/genesis_template.json"
-	genTxPath       = "gentx/data"
-	genesisFile     = "genesis.json"
+	genTxPath   = "gentx/data"
+	genesisFile = "genesis.json"
 
 	okbDenomination     = "okb"
 	okbGenesisTotal     = 1000000000
 	addressGenesisTotal = 7
 
 	timeGenesisString = "2019-03-13 23:00:00 -0000 UTC"
+	chainID           = "okchain"
 )
 
 // constants but can't use `const`
@@ -208,13 +208,13 @@ type MultisigAccount struct {
 func makeGenesisAccounts(
 	contribs map[string]float64,
 	employees []Account,
-	multisig MultisigAccount) []okdex.GenesisAccount {
+	multisig MultisigAccount) []app.GenesisAccount {
 
-	var genesisAccounts []okdex.GenesisAccount
+	var genesisAccounts []app.GenesisAccount
 	{
 		// public, private, and icf contribs
 		for addr, amt := range contribs {
-			acc := okdex.GenesisAccount{
+			acc := app.GenesisAccount{
 				Address: fromBech32(addr),
 				Coins:   newCoins(amt),
 			}
@@ -235,7 +235,7 @@ func makeGenesisAccounts(
 }
 
 // check total atoms and no duplicates
-func checkTotals(genesisAccounts []okdex.GenesisAccount) {
+func checkTotals(genesisAccounts []app.GenesisAccount) {
 	// check uAtom total
 	uAtomTotal := sdk.NewDec(0)
 	for _, account := range genesisAccounts {
@@ -261,24 +261,16 @@ func checkTotals(genesisAccounts []okdex.GenesisAccount) {
 }
 
 // json marshal the initial app state (accounts and gentx) and add them to the template
-func makeGenesisDoc(cdc *amino.Codec, captainAccounts okdex.GenesisAccount, genesisAccounts []okdex.GenesisAccount, genTxs []json.RawMessage) *tmtypes.GenesisDoc {
+func makeGenesisDoc(cdc *amino.Codec, captainAccounts app.GenesisAccount, genesisAccounts []app.GenesisAccount, genTxs []json.RawMessage) *tmtypes.GenesisDoc {
 
-	// read the template with the params
-	genesisDoc, err := tmtypes.GenesisDocFromFile(genesisTemplate)
-	if err != nil {
-		panic(err)
+	genesisDoc := &tmtypes.GenesisDoc{
+		ChainID:         chainID,
+		Validators:      nil,
+		GenesisTime:     timeGenesis,
+		ConsensusParams: tmtypes.DefaultConsensusParams(),
 	}
 
-	// set genesis time
-	genesisDoc.GenesisTime = timeGenesis
-
-	// read the gaia state from the generic tendermint app state bytes
-	// and populate with the accounts and gentxs
-	var genesisState okdex.GenesisState
-	err = cdc.UnmarshalJSON(genesisDoc.AppState, &genesisState)
-	if err != nil {
-		panic(err)
-	}
+	genesisState := app.NewDefaultGenesisState()
 	genesisState.Accounts = genesisAccounts
 	genesisState.GenTxs = genTxs
 

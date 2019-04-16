@@ -43,7 +43,7 @@ if [ ! -d /root/.okchaind ]; then
     cp /root/.okchaind/config/gentx/gentx-*.json /root/go/src/github.com/cosmos/launch/gentx/data
 
 
-    for(( i=0;i<${#OKCHAIN_TESTNET_FULL_HOSTS[@]};i++))
+    for (( i=0;i<${#OKCHAIN_TESTNET_FULL_HOSTS[@]};i++))
     do
         host=${OKCHAIN_TESTNET_FULL_HOSTS[i]}
         mnemonic=${OKCHAIN_TESTNET_FULL_MNEMONIC[i]}
