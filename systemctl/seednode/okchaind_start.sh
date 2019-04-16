@@ -45,7 +45,7 @@ if [ ! -d /root/.okchaind ]; then
     do
         host=${OKCHAIN_TESTNET_FULL_HOSTS[i]}
         mnemonic=${OKCHAIN_TESTNET_FULL_MNEMONIC[i]}
-        home_d=$/root/.okchaind/{host}
+        home_d=$/root/.okchaind/${host}
         home_cli=/root/.okchaincli/${host}
 
         ${OKCHAIN_CLI} keys add --recover ${host} --home ${home_cli}  -y -m "${mnemonic}"
