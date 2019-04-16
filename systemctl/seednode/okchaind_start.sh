@@ -9,8 +9,8 @@ LOCAL_IP=`ifconfig  | grep 192.168 | awk '{print $2}' | cut -d: -f2`
 
 if [ ! -d /root/.okchaind ]; then
     
-    ${OKCHAIN_CLI} keys add --recover admin   -y -m "keen border system oil inject hotel hood potato shed pumpkin legend actor"
-    ${OKCHAIN_CLI} keys add --recover captain -y -m "puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
+    ${OKCHAIN_CLI} keys add --recover admin --home /root/.okchaincli  -y -m "keen border system oil inject hotel hood potato shed pumpkin legend actor"
+    ${OKCHAIN_CLI} keys add --recover captain --home /root/.okchaincli -y -m "puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
 
     ${OKCHAIN_DAEMON} init --chain-id okchain --home /root/.okchaind
 
@@ -34,7 +34,6 @@ if [ ! -d /root/.okchaind ]; then
     cp /root/.okchaind/config/gentx/gentx-*.json /root/go/src/github.com/cosmos/launch/gentx/data
 
     cd /root/go/src/github.com/cosmos/launch/
-    go build
     /root/go/src/github.com/cosmos/launch/launch
 
     cp /root/go/src/github.com/cosmos/launch/genesis.json /root/.okchaind/config
