@@ -1,0 +1,10 @@
+/root/okchaind.log {
+    daily
+    create
+    rotate 10
+    minsize 10M
+    dateext
+    dateformat -%Y%m%d-%s
+    copytruncate
+    compress
+}
