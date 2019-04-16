@@ -23,6 +23,7 @@ import (
 const (
 	captainJSON = "accounts/captain.json"
 	adminJSON   = "accounts/admin.json"
+	othersJSON  = "accounts/others.json"
 
 	genesisTemplate = "params/genesis_template.json"
 	genTxPath       = "gentx/data"
@@ -91,6 +92,7 @@ func main() {
 	}
 
 	accumulateBechContributors(adminJSON, contribs)
+	accumulateContributors(othersJSON, contribs)
 	genesisAccounts := makeGenesisAccounts(contribs, nil, MultisigAccount{})
 
 	// check totals
@@ -158,6 +160,19 @@ func fromBech32(address string) sdk.AccAddress {
 func accumulateBechContributors(fileName string, contribs map[string]float64) error {
 
 	allocations := pkg.ListToMap(fileName)
+
+	for addr, amt := range allocations {
+		if _, ok := contribs[addr]; ok {
+			fmt.Println("Duplicate addr", addr)
+		}
+		contribs[addr] += amt
+	}
+	return nil
+}
+
+// load a map of hex addresses and convert them to bech32
+func accumulateContributors(fileName string, contribs map[string]float64) error {
+	allocations := pkg.ObjToMap(fileName)
 
 	for addr, amt := range allocations {
 		if _, ok := contribs[addr]; ok {
