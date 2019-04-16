@@ -9,11 +9,6 @@ scp root@${SEED_NODE_IP}:/root/go/src/github.com/cosmos/launch/systemctl/seednod
 
 LOCAL_IP=`ifconfig  | grep 192.168 | awk '{print $2}' | cut -d: -f2`
 
-# if [ ! -d /root/.okchaind ]; then
-#     /usr/local/go/bin/okchaind init --chain-id okchain --home /root/.okchaind
-# fi
-
-# scp root@${SEED_NODE_IP}:/root/.okchaind/config/genesis.json /root/.okchaind/config
 host="okchain"${LOCAL_IP:0-2:2}
 scp -r root@${SEED_NODE_IP}:/root/.okchaind/${host}/ /root/.okchaind/
 scp -r root@${SEED_NODE_IP}:/root/.okchaincli/${host}/ /root/.okchaincli/
