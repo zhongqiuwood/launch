@@ -10,6 +10,8 @@ OKCHAIN_TESTNET_FULL_MNEMONIC=("shine left lumber budget elegant margin aunt tru
 "breeze real effort sail deputy spray life real injury universe praise common"
 "action verb surge exercise order pause wait special account kid hard devote"
 )
+CAPTAIN_MNEMONIC="puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
+ADMIN_MNEMONIC="keen border system oil inject hotel hood potato shed pumpkin legend actor"
 
 . /root/go/src/github.com/cosmos/launch/systemctl/seednode/okchaind.profile
 
@@ -17,8 +19,8 @@ LOCAL_IP=`ifconfig  | grep 192.168 | awk '{print $2}' | cut -d: -f2`
 
 if [ ! -d /root/.okchaind ]; then
     
-    ${OKCHAIN_CLI} keys add --recover admin --home /root/.okchaincli  -y -m "keen border system oil inject hotel hood potato shed pumpkin legend actor"
-    ${OKCHAIN_CLI} keys add --recover captain --home /root/.okchaincli -y -m "puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
+    ${OKCHAIN_CLI} keys add --recover admin --home /root/.okchaincli  -y -m "${ADMIN_MNEMONIC}"
+    ${OKCHAIN_CLI} keys add --recover captain --home /root/.okchaincli -y -m "${CAPTAIN_MNEMONIC}"
 
     ${OKCHAIN_DAEMON} init --chain-id okchain --home /root/.okchaind
 
@@ -48,6 +50,7 @@ if [ ! -d /root/.okchaind ]; then
         home_d=/root/.okchaind/${host}
         home_cli=/root/.okchaincli/${host}
 
+        ${OKCHAIN_CLI} keys add --recover captain --home ${home_cli} -y -m "${CAPTAIN_MNEMONIC}"
         ${OKCHAIN_CLI} keys add --recover ${host} --home ${home_cli}  -y -m "${mnemonic}"
 
         ${OKCHAIN_DAEMON} init --chain-id okchain --home ${home_d}
