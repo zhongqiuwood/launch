@@ -24,7 +24,7 @@ func DefaultGenesisStateOKB() Token {
 		Symbol:      "okb",
 		TotalSupply: 1000000000,
 		Owner:       nil,
-		Mintable:    false,
+		Mintable:    true,
 	}
 }
 
