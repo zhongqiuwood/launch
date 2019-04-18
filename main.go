@@ -25,8 +25,9 @@ const (
 	adminJSON   = "accounts/admin.json"
 	othersJSON  = "accounts/others.json"
 
-	genTxPath   = "gentx/data"
-	genesisFile = "genesis.json"
+	genesisTemplate = "params/genesis_template.json"
+	genTxPath       = "gentx/data"
+	genesisFile     = "genesis.json"
 
 	okbDenomination     = "okb"
 	okbGenesisTotal     = 1000000000
@@ -262,15 +263,22 @@ func checkTotals(genesisAccounts []app.GenesisAccount) {
 
 // json marshal the initial app state (accounts and gentx) and add them to the template
 func makeGenesisDoc(cdc *amino.Codec, captainAccounts app.GenesisAccount, genesisAccounts []app.GenesisAccount, genTxs []json.RawMessage) *tmtypes.GenesisDoc {
+	// read the template with the params
+	genesisDoc, err := tmtypes.GenesisDocFromFile(genesisTemplate)
+	if err != nil {
+		panic(err)
+	}
+	// set genesis time
+	genesisDoc.GenesisTime = timeGenesis
 
-	genesisDoc := &tmtypes.GenesisDoc{
-		ChainID:         chainID,
-		Validators:      nil,
-		GenesisTime:     timeGenesis,
-		ConsensusParams: tmtypes.DefaultConsensusParams(),
+	// read the gaia state from the generic tendermint app state bytes
+	// and populate with the accounts and gentxs
+	var genesisState app.GenesisState
+	err = cdc.UnmarshalJSON(genesisDoc.AppState, &genesisState)
+	if err != nil {
+		panic(err)
 	}
 
-	genesisState := app.NewDefaultGenesisState()
 	genesisState.Accounts = genesisAccounts
 	genesisState.GenTxs = genTxs
 
