@@ -5,7 +5,7 @@
 scp root@${SEED_NODE_IP}:${HOME}/go/src/github.com/cosmos/launch/systemctl/cloud/seednode/seednode.profile \
     ${HOME}/go/src/github.com/cosmos/launch/systemctl/cloud/fullnode/
 
-. ${HOME}/go/src/github.com/cosmos/launch/systemctl/fullnode/seednode.profile
+. ${HOME}/go/src/github.com/cosmos/launch/systemctl/cloud/fullnode/seednode.profile
 
 if [ ${IP_INNET} = true ];then
     LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
