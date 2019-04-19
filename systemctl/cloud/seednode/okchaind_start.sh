@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-OKCHAIN_TESTNET_FULL_HOSTS=("21" "22" "23" "24" "25")
 IFS="!!"
 OKCHAIN_TESTNET_FULL_MNEMONIC=("shine left lumber budget elegant margin aunt truly prize snap shy claw"
 "tiny sudden coyote idea name thought consider jump occur aerobic approve media"
@@ -12,9 +10,14 @@ OKCHAIN_TESTNET_FULL_MNEMONIC=("shine left lumber budget elegant margin aunt tru
 CAPTAIN_MNEMONIC="puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
 ADMIN_MNEMONIC="keen border system oil inject hotel hood potato shed pumpkin legend actor"
 
-. ${LAUNCH_TOP}/systemctl/seednode/okchaind.profile
+. ${HOME}/go/src/github.com/cosmos/launch/systemctl/cloud/seednode/okchaind.profile
 
-LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
+# LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
+if [ ${IP_INNET} = true ];then
+    LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
+else
+    LOCAL_IP=`curl ifconfig.me`
+fi
 
 if [ ! -d ${HOME_DAEMON} ]; then
     
@@ -44,7 +47,7 @@ if [ ! -d ${HOME_DAEMON} ]; then
 
     for (( i=0;i<${#OKCHAIN_TESTNET_FULL_HOSTS[@]};i++))
     do
-        host=${OKCHAIN_TESTNET_FULL_HOSTS[i]}
+        host=${HOSTS_PREFIX}${OKCHAIN_TESTNET_FULL_HOSTS[i]}
         mnemonic=${OKCHAIN_TESTNET_FULL_MNEMONIC[i]}
         home_d=${HOME_DAEMON}/${host}
         home_cli=${HOME_CLI}/${host}
@@ -72,7 +75,7 @@ if [ ! -d ${HOME_DAEMON} ]; then
     cp ${LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/config
     for host in ${OKCHAIN_TESTNET_FULL_HOSTS[@]}
     do
-        cp ${LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/${host}/config
+        cp ${LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/${HOSTS_PREFIX}${host}/config
     done
 fi
 
@@ -80,4 +83,4 @@ ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.seed_mode=true \
     --p2p.addr_book_strict=false \
     --log_level *:info \
-    --p2p.laddr tcp://${LOCAL_IP}:26656 2>&1 >> /root/okchaind.log
+    --p2p.laddr tcp://${LOCAL_IP}:26656 2>&1 >> ${HOME}/okchaind.log
