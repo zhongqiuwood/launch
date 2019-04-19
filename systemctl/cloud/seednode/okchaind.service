@@ -4,8 +4,8 @@ Description=okchaind
 [Service]
 Type=simple
 RemainAfterExit=yes
-ExecStart=/bin/bash /root/go/src/github.com/cosmos/launch/systemctl/cloud/seednode/okchaind_start.sh
-ExecStop=/bin/bash /root/go/src/github.com/cosmos/launch/systemctl/okchaind_kill.sh
+ExecStart=/bin/bash /usr/okchain/launch/systemctl/cloud/seednode/okchaind_start.sh
+ExecStop=/bin/bash /usr/okchain/launch/systemctl/okchaind_kill.sh
 Restart=always
 
 [Install]
