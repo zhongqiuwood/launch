@@ -10,7 +10,7 @@ OKCHAIN_TESTNET_FULL_MNEMONIC=("shine left lumber budget elegant margin aunt tru
 CAPTAIN_MNEMONIC="puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
 ADMIN_MNEMONIC="keen border system oil inject hotel hood potato shed pumpkin legend actor"
 
-. ${HOME}/go/src/github.com/cosmos/launch/systemctl/cloud/seednode/okchaind.profile
+. /usr/okchain/launch/systemctl/cloud/seednode/okchaind.profile
 
 # LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
 if [ ${IP_INNET} = true ];then
@@ -41,8 +41,8 @@ if [ ! -d ${HOME_DAEMON} ]; then
         --pubkey $(${OKCHAIN_DAEMON} tendermint show-validator --home ${HOME_DAEMON}) \
         --name admin --home ${HOME_DAEMON} --home-client ${HOME_CLI}
 
-    rm ${LAUNCH_TOP}/gentx/data/gentx-*
-    cp ${HOME_DAEMON}/config/gentx/gentx-*.json ${LAUNCH_TOP}/gentx/data
+    rm ${OKCHAIN_LAUNCH_TOP}/gentx/data/gentx-*
+    cp ${HOME_DAEMON}/config/gentx/gentx-*.json ${OKCHAIN_LAUNCH_TOP}/gentx/data
 
 
     for (( i=0;i<${#OKCHAIN_TESTNET_FULL_HOSTS[@]};i++))
@@ -66,16 +66,16 @@ if [ ! -d ${HOME_DAEMON} ]; then
             --commission-max-rate 0.5 --commission-max-change-rate 0.001 \
             --pubkey $(${OKCHAIN_DAEMON} tendermint show-validator --home ${home_d}) \
             --name ${host} --home ${home_d} --home-client ${home_cli}
-        cp ${home_d}/config/gentx/gentx-*.json ${LAUNCH_TOP}/gentx/data
+        cp ${home_d}/config/gentx/gentx-*.json ${OKCHAIN_LAUNCH_TOP}/gentx/data
     done
 
-    cd ${LAUNCH_TOP}/
-    ${LAUNCH_TOP}/launch
+    cd ${OKCHAIN_LAUNCH_TOP}/
+    ${OKCHAIN_LAUNCH_TOP}/launch
 
-    cp ${LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/config
+    cp ${OKCHAIN_LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/config
     for host in ${OKCHAIN_TESTNET_FULL_HOSTS[@]}
     do
-        cp ${LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/${HOSTS_PREFIX}${host}/config
+        cp ${OKCHAIN_LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/${HOSTS_PREFIX}${host}/config
     done
 fi
 
@@ -83,4 +83,4 @@ ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.seed_mode=true \
     --p2p.addr_book_strict=false \
     --log_level *:info \
-    --p2p.laddr tcp://${LOCAL_IP}:26656 2>&1 >> ${HOME}/okchaind.log
+    --p2p.laddr tcp://${LOCAL_IP}:26656 2>&1 >> /usr/okchain/okchaind.log
