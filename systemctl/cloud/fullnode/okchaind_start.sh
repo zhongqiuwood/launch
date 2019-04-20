@@ -1,11 +1,11 @@
 #!/bin/bash
 
-. ${HOME}/okchain/launch/systemctl/cloud/fullnode/okchaind.profile
+. /root/okchain/launch/systemctl/cloud/fullnode/okchaind.profile
 
 scp root@${SEED_NODE_IP}:${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/seednode/seednode.profile \
     ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/fullnode/
 
-. ${HOME}/okchain/launch/systemctl/cloud/fullnode/seednode.profile
+. /root/okchain/launch/systemctl/cloud/fullnode/seednode.profile
 
 if [ ${IP_INNET} = true ];then
     LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
@@ -23,4 +23,4 @@ ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.seeds ${SEED_NODE_ID}@${SEED_NODE_URL} \
     --p2p.addr_book_strict=false \
     --log_level *:info \
-    --p2p.laddr tcp://0.0.0.0:26656  2>&1 >> ${HOME}/okchaind.log
+    --p2p.laddr tcp://0.0.0.0:26656  2>&1 >> /root/okchaind.log
