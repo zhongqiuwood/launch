@@ -12,7 +12,6 @@ ADMIN_MNEMONIC="keen border system oil inject hotel hood potato shed pumpkin leg
 
 . /usr/okchain/launch/systemctl/cloud/seednode/okchaind.profile
 
-# LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
 if [ ${IP_INNET} = true ];then
     LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
 else
