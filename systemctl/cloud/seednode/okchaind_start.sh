@@ -69,7 +69,6 @@ if [ ! -d ${HOME_DAEMON} ]; then
     done
 
     cd ${OKCHAIN_LAUNCH_TOP}/
-    cp ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/binary/launch ${OKCHAIN_LAUNCH_TOP}/
     ${OKCHAIN_LAUNCH_TOP}/launch
 
     cp ${OKCHAIN_LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/config
