@@ -1,10 +1,10 @@
 
-OKCHAIN_DAEMON=/usr/okchain/launch/systemctl/cloud/binary/okchaind
-OKCHAIN_CLI=/usr/okchain/launch/systemctl/cloud/binary/okchaincli
+OKCHAIN_DAEMON=/tmp/okchain/launch/systemctl/cloud/binary/okchaind
+OKCHAIN_CLI=/tmp/okchain/launch/systemctl/cloud/binary/okchaincli
 HOME_DAEMON=/home/ubuntu/.okchaind
 HOME_CLI=/home/ubuntu/.okchaincli
 
-OKCHAIN_LAUNCH_TOP=/usr/okchain/launch
+OKCHAIN_LAUNCH_TOP=/tmp/okchain/launch
 
 # 是否使用内网IP 如果false，则使用公网IP；如果是true，则必须设置IP_PREFIX
 IP_INNET=false

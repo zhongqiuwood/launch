@@ -59,7 +59,7 @@ function clean {
 ssh root@$1 << eeooff
     rm -rf ${HOME_CLI}
     rm -rf ${HOME_DAEMON}
-    rm -f /usr/okchain/okchaind.log
+    rm -f /tmp/okchain/okchaind.log
     exit
 eeooff
 }
