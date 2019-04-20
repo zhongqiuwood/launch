@@ -24,6 +24,3 @@ ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.addr_book_strict=false \
     --log_level *:info \
     --p2p.laddr tcp://0.0.0.0:26656  2>&1 >> /root/okchaind.log
-
-
-scp -i "~/okchain-dex-test.pem" ubuntu@$18.179.58.10:/home/ubuntu/okchain/launch/systemctl/cloud/seednode/seednode.profile 
