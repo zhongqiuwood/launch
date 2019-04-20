@@ -4,9 +4,10 @@ Description=okchaind
 [Service]
 Type=simple
 RemainAfterExit=yes
-ExecStart=/bin/bash /root/okchain/launch/systemctl/cloud/fullnode/okchaind_start.sh
-ExecStop=/bin/bash /root/okchain/launch/systemctl/okchaind_kill.sh
+ExecStart=/bin/bash /home/ubuntu/okchain/launch/systemctl/cloud/fullnode/okchaind_start.sh
+ExecStop=/bin/bash /home/ubuntu/okchain/launch/systemctl/okchaind_kill.sh
 Restart=always
+User=ubuntu
 
 [Install]
 WantedBy=multi-user.target
