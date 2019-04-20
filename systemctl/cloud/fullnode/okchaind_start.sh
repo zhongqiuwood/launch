@@ -1,11 +1,11 @@
 #!/bin/bash
 
-. /root/okchain/launch/systemctl/cloud/fullnode/okchaind.profile
+. ${HOME}/okchain/launch/systemctl/cloud/fullnode/okchaind.profile
 
-scp root@${SEED_NODE_IP}:${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/seednode/seednode.profile \
+scp -i "~/okchain-dex-test.pem" ubuntu@${SEED_NODE_IP}:${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/seednode/seednode.profile \
     ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/fullnode/
 
-. /root/okchain/launch/systemctl/cloud/fullnode/seednode.profile
+. ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/fullnode/seednode.profile
 
 if [ ${IP_INNET} = true ];then
     LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
@@ -15,8 +15,8 @@ fi
 
 if [ ! -d ${HOME_DAEMON} ]; then
     host=${HOSTS_PREFIX}${LOCAL_IP}
-    scp -r root@${SEED_NODE_IP}:${HOME_DAEMON}/${host}/ ${HOME_DAEMON}/
-    scp -r root@${SEED_NODE_IP}:${HOME_CLI}/${host}/ ${HOME_CLI}/
+    scp -r -i "~/okchain-dex-test.pem" ubuntu@${SEED_NODE_IP}:${HOME_DAEMON}/${host}/ ${HOME_DAEMON}/
+    scp -r -i "~/okchain-dex-test.pem" ubuntu@${SEED_NODE_IP}:${HOME_CLI}/${host}/ ${HOME_CLI}/
 fi
 
 ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
@@ -24,3 +24,6 @@ ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.addr_book_strict=false \
     --log_level *:info \
     --p2p.laddr tcp://0.0.0.0:26656  2>&1 >> /root/okchaind.log
+
+
+scp -i "~/okchain-dex-test.pem" ubuntu@$18.179.58.10:/home/ubuntu/okchain/launch/systemctl/cloud/seednode/seednode.profile 

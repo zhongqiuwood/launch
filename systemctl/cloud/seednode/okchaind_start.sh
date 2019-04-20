@@ -12,12 +12,6 @@ ADMIN_MNEMONIC="keen border system oil inject hotel hood potato shed pumpkin leg
 
 . ${HOME}/okchain/launch/systemctl/cloud/seednode/okchaind.profile
 
-if [ ${IP_INNET} = true ];then
-    LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
-else
-    LOCAL_IP=`curl ifconfig.me`
-fi
-
 if [ ! -d ${HOME_DAEMON} ]; then
     
     ${OKCHAIN_CLI} keys add --recover admin --home ${HOME_CLI}  -y -m "${ADMIN_MNEMONIC}"
