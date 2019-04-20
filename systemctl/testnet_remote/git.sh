@@ -18,6 +18,7 @@ done
 function gitpull {
 echo git pull@$1
 ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
+    sudo su
     cd ${OKCHAIN_LAUNCH_TOP}
     git pull
 eeooff
@@ -27,6 +28,7 @@ echo done!
 function gitclone {
 echo git clone@$1
 ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
+    sudo su
     rm -rf ${OKCHAIN_LAUNCH_TOP}
     git clone https://github.com/okblockchainlab/launch.git ${OKCHAIN_LAUNCH_TOP}
 eeooff
