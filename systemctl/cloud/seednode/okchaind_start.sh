@@ -10,13 +10,7 @@ OKCHAIN_TESTNET_FULL_MNEMONIC=("shine left lumber budget elegant margin aunt tru
 CAPTAIN_MNEMONIC="puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
 ADMIN_MNEMONIC="keen border system oil inject hotel hood potato shed pumpkin legend actor"
 
-. /root/okchain/launch/systemctl/cloud/seednode/okchaind.profile
-
-if [ ${IP_INNET} = true ];then
-    LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
-else
-    LOCAL_IP=`curl ifconfig.me`
-fi
+. ${HOME}/okchain/launch/systemctl/cloud/seednode/okchaind.profile
 
 if [ ! -d ${HOME_DAEMON} ]; then
     
@@ -82,4 +76,4 @@ ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.seed_mode=true \
     --p2p.addr_book_strict=false \
     --log_level *:info \
-    --p2p.laddr tcp://0.0.0.0:26656 2>&1 >> /root/okchaind.log
+    --p2p.laddr tcp://0.0.0.0:26656 2>&1 >> ${HOME}/okchaind.log

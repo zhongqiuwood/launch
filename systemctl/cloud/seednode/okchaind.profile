@@ -1,10 +1,10 @@
 
-OKCHAIN_DAEMON=/root/okchain/launch/systemctl/cloud/binary/okchaind
-OKCHAIN_CLI=/root/okchain/launch/systemctl/cloud/binary/okchaincli
-HOME_DAEMON=/root/.okchaind
-HOME_CLI=/root/.okchaincli
+OKCHAIN_DAEMON=${HOME}/okchain/launch/systemctl/cloud/binary/okchaind
+OKCHAIN_CLI=${HOME}/okchain/launch/systemctl/cloud/binary/okchaincli
+HOME_DAEMON=${HOME}/.okchaind
+HOME_CLI=${HOME}/.okchaincli
 
-OKCHAIN_LAUNCH_TOP=/root/okchain/launch
+OKCHAIN_LAUNCH_TOP=${HOME}/okchain/launch
 
 # 是否使用内网IP 
 # 如果false，则使用公网IP，OKCHAIN_TESTNET_FULL_HOSTS设置其他节点公网IP
