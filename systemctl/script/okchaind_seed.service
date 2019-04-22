@@ -1,0 +1,13 @@
+[Unit]
+Description=okchaind
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/bin/bash /home/ubuntu/okchain/launch/systemctl/scrpit/okchaind_seednode_start.sh
+ExecStop=/bin/bash /home/ubuntu/okchain/launch/systemctl/scrpit/okchaind_kill.sh
+Restart=always
+User=ubuntu
+
+[Install]
+WantedBy=multi-user.target
