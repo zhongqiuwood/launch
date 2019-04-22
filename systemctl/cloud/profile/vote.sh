@@ -8,8 +8,8 @@ else
     LOCAL_IP=`curl ifconfig.me`
 fi
 
-if [ ${LOCAL_IP} = "${OKCHAIN_TESTNET_SEED_HOST}" ];then
-    ${OKCHAIN_CLI} tx gov vote $1 yes --from admin -y --home ${HOME_CLI}
+if [ ${LOCAL_IP} = "${SEED_NODE_IP}" ];then
+    ${OKCHAIN_CLI} tx gov vote $1 yes --from admin --home ${HOME_CLI} -y
 else
-    ${OKCHAIN_CLI} tx gov vote $1 yes --from ${host} -y --home ${HOME_CLI}
+    ${OKCHAIN_CLI} tx gov vote $1 yes --from ${HOSTS_PREFIX}${LOCAL_IP} --home ${HOME_CLI} -y
 fi

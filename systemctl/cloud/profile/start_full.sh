@@ -2,7 +2,7 @@
 
 . ${HOME}/okchain/launch/systemctl/cloud/profile/okchaind.profile
 
-scp -i "~/okchain-dex-test.pem" ubuntu@${SEED_NODE_IP}:${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile/seednode.profile \
+scp ${SCP_TAG}@${SEED_NODE_IP}:${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile/seednode.profile \
     ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile/
 
 . ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile/seednode.profile
@@ -15,8 +15,8 @@ fi
 
 if [ ! -d ${HOME_DAEMON} ]; then
     host=${HOSTS_PREFIX}${LOCAL_IP}
-    scp -r -i "~/okchain-dex-test.pem" ubuntu@${SEED_NODE_IP}:${HOME_DAEMON}/${host}/ ${HOME_DAEMON}/
-    scp -r -i "~/okchain-dex-test.pem" ubuntu@${SEED_NODE_IP}:${HOME_CLI}/${host}/ ${HOME_CLI}/
+    scp -r ${SCP_TAG}@${SEED_NODE_IP}:${HOME_DAEMON}/${host}/ ${HOME_DAEMON}/
+    scp -r ${SCP_TAG}@${SEED_NODE_IP}:${HOME_CLI}/${host}/ ${HOME_CLI}/
 fi
 
 ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
