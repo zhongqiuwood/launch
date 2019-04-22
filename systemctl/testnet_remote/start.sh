@@ -32,12 +32,11 @@ done
 function startseed {
     echo startseed@$1
 ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
-    sudo su
-    systemctl stop okchaind
-    systemctl start okchaind
-    systemctl status okchaind
+    sudo systemctl stop okchaind
+    sudo systemctl start okchaind
+    sudo systemctl status okchaind
     
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/testnet_remote
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
     ./setseed.sh
     
     exit
@@ -47,10 +46,9 @@ eeooff
 function startfull {
     echo startfull@$1
 ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
-    sudo su
-    systemctl stop okchaind
-    systemctl start okchaind
-    systemctl status okchaind
+    sudo systemctl stop okchaind
+    sudo systemctl start okchaind
+    sudo systemctl status okchaind
     
     exit
 eeooff
@@ -68,9 +66,8 @@ eeooff
 function stop {
     echo stop@$1
 ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
-    sudo su
-    systemctl stop okchaind
-    systemctl status okchaind
+    sudo systemctl stop okchaind
+    sudo systemctl status okchaind
     exit
 eeooff
 }

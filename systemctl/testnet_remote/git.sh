@@ -21,8 +21,8 @@ ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
     sudo su
     cd ${OKCHAIN_LAUNCH_TOP}
     git pull
-    cp ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/script
+    cp ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/binary/launch ${OKCHAIN_LAUNCH_TOP}/
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
     ./service.sh
 eeooff
 echo done!
@@ -34,7 +34,7 @@ ${SSH}@$1 << eeooff
     sudo rm -rf ${OKCHAIN_LAUNCH_TOP}
     git clone ${LAUNCH_GIT} ${OKCHAIN_LAUNCH_TOP}
     cp ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/script
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
     ./service.sh
 eeooff
 echo done!
