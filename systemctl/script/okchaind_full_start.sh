@@ -1,11 +1,11 @@
 #!/bin/bash
 
-. ${HOME}/okchain/launch/systemctl/cloud/script/okchaind.profile
+. ${HOME}/okchain/launch/systemctl/script/okchaind.profile
 
-scp -i "~/okchain-dex-test.pem" ubuntu@${SEED_NODE_IP}:${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/script/seednode.profile \
-    ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/script/
+scp -i "~/okchain-dex-test.pem" ubuntu@${SEED_NODE_IP}:${OKCHAIN_LAUNCH_TOP}/systemctl/script/seednode.profile \
+    ${OKCHAIN_LAUNCH_TOP}/systemctl/script/
 
-. ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/script/seednode.profile
+. ${OKCHAIN_LAUNCH_TOP}/systemctl/script/seednode.profile
 
 if [ ${IP_INNET} = true ];then
     LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`

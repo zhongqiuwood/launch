@@ -20,8 +20,8 @@ echo git pull@$1
 ${SSH}@$1 << eeooff
     cd ${OKCHAIN_LAUNCH_TOP}
     git pull
-    cp ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/binary/launch ${OKCHAIN_LAUNCH_TOP}/
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/script
+    cp ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/script
     ./service.sh
 eeooff
 echo done!
@@ -32,8 +32,8 @@ echo git clone@$1
 ${SSH}@$1 << eeooff
     sudo rm -rf ${OKCHAIN_LAUNCH_TOP}
     git clone ${LAUNCH_GIT} ${OKCHAIN_LAUNCH_TOP}
-    cp ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/binary/launch ${OKCHAIN_LAUNCH_TOP}/
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/script
+    cp ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/script
     ./service.sh
 eeooff
 echo done!
