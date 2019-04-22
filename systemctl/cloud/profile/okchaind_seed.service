@@ -4,8 +4,8 @@ Description=okchaind
 [Service]
 Type=simple
 RemainAfterExit=yes
-ExecStart=/bin/bash /home/ubuntu/okchain/launch/systemctl/cloud/profile/seed_start.sh
-ExecStop=/bin/bash /home/ubuntu/okchain/launch/systemctl/okchaind_kill.sh
+ExecStart=/bin/bash /home/ubuntu/okchain/launch/systemctl/cloud/profile/start_seed.sh
+ExecStop=/bin/bash /home/ubuntu/okchain/launch/systemctl/cloud/profile/okchaind_kill.sh
 Restart=always
 User=ubuntu
 
