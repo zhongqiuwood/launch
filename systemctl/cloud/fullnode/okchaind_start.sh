@@ -1,11 +1,20 @@
 #!/bin/bash
 
+<<<<<<< HEAD:systemctl/script/okchaind_full_start.sh
 . ${HOME}/okchain/launch/systemctl/script/okchaind.profile
 
 scp -i "~/okchain-dex-test.pem" ubuntu@${SEED_NODE_IP}:${OKCHAIN_LAUNCH_TOP}/systemctl/script/seednode.profile \
     ${OKCHAIN_LAUNCH_TOP}/systemctl/script/
 
 . ${OKCHAIN_LAUNCH_TOP}/systemctl/script/seednode.profile
+=======
+. ${HOME}/okchain/launch/systemctl/cloud/profile/okchaind.profile
+
+scp -i "~/okchain-dex-test.pem" ubuntu@${SEED_NODE_IP}:${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile/seednode.profile \
+    ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile/
+
+. ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile/seednode.profile
+>>>>>>> parent of 28f16f9... upd:systemctl/cloud/fullnode/okchaind_start.sh
 
 if [ ${IP_INNET} = true ];then
     LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`

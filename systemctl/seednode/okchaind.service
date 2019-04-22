@@ -1,0 +1,12 @@
+[Unit]
+Description=okchaind
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/bin/bash /root/go/src/github.com/cosmos/launch/systemctl/seednode/okchaind_start.sh
+ExecStop=/bin/bash /root/go/src/github.com/cosmos/launch/systemctl/okchaind_kill.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
