@@ -37,11 +37,7 @@ ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
     systemctl start okchaind
     systemctl status okchaind
     
-<<<<<<< HEAD
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/script
-=======
     cd ${OKCHAIN_LAUNCH_TOP}/systemctl/testnet_remote
->>>>>>> parent of 28f16f9... upd
     ./setseed.sh
     
     exit
@@ -62,17 +58,9 @@ eeooff
 
 function clean {
     echo clean@$1
-<<<<<<< HEAD
 ${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/script
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
     ./clean.sh
-=======
-ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
-    sudo su
-    rm -rf ${HOME_CLI}
-    rm -rf ${HOME_DAEMON}
-    rm -f /root/okchain/okchaind.log
->>>>>>> parent of 28f16f9... upd
     exit
 eeooff
 }
@@ -89,14 +77,8 @@ eeooff
 
 function vote {
         echo vote@$1 proposal=$2
-<<<<<<< HEAD
 ${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/script
-=======
-ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
-    sudo su
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/testnet_remote
->>>>>>> parent of 28f16f9... upd
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
     ./vote.sh $2
     exit
 eeooff
@@ -104,42 +86,18 @@ eeooff
 
 function issue {
         echo issue@$1 token=$2
-<<<<<<< HEAD
 ${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/script
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
     ./issue.sh $2
-=======
-ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
-    sudo su
-    ${OKCHAIN_CLI} tx token issue --from captain --symbol $2 -n 10000000000 --mintable=true -y --passwd=12345678 --home ${HOME_CLI}
->>>>>>> parent of 28f16f9... upd
     exit
 eeooff
 }
 
 function proposal {
         echo proposal@$1 token=$2
-<<<<<<< HEAD
 ${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/script
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
     ./proposal.sh $2
-=======
-ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
-    sudo su
-    ${OKCHAIN_CLI} tx gov submit-dex-list-proposal \
-    --title="list $2/okb" \
-    --description="list $2/okb" \
-    --type=DexList \
-    --deposit="100000okb" \
-    --listAsset="$2" \
-    --quoteAsset="okb" \
-    --initPrice="2.25" \
-    --maxPriceDigit=4 \
-    --maxSizeDigit=4 \
-    --minTradeSize="0.001" \
-    --from captain -y \
-    --home ${HOME_CLI}
->>>>>>> parent of 28f16f9... upd
     exit
 eeooff
 }
@@ -147,15 +105,9 @@ eeooff
 
 function active {
         echo proposal@$1 proposal=$2
-<<<<<<< HEAD
 ${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/script
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
     ./active.sh $2
-=======
-ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
-    sudo su
-    ${OKCHAIN_CLI} tx gov dexlist --proposal=$2 --from captain -y --home ${HOME_CLI}
->>>>>>> parent of 28f16f9... upd
     exit
 eeooff
 }

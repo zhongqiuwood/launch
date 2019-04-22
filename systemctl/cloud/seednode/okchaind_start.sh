@@ -10,11 +10,7 @@ OKCHAIN_TESTNET_FULL_MNEMONIC=("shine left lumber budget elegant margin aunt tru
 CAPTAIN_MNEMONIC="puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
 ADMIN_MNEMONIC="keen border system oil inject hotel hood potato shed pumpkin legend actor"
 
-<<<<<<< HEAD:systemctl/script/okchaind_seed_start.sh
-. ${HOME}/okchain/launch/systemctl/script/okchaind.profile
-=======
 . ${HOME}/okchain/launch/systemctl/cloud/profile/okchaind.profile
->>>>>>> parent of 28f16f9... upd:systemctl/cloud/seednode/okchaind_start.sh
 
 if [ ! -d ${HOME_DAEMON} ]; then
     
