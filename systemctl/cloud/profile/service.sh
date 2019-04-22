@@ -9,8 +9,8 @@ else
 fi
 
 if [ ${LOCAL_IP} = "${SEED_NODE_IP}" ];then
-    cp ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile/okchaind_seed.service /etc/systemd/system/okchaind.service
+    sudo cp ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile/okchaind_seed.service /etc/systemd/system/okchaind.service
 else
-    cp ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile/okchaind_full.service /etc/systemd/system/okchaind.service
+    sudo cp ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile/okchaind_full.service /etc/systemd/system/okchaind.service
 fi
-systemctl daemon-reload
+sudo systemctl daemon-reload
