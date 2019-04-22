@@ -31,7 +31,7 @@ done
 
 function startseed {
     echo startseed@$1
-ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
+${SSH}@$1 << eeooff
     sudo systemctl stop okchaind
     sudo systemctl start okchaind
     sudo systemctl status okchaind
@@ -45,7 +45,7 @@ eeooff
 
 function startfull {
     echo startfull@$1
-ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
+${SSH}@$1 << eeooff
     sudo systemctl stop okchaind
     sudo systemctl start okchaind
     sudo systemctl status okchaind
@@ -65,7 +65,7 @@ eeooff
 
 function stop {
     echo stop@$1
-ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
+${SSH}@$1 << eeooff
     sudo systemctl stop okchaind
     sudo systemctl status okchaind
     exit

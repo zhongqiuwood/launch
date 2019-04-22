@@ -17,8 +17,7 @@ done
 
 function gitpull {
 echo git pull@$1
-ssh -i "~/okchain-dex-test.pem" ubuntu@$1 << eeooff
-    sudo su
+${SSH}@$1 << eeooff
     cd ${OKCHAIN_LAUNCH_TOP}
     git pull
     cp ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/binary/launch ${OKCHAIN_LAUNCH_TOP}/
@@ -33,7 +32,7 @@ echo git clone@$1
 ${SSH}@$1 << eeooff
     sudo rm -rf ${OKCHAIN_LAUNCH_TOP}
     git clone ${LAUNCH_GIT} ${OKCHAIN_LAUNCH_TOP}
-    cp ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
+    cp ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/binary/launch ${OKCHAIN_LAUNCH_TOP}/
     cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
     ./service.sh
 eeooff

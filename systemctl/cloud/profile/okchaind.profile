@@ -1,5 +1,5 @@
-OKCHAIN_DAEMON=/home/ubuntu/okchain/launch/systemctl/binary/okchaind
-OKCHAIN_CLI=/home/ubuntu/okchain/launch/systemctl/binary/okchaincli
+OKCHAIN_DAEMON=/home/ubuntu/okchain/launch/systemctl/cloud/binary/okchaind
+OKCHAIN_CLI=/home/ubuntu/okchain/launch/systemctl/cloud/binary/okchaincli
 HOME_DAEMON=/home/ubuntu/.okchaind
 HOME_CLI=/home/ubuntu/.okchaincli
 
