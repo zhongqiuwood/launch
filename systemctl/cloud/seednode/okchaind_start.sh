@@ -72,8 +72,14 @@ if [ ! -d ${HOME_DAEMON} ]; then
     done
 fi
 
+if [ ${IP_INNET} = true ];then
+    LOCAL_IP=`ifconfig  | grep ${IP_PREFIX} | awk '{print $2}' | cut -d: -f2`
+else
+    LOCAL_IP=`curl ifconfig.me`
+fi
+
 ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.seed_mode=true \
     --p2p.addr_book_strict=false \
     --log_level *:info \
-    --p2p.laddr tcp://0.0.0.0:26656 2>&1 >> ${HOME}/okchaind.log
+    --p2p.laddr tcp://${LOCAL_IP}:26656 2>&1 >> ${HOME}/okchaind.log

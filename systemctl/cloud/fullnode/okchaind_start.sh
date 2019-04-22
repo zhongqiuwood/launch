@@ -2,8 +2,7 @@
 
 . ${HOME}/okchain/launch/systemctl/cloud/fullnode/okchaind.profile
 
-scp -i "~/okchain-dex-test.pem" ubuntu@${SEED_NODE_IP}:${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/seednode/seednode.profile \
-    ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/fullnode/
+scp -i "~/okchain-dex-test.pem" ubuntu@172.31.26.8:/home/ubuntu/okchain/launch/systemctl/cloud/seednode/seednode.profile /home/ubuntu/okchain/launch/systemctl/cloud/fullnode/
 
 . ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/fullnode/seednode.profile
 
@@ -23,4 +22,4 @@ ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.seeds ${SEED_NODE_ID}@${SEED_NODE_URL} \
     --p2p.addr_book_strict=false \
     --log_level *:info \
-    --p2p.laddr tcp://0.0.0.0:26656  2>&1 >> ${HOME}/okchaind.log
+    --p2p.laddr tcp://${LOCAL_IP}:26656  2>&1 >> ${HOME}/okchaind.log
