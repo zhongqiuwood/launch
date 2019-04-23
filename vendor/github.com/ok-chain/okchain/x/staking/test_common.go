@@ -7,6 +7,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/ok-chain/okchain/x/staking/types"
+	"github.com/ok-chain/okchain/x/staking/util"
 )
 
 var (
@@ -28,25 +29,7 @@ var (
 
 func NewTestMsgCreateValidator(address sdk.ValAddress, pubKey crypto.PubKey, amt sdk.Int) MsgCreateValidator {
 	return types.NewMsgCreateValidator(
-		address, pubKey, sdk.NewCoin(sdk.DefaultBondDenom, amt), Description{}, commissionMsg, HighPrecisionFromInt(sdk.OneInt()),
-	)
-}
-
-func NewTestMsgCreateValidatorWithCommission(address sdk.ValAddress, pubKey crypto.PubKey,
-	amt sdk.Int, commissionRate sdk.Dec) MsgCreateValidator {
-
-	commission := NewCommissionMsg(commissionRate, sdk.OneDec(), sdk.ZeroDec())
-
-	return types.NewMsgCreateValidator(
-		address, pubKey, sdk.NewCoin(sdk.DefaultBondDenom, amt), Description{}, commission, sdk.OneInt(),
-	)
-}
-
-func NewTestMsgCreateValidatorWithMinSelfDelegation(address sdk.ValAddress, pubKey crypto.PubKey,
-	amt sdk.Int, minSelfDelegation sdk.Int) MsgCreateValidator {
-
-	return types.NewMsgCreateValidator(
-		address, pubKey, sdk.NewCoin(sdk.DefaultBondDenom, amt), Description{}, commissionMsg, minSelfDelegation,
+		address, pubKey, sdk.NewCoin(sdk.DefaultBondDenom, amt), Description{}, commissionMsg, util.HighPrecisionFromInt(sdk.OneInt()),
 	)
 }
 

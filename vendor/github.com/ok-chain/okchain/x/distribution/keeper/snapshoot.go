@@ -2,7 +2,6 @@ package keeper
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	st "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ok-chain/okchain/x/staking/types"
 )
 
@@ -22,13 +21,13 @@ func (k Keeper) SetDelegationgSnapshoot(ctx sdk.Context, val sdk.ValAddress) {
 }
 
 // return all delegations to a specific validator. Useful for querier.
-func (k Keeper) GetValidatorDelegations(ctx sdk.Context, valAddr sdk.ValAddress) (delegations []st.Delegation) {
+func (k Keeper) GetValidatorDelegations(ctx sdk.Context, valAddr sdk.ValAddress) (delegations []types.Delegation) {
 	store := ctx.KVStore(k.kDelegationSnapshot)
 	iterator := sdk.KVStorePrefixIterator(store, append(DelegationSnapshootPrefix, valAddr.Bytes()...))
 	defer iterator.Close()
 
 	for ; iterator.Valid(); iterator.Next() {
-		delegation := st.MustUnmarshalDelegation(k.cdc, iterator.Value())
+		delegation := types.MustUnmarshalDelegation(k.cdc, iterator.Value())
 		//if delegation.GetValidatorAddr().Equals(valAddr) {
 		delegations = append(delegations, delegation)
 		//}
@@ -37,32 +36,32 @@ func (k Keeper) GetValidatorDelegations(ctx sdk.Context, valAddr sdk.ValAddress)
 }
 
 // return a specific delegation
-func (k Keeper) GetDelegation(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) (delegation st.Delegation, found bool) {
+func (k Keeper) GetDelegation(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) (delegation types.Delegation, found bool) {
 	store := ctx.KVStore(k.kDelegationSnapshot)
 	value := store.Get(GetDelegationSnapshootKey(delAddr, valAddr))
 	if value == nil {
 		return delegation, false
 	}
 
-	delegation = st.MustUnmarshalDelegation(k.cdc, value)
+	delegation = types.MustUnmarshalDelegation(k.cdc, value)
 	return delegation, true
 }
 
 //return all validators in current snapshoot
-func (k Keeper) GetValidators(ctx sdk.Context) (validators []st.Validator) {
+func (k Keeper) GetValidators(ctx sdk.Context) (validators []types.Validator) {
 	store := ctx.KVStore(k.kValidatorsSnapShot)
 	iterator := sdk.KVStorePrefixIterator(store, ValidatorSnapshootPrefix)
 	defer iterator.Close()
 
 	for ; iterator.Valid(); iterator.Next() {
-		validator := st.MustUnmarshalValidator(k.cdc, iterator.Value())
+		validator := types.MustUnmarshalValidator(k.cdc, iterator.Value())
 		validators = append(validators, validator)
 	}
 	return validators
 }
 
 //return a validator by valaddr
-func (k Keeper) GetValidator(ctx sdk.Context, val sdk.ValAddress) (validator st.Validator, found bool) {
+func (k Keeper) GetValidator(ctx sdk.Context, val sdk.ValAddress) (validator types.Validator, found bool) {
 	store := ctx.KVStore(k.kValidatorsSnapShot)
 	value := store.Get(GetValidatorSnapshootKey(val))
 	if value == nil {
@@ -70,7 +69,7 @@ func (k Keeper) GetValidator(ctx sdk.Context, val sdk.ValAddress) (validator st.
 	}
 
 	// amino bytes weren't found in cache, so amino unmarshal and add it to the cache
-	validator = st.MustUnmarshalValidator(k.cdc, value)
+	validator = types.MustUnmarshalValidator(k.cdc, value)
 	return validator, true
 }
 
@@ -81,7 +80,7 @@ func (k Keeper) IterateValidators(ctx sdk.Context, fn func(index int64, validato
 	defer iterator.Close()
 	i := int64(0)
 	for ; iterator.Valid(); iterator.Next() {
-		validator := st.MustUnmarshalValidator(k.cdc, iterator.Value())
+		validator := types.MustUnmarshalValidator(k.cdc, iterator.Value())
 		stop := fn(i, validator) // XXX is this safe will the validator unexposed fields be able to get written to?
 		if stop {
 			break

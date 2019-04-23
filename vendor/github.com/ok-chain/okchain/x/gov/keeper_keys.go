@@ -78,16 +78,18 @@ func KeyInactiveProposalQueueProposal(endTime time.Time, proposalID uint64) []by
 }
 
 // Returns the key for a proposalID in the waitingProposalQueue
-func PrefixWaitingProposalQueueEnd() []byte {
+func PrefixWaitingProposalQueueBlockHeight(blockHeight uint64) []byte {
 	return bytes.Join([][]byte{
 		PrefixWaitingProposalQueue,
+		sdk.Uint64ToBigEndian(blockHeight),
 	}, KeyDelimiter)
 }
 
 // Returns the key for a proposalID in the waitingProposalQueue
-func KeyWaitingProposalQueueProposal(proposalID uint64) []byte {
+func KeyWaitingProposalQueueProposal(blockHeight, proposalID uint64) []byte {
 	return bytes.Join([][]byte{
 		PrefixWaitingProposalQueue,
+		sdk.Uint64ToBigEndian(blockHeight),
 		sdk.Uint64ToBigEndian(proposalID),
 	}, KeyDelimiter)
 }

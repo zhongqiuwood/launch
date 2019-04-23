@@ -10,7 +10,8 @@ func (k Keeper) calDelegationRewards(ctx sdk.Context, valAddr sdk.ValAddress, de
 	// here we cannot use Equals because stake is truncated when multiplied by slash fractions
 	// we could only use equals if we had arbitrary-precision rationals
 
-	outstanding := k.GetValidatorOutstandingRewards(ctx, valAddr)
+	//outstanding := k.GetValidatorOutstandingRewards(ctx, valAddr)
+	outstanding := k.GetValidatorCurrentRewards(ctx, valAddr).Rewards
 	if outstanding.IsZero() {
 		return sdk.NewDecCoins(sdk.Coins{})
 	}
@@ -22,7 +23,6 @@ func (k Keeper) calDelegationRewards(ctx sdk.Context, valAddr sdk.ValAddress, de
 	if !f1 || !f2 {
 		return sdk.NewDecCoins(sdk.Coins{})
 	}
-
 	//omit decimal
 	rewards = outstanding.MulDecTruncate(del.GetShares()).QuoDecTruncate(val.GetDelegatorShares())
 	return

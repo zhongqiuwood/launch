@@ -7,6 +7,7 @@ import (
 )
 
 const (
+	ModuleName = "distribution"
 	// default paramspace for params keeper
 	DefaultParamspace = "distr"
 )

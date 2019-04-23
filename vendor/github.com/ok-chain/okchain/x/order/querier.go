@@ -48,10 +48,7 @@ func queryOrder(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Ke
 	if order == nil {
 		return nil, sdk.ErrUnknownRequest(fmt.Sprintf("order(%v) does not exist", path[0]))
 	}
-	bz, err2 := keeper.cdc.MarshalJSON(order)
-	if err2 != nil {
-		panic("could not marshal result to JSON")
-	}
+	bz := keeper.cdc.MustMarshalJSON(order)
 	return bz, nil
 }
 
@@ -123,10 +120,7 @@ func queryDepthBook(ctx sdk.Context, path []string, req abci.RequestQuery, keepe
 		Asks: asks,
 		Bids: bids,
 	}
-	bz, err2 := keeper.cdc.MarshalJSON(bookRes)
-	if err2 != nil {
-		panic("could not marshal result to JSON")
-	}
+	bz := keeper.cdc.MustMarshalJSON(bookRes)
 	return bz, nil
 }
 
@@ -134,10 +128,7 @@ func queryDepthBook(ctx sdk.Context, path []string, req abci.RequestQuery, keepe
 func queryMatchResultMap(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper) (res []byte, err sdk.Error) {
 	blockHeight, _ := strconv.ParseInt(path[0], 10, 64)
 	blockMatchResult := keeper.GetBlockMatchResult(ctx, blockHeight)
-	bz, err2 := keeper.cdc.MarshalJSON(blockMatchResult)
-	if err2 != nil {
-		panic("could not marshal result to JSON")
-	}
+	bz := keeper.cdc.MustMarshalJSON(blockMatchResult)
 	return bz, nil
 }
 

@@ -63,13 +63,13 @@ func (k Keeper) WithdrawDelegationRewards(ctx sdk.Context, delAddr sdk.AccAddres
 		return types.ErrNoDelegationDistInfo(k.codespace)
 	}
 
-	// withdraw rewards
-	if err := k.withdrawDelegationRewards(ctx, val, del); err != nil {
-		return err
-	}
-
-	// reinitialize the delegation
-	k.initializeDelegation(ctx, valAddr, delAddr)
+	// withdraw rewards, should rewrite this code for okchain, okdex
+	//if err := k.withdrawDelegationRewards(ctx, val, del); err != nil {
+	//	return err
+	//}
+	//
+	//// reinitialize the delegation
+	//k.initializeDelegation(ctx, valAddr, delAddr)
 
 	return nil
 }

@@ -16,14 +16,14 @@ type MsgNewOrder struct {
 }
 
 // NewMsgNewOrder is a constructor function for MsgNewOrder
-func NewMsgNewOrder(sender sdk.AccAddress, product string, side string, price string, quantity string, params...string) MsgNewOrder {
+func NewMsgNewOrder(sender sdk.AccAddress, product string, side string, price string, quantity string, params ...string) MsgNewOrder {
 
 	msgNewOrder := MsgNewOrder{
-		Sender:      sender,
-		Product:     product,
-		Side:        side,
-		Price:       price,
-		Quantity:    quantity,
+		Sender:   sender,
+		Product:  product,
+		Side:     side,
+		Price:    price,
+		Quantity: quantity,
 	}
 
 	if len(params) > 0 {
@@ -62,7 +62,7 @@ func (msg MsgNewOrder) ValidateBasic() sdk.Error {
 	if err1 != nil || err2 != nil {
 		return sdk.ErrUnknownRequest("InitPrice/Quantity must be decimal string")
 	}
-	if price.IsNegative() || quantity.IsNegative() {
+	if !(price.IsPositive() && quantity.IsPositive()) {
 		return sdk.ErrUnknownRequest("InitPrice/Quantity must be positive")
 	}
 	return nil

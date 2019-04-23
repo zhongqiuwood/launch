@@ -969,8 +969,8 @@ func (k Keeper) CompleteRedelegationAction(ctx sdk.Context, delAddr sdk.AccAddre
 		return types.ErrBadValidatorAddr(k.Codespace())
 	}
 
+	// should be only one entry
 	entryAction := redAction.Entries[0]
-	// for unit test, need to remove +100
 	if entryAction.CreationHeight <= currentHeight {
 		returnAmount, err := k.unbond(ctx, delAddr, valSrcAddr, entryAction.SharesDst)
 		if err != nil {

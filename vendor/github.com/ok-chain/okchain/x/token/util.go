@@ -91,8 +91,8 @@ func AddTokenSuffix(name string) string {
 
 }
 
-func FloatToCoins(denom, fee string) sdk.Coins {
-	feeDec := sdk.MustNewDecFromStr(fee)
+func FloatToCoins(denom, amount string) sdk.Coins {
+	feeDec := sdk.MustNewDecFromStr(amount)
 	coin := sdk.NewCoin(denom, sdk.NewIntFromBigInt(feeDec.Int))
 	var coins sdk.Coins
 	coins = append(coins, coin)
@@ -114,6 +114,7 @@ func AmountToCoins(amount string) sdk.Coins {
 			res = append(res, c)
 		}
 	}
+	res.Sort()
 	return res
 }
 
@@ -224,11 +225,11 @@ func MergeCoinInfo(availableCoins, freezeCoins, lockCoins sdk.Coins) (coinsInfo 
 
 	for _, availableCoin := range availableCoins {
 		coinInfo, ok := m[availableCoin.Denom]
-		if ok {
-			dec := sdk.NewDecFromBigIntWithPrec(availableCoin.Amount.BigInt(), sdk.Precision)
-			coinInfo.Available = dec.String()
-			m[availableCoin.Denom]  = coinInfo
-		} else {
+		if !ok {
+		//	dec := sdk.NewDecFromBigIntWithPrec(availableCoin.Amount.BigInt(), sdk.Precision)
+		//	coinInfo.Available = dec.String()
+		//	m[availableCoin.Denom]  = coinInfo
+		//} else {
 			coinInfo.Symbol = availableCoin.Denom
 			dec := sdk.NewDecFromBigIntWithPrec(availableCoin.Amount.BigInt(), sdk.Precision)
 			coinInfo.Available = dec.String()

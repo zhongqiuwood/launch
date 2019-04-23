@@ -13,7 +13,7 @@ const (
 
 type FeeDetail struct {
 	Address   string `gorm:"index;type:varchar(80)" json:"address"`
-	Fee       string `json:"fee"`
-	FeeType   string `json:"feeType"` // transfer, deal, etc. see common/const.go
+	Fee       string `gorm:"index;type:varchar(40)" json:"fee"`
+	FeeType   string `gorm:"index;type:varchar(20)" json:"feeType"` // transfer, deal, etc. see common/const.go
 	Timestamp int64  `gorm:"index;type:int64" json:"timestamp"`
 }

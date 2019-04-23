@@ -3,12 +3,33 @@ package backend
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/auth"
+)
+
+const (
+	TxTypeTransfer    = 1
+	TxTypeOrderNew    = 2
+	TxTypeOrderCancel = 3
+)
+
+const (
+	TxSideBuy  = 1
+	TxSideSell = 2
+	TxSideFrom = 3
+	TxSideTo   = 4
 )
 
 type EndBlockEvent struct {
 	ctx         sdk.Context
 	blockHeight int64
 	timestamp   int64
+}
+
+type TxEvent struct {
+	ctx       sdk.Context
+	tx        *auth.StdTx
+	txHash    string
+	timestamp int64
 }
 
 type Deal struct {
@@ -22,16 +43,9 @@ type Deal struct {
 	Quantity    float64 `gorm:"type:DOUBLE" json:"volume"`
 }
 
-type Match struct {
-	BlockHeight int64  `json:"blockHeight"`
-	Product     string `gorm:"index;type:varchar(20)" json:"product"`
-	Price       string `json:"price"`
-	Quantity    string `json:"volume"`
-	Timestamp   int64  `gorm:"index;type:int64" json:"timestamp"`
-}
-
 type Ticker struct {
-	Product          string  `json:"product"`
+	Symbol           string  `json:"symbol"`
+	CurrencyId       string  `json:"currency_id"`
 	Timestamp        int64   `json:"timestamp"`
 	Open             float64 `json:"open"`              // Open In 24h
 	Close            float64 `json:"close"`             // Close in 24h
@@ -43,8 +57,22 @@ type Ticker struct {
 }
 
 func (t *Ticker) PrettyString() string {
-	return fmt.Sprintf("[Ticker] Product: %s, TStr: %s, Timestamp: %d, OCHLV(%f, %f, %f, %f, %f) [%f, %f])",
-		t.Product, timeString(t.Timestamp), t.Timestamp, t.Open, t.Close, t.High, t.Low, t.Volume, t.Change, t.ChangePercentage)
+	return fmt.Sprintf("[Ticker] Symbol: %s, TStr: %s, Timestamp: %d, OCHLV(%f, %f, %f, %f, %f) [%f, %f])",
+		t.Symbol, timeString(t.Timestamp), t.Timestamp, t.Open, t.Close, t.High, t.Low, t.Volume, t.Change, t.ChangePercentage)
+}
+
+type Tickers []Ticker
+
+func (tickers Tickers) Len() int {
+	return len(tickers)
+}
+
+func (c Tickers) Swap(i, j int) {
+	c[i], c[j] = c[j], c[i]
+}
+
+func (tickers Tickers) Less(i, j int) bool {
+	return tickers[i].Change < tickers[j].Change
 }
 
 type KlineSnapShot struct {
@@ -64,4 +92,15 @@ type Order struct {
 	FilledAvgPrice string `gorm:"type:varchar(40)" json:"filledAvgPrice"`
 	RemainQuantity string `gorm:"type:varchar(40)" json:"remainQuantity"`
 	Timestamp      int64  `gorm:"index;type:int64" json:"timestamp"`
+}
+
+type Transaction struct {
+	TxHash    string `gorm:"type:varchar(80)" json:"txHash"`
+	Type      int64  `gorm:"index;type:int64" json:"type"` // 1:Transfer, 2:NewOrder, 3:CancelOrder
+	Address   string `gorm:"index;type:varchar(80)" json:"address"`
+	Symbol    string `gorm:"type:varchar(20)" json:"symbol"`
+	Side      int64  `gorm:"type:int64" json:"side"` // 1:buy, 2:sell, 3:from, 4:to
+	Quantity  string `gorm:"type:varchar(40)" json:"quantity"`
+	Fee       string `gorm:"type:varchar(40)" json:"fee"`
+	Timestamp int64  `gorm:"index;type:int64" json:"timestamp"`
 }

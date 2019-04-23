@@ -1,4 +1,4 @@
-package staking
+package util
 
 import (
 	"errors"

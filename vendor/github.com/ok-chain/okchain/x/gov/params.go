@@ -75,6 +75,7 @@ func (p *GovParams) ParamSetPairs() params.ParamSetPairs {
 		{KeyDexListVoteFee, &p.DexListVoteFee},
 		{KeyDexListMaxBlockHeight, &p.DexListMaxBlockHeight},
 		{KeyDexListFee, &p.DexListFee},
+		{KeyDexListExpireTime, &p.DexListExpireTime},
 
 	}
 }
@@ -190,6 +191,12 @@ func (p *GovParams) ValidateKV(key string, value string) (interface{}, sdk.Error
 			return nil, params.ErrInvalidString(value)
 		}
 		return fee, nil
+	case string(KeyDexListExpireTime):
+		dexListExpireTime, err := time.ParseDuration(value)
+		if err != nil {
+			return nil, params.ErrInvalidString(value)
+		}
+		return dexListExpireTime, nil
 	default:
 		return nil, sdk.NewError(params.DefaultCodespace, params.CodeInvalidKey, fmt.Sprintf("%s is not found", key))
 	}
@@ -308,7 +315,7 @@ func DefaultParams() GovParams {
 		Quorum:                  sdk.NewDecWithPrec(334, 3),
 		Threshold:               sdk.NewDecWithPrec(5, 1),
 		Veto:                    sdk.NewDecWithPrec(334, 3),
-		MaxBlockHeightPeriod:    0,
+		MaxBlockHeightPeriod:    100000,
 	}
 }
 
@@ -334,7 +341,7 @@ func validateParams(p GovParams) sdk.Error {
 	}
 
 	if err := validatorDexListVotingParams(DexListVotingParams{
-		VotingPeriod: p.VotingPeriod,
+		VotingPeriod: p.DexListVotingPeriod,
 		VotingFee:    p.DexListVoteFee,
 	}); err != nil {
 		return err

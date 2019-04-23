@@ -5,6 +5,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ok-chain/okchain/util"
 	"github.com/ok-chain/okchain/x/common"
+	"github.com/ok-chain/okchain/x/version"
+
+	//"github.com/ok-chain/okchain/x/version"
 )
 
 const (
@@ -14,12 +17,20 @@ const (
 
 // Called every block, check expired orders
 func EndBlocker(ctx sdk.Context, keeper Keeper) sdk.Tags {
+	return version.GetVersionController().EndBlocker(ctx, keeper, getModule())
+	//resTags := sdk.NewTags()
+	//return resTags
+}
+
+// Called every block, check expired orders
+func endBlockerV1(ctx sdk.Context, keeper Keeper) sdk.Tags {
 	expireTags := checkExpiredOrders(ctx, keeper)
 	matchTags := allPeriodicAuctionMatch(ctx, keeper)
 	dropExpiredData(ctx, keeper)
 	resTags := expireTags.AppendTags(matchTags)
 	return resTags
 }
+
 
 func checkExpiredOrders(ctx sdk.Context, keeper Keeper) sdk.Tags {
 	logger := ctx.Logger().With("module", "x/order")
@@ -33,27 +44,23 @@ func checkExpiredOrders(ctx sdk.Context, keeper Keeper) sdk.Tags {
 	orderNum := keeper.GetBlockOrderNum(ctx, expiredBlockHeight)
 	var index int64 = 1
 	for ; index < orderNum; index++ {
-		orderId := common.FormatOrderId(blockHeight, index)
+		orderId := common.FormatOrderId(expiredBlockHeight, index)
 
 		order := keeper.GetOrder(ctx, orderId)
 		if order != nil && order.Status == OrderStatusOpen {
 			// update order
 			order.Expire()
-			keeper.SetOrder(ctx, orderId, order)
 			logger.Info(fmt.Sprintf("order (%s) expired", order.OrderId))
 			// unlock coins in this order & charge fee
 			needUnlockCoins := order.NeedUnlockCoins()
-			if order.Status == OrderStatusCancelled { // charge fees only if fully expired
-				fee, inOrder := GetOrderExpireFee(order, ctx, keeper, feeParams)
-				keeper.AddCollectedFees(ctx, fee, order.Sender, common.FeeTypeOrderExpire)
-				if inOrder {
-					needUnlockCoins = needUnlockCoins.Sub(fee)
-					keeper.BurnLockedCoins(ctx, order.Sender, fee)
-				} else {
-					keeper.SubtractCoins(ctx, order.Sender, fee)
-				}
-			}
 			keeper.UnlockCoins(ctx, order.Sender, needUnlockCoins)
+			if order.Status == OrderStatusExpired { // charge fees only if fully expired
+				fee := GetOrderExpireFee(order, ctx, keeper, feeParams)
+				keeper.AddCollectedFees(ctx, fee, order.Sender, common.FeeTypeOrderExpire)
+				order.RecordOrderExpireFee(fee)
+				keeper.SubtractCoins(ctx, order.Sender, fee)
+			}
+			keeper.SetOrder(ctx, orderId, order)
 
 			// update depth book and orderIdsMap
 			depthBook := keeper.GetDepthBook(ctx, order.Product)

@@ -30,15 +30,15 @@ var _ params.ParamSet = &Params{}
 
 // mint parameters
 type Params struct {
-	ListAsset              sdk.Dec       `json:"list_asset"`                // 激活上币,Initial value:100000OKB
-	IssueAsset             sdk.Dec       `json:"issue_asset"`               // token发行,Initial value:20000OKB
-	MintAsset              sdk.Dec       `json:"mint_asset"`                // 增发新token,Initial value:2000OKB
-	BurnAsset              sdk.Dec       `json:"burn_asset"`                // 销毁token,Initial value:10OKB
-	Transfer               sdk.Dec       `json:"transfer"`                  // 转账,Initial value:0.0125OKB
-	FreezeAsset            sdk.Dec       `json:"freeze_asset"`              // 冻结,Initial value:0.1OKB
-	UnfreezeAsset          sdk.Dec       `json:"unfreeze_asset"`            // 解冻,Initial value:0.1OKB
-	ListPeriod             time.Duration `json:"list_period"`               // 上币阶段窗口期,Initial value:24hours
-	ListProposalMinDeposit sdk.Dec       `json:"list_proposal_min_deposit"` // 上币提案最小押金,Initial value:20000OKB
+	ListAsset              sdk.Dec       `json:"list_asset"`                // Initial Coin Offering,Initial value:100000OKB
+	IssueAsset             sdk.Dec       `json:"issue_asset"`               // Issue token,Initial value:20000OKB
+	MintAsset              sdk.Dec       `json:"mint_asset"`                // Mint token,Initial value:2000OKB
+	BurnAsset              sdk.Dec       `json:"burn_asset"`                // Burn token,Initial value:10OKB
+	Transfer               sdk.Dec       `json:"transfer"`                  // Transfer,Initial value:0.0125OKB
+	FreezeAsset            sdk.Dec       `json:"freeze_asset"`              // Freeze,Initial value:0.1OKB
+	UnfreezeAsset          sdk.Dec       `json:"unfreeze_asset"`            // Unfreeze,Initial value:0.1OKB
+	ListPeriod             time.Duration `json:"list_period"`               // Initial Coin Offering window,Initial value:24hours
+	ListProposalMinDeposit sdk.Dec       `json:"list_proposal_min_deposit"` // Initial Coin Offering Min Deposit,Initial value:20000OKB
 }
 
 // ParamKeyTable for auth module

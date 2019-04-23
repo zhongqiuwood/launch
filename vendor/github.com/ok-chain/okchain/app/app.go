@@ -36,6 +36,7 @@ const (
 var (
 	DefaultCLIHome  = os.ExpandEnv("$HOME/.okchaincli")
 	DefaultNodeHome = os.ExpandEnv("$HOME/.okchaind")
+	DefaultNodeCofig= DefaultNodeHome + "/config"
 )
 
 type DexApp struct {
@@ -208,12 +209,13 @@ func DecentralizedExchangeApp(logger log.Logger, db dbm.DB) *DexApp {
 
 	// TODO : mainConfPath should be located from a config directory
 	// FLT. 20190404
+	config := backend.SafeLoadMaintainConfig(DefaultNodeCofig)
 	app.backendKeeper = backend.NewKeeper(
 		app.orderKeeper,
 		app.tokenKeeper,
 		app.cdc,
 		logger,
-		"/tmp",
+		config,
 	)
 
 	// The AnteHandler handles signature verification and transaction pre-processing

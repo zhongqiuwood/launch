@@ -3,14 +3,15 @@ package common
 import (
 	"encoding/binary"
 	"fmt"
-	"github.com/cosmos/cosmos-sdk/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"runtime/debug"
 )
 
 // ConvertDecCoinsToCoins return coins by multiplying decCoins times 1e18, eg. 0.000000001okb -> 1000000000okb
-func ConvertDecCoinsToCoins(decCoins types.DecCoins) types.Coins {
-	coins := types.Coins{}
+func ConvertDecCoinsToCoins(decCoins sdk.DecCoins) sdk.Coins {
+	coins := sdk.Coins{}
 	for _, decCoin := range decCoins {
-		coin := types.NewCoin(decCoin.Denom, types.NewIntFromBigInt(decCoin.Amount.Int))
+		coin := sdk.NewCoin(decCoin.Denom, sdk.NewIntFromBigInt(decCoin.Amount.Int))
 		coins = append(coins, coin)
 	}
 	coins = coins.Sort()
@@ -18,10 +19,10 @@ func ConvertDecCoinsToCoins(decCoins types.DecCoins) types.Coins {
 }
 
 // ConvertCoinsToDecCoins return decCoins by dividing coins by 1e18, eg. 1000000000okb -> 0.000000001okb
-func ConvertCoinsToDecCoins(coins types.Coins) types.DecCoins {
-	decCoins := types.DecCoins{}
+func ConvertCoinsToDecCoins(coins sdk.Coins) sdk.DecCoins {
+	decCoins := sdk.DecCoins{}
 	for _, coin := range coins {
-		decCoin := types.NewDecCoinFromDec(coin.Denom, types.NewDecFromIntWithPrec(coin.Amount, types.Precision))
+		decCoin := sdk.NewDecCoinFromDec(coin.Denom, sdk.NewDecFromIntWithPrec(coin.Amount, sdk.Precision))
 		decCoins = append(decCoins, decCoin)
 	}
 	decCoins = decCoins.Sort()
@@ -50,4 +51,11 @@ func FormatOrderId(blockHeight, orderNum int64) string {
 		format = "ID%d-%d"
 	}
 	return fmt.Sprintf(format, blockHeight, orderNum)
+}
+
+func PrintStackIfPainic()  {
+	r := recover()
+	if r != nil {
+		debug.PrintStack()
+	}
 }

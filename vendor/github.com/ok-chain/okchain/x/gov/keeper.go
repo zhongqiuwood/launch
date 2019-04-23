@@ -1,11 +1,11 @@
 package gov
 
 import (
-	"github.com/cosmos/cosmos-sdk/x/auth"
 	"time"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/cosmos/cosmos-sdk/x/params"
 	"github.com/ok-chain/okchain/x/token"
 
@@ -119,14 +119,14 @@ func (keeper Keeper) NewParametersProposal(ctx sdk.Context, title string, descri
 		return nil
 	}
 	var textProposal = BasicProposal{
-		ProposalID:   proposalID,
-		Title:        title,
-		Description:  description,
-		ProposalType: proposalType,
-		Status:       StatusDepositPeriod,
-		TallyResult:  EmptyTallyResult(),
-		TotalDeposit: sdk.DecCoins{},
-		SubmitTime:   ctx.BlockHeader().Time,
+		ProposalID:       proposalID,
+		Title:            title,
+		Description:      description,
+		ProposalType:     proposalType,
+		Status:           StatusDepositPeriod,
+		FinalTallyResult: EmptyTallyResult(),
+		TotalDeposit:     sdk.DecCoins{},
+		SubmitTime:       ctx.BlockHeader().Time,
 	}
 
 	var proposal Proposal = &ParameterProposal{
@@ -149,14 +149,16 @@ func (keeper Keeper) NewTextProposal(ctx sdk.Context, title string, description 
 		return nil
 	}
 	var proposal Proposal = &TextProposal{
-		ProposalID:       proposalID,
-		Title:            title,
-		Description:      description,
-		ProposalType:     proposalType,
-		Status:           StatusDepositPeriod,
-		FinalTallyResult: EmptyTallyResult(),
-		TotalDeposit:     sdk.DecCoins{},
-		SubmitTime:       ctx.BlockHeader().Time,
+		BasicProposal{
+			ProposalID:       proposalID,
+			Title:            title,
+			Description:      description,
+			ProposalType:     proposalType,
+			Status:           StatusDepositPeriod,
+			FinalTallyResult: EmptyTallyResult(),
+			TotalDeposit:     sdk.DecCoins{},
+			SubmitTime:       ctx.BlockHeader().Time,
+		},
 	}
 
 	depositPeriod := keeper.GetDepositParams(ctx).MaxDepositPeriod
@@ -174,25 +176,24 @@ func (keeper Keeper) NewDexListProposal(ctx sdk.Context, msg MsgDexListSubmitPro
 		return nil
 	}
 	var proposal Proposal = &DexListProposal{
-		ProposalID:    proposalID,
-		Title:         msg.Title,
-		Description:   msg.Description,
-		ProposalType:  msg.ProposalType,
+		BasicProposal: BasicProposal{
+			ProposalID:       proposalID,
+			Title:            msg.Title,
+			Description:      msg.Description,
+			ProposalType:     msg.ProposalType,
+			Status:           StatusDepositPeriod,
+			FinalTallyResult: EmptyTallyResult(),
+			TotalDeposit:     sdk.DecCoins{},
+			SubmitTime:       ctx.BlockHeader().Time,
+		},
 		Proposer:      msg.Proposer,
 		ListAsset:     msg.ListAsset,
 		QuoteAsset:    msg.QuoteAsset,
-		//ExpireTime:    msg.ExpireTime,
 		InitPrice:     msg.InitPrice,
 		BlockHeight:   msg.BlockHeight,
 		MaxPriceDigit: msg.MaxPriceDigit,
 		MaxSizeDigit:  msg.MaxSizeDigit,
-		//MergeTypes:    msg.MergeTypes,
-		MinTradeSize: msg.MinTradeSize,
-
-		Status:           StatusDepositPeriod,
-		FinalTallyResult: EmptyTallyResult(),
-		TotalDeposit:     sdk.DecCoins{},
-		SubmitTime:       ctx.BlockHeader().Time,
+		MinTradeSize:  msg.MinTradeSize,
 	}
 
 	depositPeriod := keeper.GetDepositParams(ctx).MaxDepositPeriod
@@ -640,22 +641,22 @@ func (keeper Keeper) RemoveFromInactiveProposalQueue(ctx sdk.Context, endTime ti
 }
 
 // Returns an iterator for all the proposals in the Waiting Queue that expire by endTime
-func (keeper Keeper) WaitingProposalQueueIterator(ctx sdk.Context) sdk.Iterator {
+func (keeper Keeper) WaitingProposalQueueIterator(ctx sdk.Context, blockHeight uint64) sdk.Iterator {
 	store := ctx.KVStore(keeper.storeKey)
-	return store.Iterator(PrefixWaitingProposalQueue, sdk.PrefixEndBytes(PrefixWaitingProposalQueueEnd()))
+	return store.Iterator(PrefixWaitingProposalQueue, sdk.PrefixEndBytes(PrefixWaitingProposalQueueBlockHeight(blockHeight)))
 }
 
 // Inserts a ProposalID into the waiting proposal queue at endTime
-func (keeper Keeper) InsertWaitingProposalQueue(ctx sdk.Context, proposalID uint64) {
+func (keeper Keeper) InsertWaitingProposalQueue(ctx sdk.Context, blockHeight, proposalID uint64) {
 	store := ctx.KVStore(keeper.storeKey)
 	bz := keeper.cdc.MustMarshalBinaryLengthPrefixed(proposalID)
-	store.Set(KeyWaitingProposalQueueProposal(proposalID), bz)
+	store.Set(KeyWaitingProposalQueueProposal(blockHeight, proposalID), bz)
 }
 
 // removes a proposalID from the waiting Proposal Queue
-func (keeper Keeper) RemoveFromWaitingProposalQueue(ctx sdk.Context, proposalID uint64) {
+func (keeper Keeper) RemoveFromWaitingProposalQueue(ctx sdk.Context, blockHeight, proposalID uint64) {
 	store := ctx.KVStore(keeper.storeKey)
-	store.Delete(KeyWaitingProposalQueueProposal(proposalID))
+	store.Delete(KeyWaitingProposalQueueProposal(blockHeight, proposalID))
 }
 
 // get gov tx fee

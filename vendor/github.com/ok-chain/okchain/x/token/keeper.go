@@ -25,8 +25,6 @@ type Keeper struct {
 	lockStoreKey      sdk.StoreKey
 	tokenPairStoreKey sdk.StoreKey
 	feeDetailStoreKey sdk.StoreKey
-	//ownersStoreKey sdk.StoreKey // Unexposed key to access owners store from sdk.Context
-	//amountStoreKey sdk.StoreKey // Unexposed key to access prices store from sdk.Context
 
 	cdc *codec.Codec // The wire codec for binary encoding/decoding.
 }
@@ -43,9 +41,6 @@ func NewKeeper(coinKeeper bank.Keeper, paramsKeeper params.Keeper, paramSpace pa
 		lockStoreKey:        lockStoreKey,
 		tokenPairStoreKey:   tokenPairStoreKey,
 		feeDetailStoreKey:   feeDetailStoreKey,
-		//originalStoreKey: originalStoreKey,
-		//ownersStoreKey: ownersStoreKey,
-		//amountStoreKey: amountStoreKey,
 		cdc: cdc,
 	}
 }

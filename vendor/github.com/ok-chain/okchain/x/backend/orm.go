@@ -12,6 +12,7 @@ import (
 	"sort"
 	"sync"
 	"time"
+	"github.com/ok-chain/okchain/x/common"
 )
 
 // http://gorm.io/docs/query.html
@@ -25,15 +26,7 @@ type ORM struct {
 	klineM1sBuffer   map[string][]KlineM1
 }
 
-func NewORM(enableLog bool, dbDir string, logger *log.Logger, dbName string) (*ORM, error) {
-
-	defer func() {
-		if e := recover(); e != nil {
-			debug.PrintStack()
-			panic(e)
-		}
-	}()
-
+func NewORM(enableLog bool, dbDir string, dbName string, logger *log.Logger) (*ORM, error) {
 	orm := ORM{}
 
 	if _, err := os.Stat(dbDir); err != nil {
@@ -41,6 +34,8 @@ func NewORM(enableLog bool, dbDir string, logger *log.Logger, dbName string) (*O
 			panic(err)
 		}
 	}
+
+	orm.Debug(fmt.Sprintf("%s created", dbDir))
 
 	dbPath := dbDir + string(os.PathSeparator) + dbName
 	if db, err := gorm.Open("sqlite3", dbPath); err != nil {
@@ -54,15 +49,13 @@ func NewORM(enableLog bool, dbDir string, logger *log.Logger, dbName string) (*O
 		orm.db.AutoMigrate(&Deal{})
 		orm.db.AutoMigrate(&token.FeeDetail{})
 		orm.db.AutoMigrate(&Order{})
+		orm.db.AutoMigrate(&Transaction{})
 
-		orm.db.AutoMigrate(&KlineM1{})
-		orm.db.AutoMigrate(&KlineM3{})
-		orm.db.AutoMigrate(&KlineM5{})
-		orm.db.AutoMigrate(&KlineM15{})
-		orm.db.AutoMigrate(&KlineM30{})
-		orm.db.AutoMigrate(&KlineM60{})
-		orm.db.AutoMigrate(&KlineM120{})
-		orm.db.AutoMigrate(&KlineM1440{})
+		allKlinesMap := GetAllKlineMap()
+		for _, v := range *allKlinesMap {
+			k, _ := NewKlineFactory(v, nil)
+			orm.db.AutoMigrate(k)
+		}
 	}
 	return &orm, nil
 }
@@ -74,11 +67,11 @@ func (orm *ORM) Close() error {
 func (orm *ORM) AddDeals(deals *[]Deal) (addedCnt int, err error) {
 	cnt := 0
 	tx := orm.db.Begin()
+	defer orm.deferRollbackTx(tx, err)
 
 	for _, deal := range *deals {
 		ret := tx.Create(&deal)
 		if ret.Error != nil {
-			tx.Rollback()
 			return cnt, ret.Error
 		} else {
 			cnt += 1
@@ -90,18 +83,54 @@ func (orm *ORM) AddDeals(deals *[]Deal) (addedCnt int, err error) {
 }
 
 // Deals
-func (orm *ORM) DeleteDealBefore(timestamp int64) error {
+func (orm *ORM) DeleteDealBefore(timestamp int64) (err error) {
 	tx := orm.db.Begin()
+	defer orm.deferRollbackTx(tx, err)
 
 	r := tx.Delete(&Deal{}, " Timestamp < ? ", timestamp)
 	if r.Error == nil {
 		tx.Commit()
-		return nil
 	} else {
-		tx.Rollback()
 		return r.Error
 	}
 	return nil
+}
+
+func (orm *ORM) Debug(msg string) {
+	if orm.logger != nil {
+		(*orm.logger).Debug(msg)
+	} else {
+		fmt.Println(msg)
+	}
+}
+
+//func (orm *ORM) Info(msg string) {
+//	if orm.logger != nil {
+//		(*orm.logger).Info(msg)
+//	} else {
+//		fmt.Println(msg)
+//	}
+//
+//}
+//
+func (orm *ORM) Error(msg string) {
+	if orm.logger != nil {
+		(*orm.logger).Error(msg)
+	} else {
+		fmt.Println(msg)
+	}
+
+}
+
+func (orm *ORM) deferRollbackTx(trx *gorm.DB, returnErr error)  {
+	e := recover()
+	if e != nil {
+		orm.Error(fmt.Sprintf("Panic : %+v", e))
+		debug.PrintStack()
+	}
+	if e != nil || returnErr != nil {
+		trx.Rollback()
+	}
 }
 
 func (orm *ORM) GetLatestDeals(product string, limit int) (*[]Deal, error) {
@@ -156,12 +185,7 @@ func (orm *ORM) getOpenCloseDeals(startTS, endTS int64, product string) (open *D
 }
 
 func (orm *ORM) getOpenCloseKline(startTS, endTS int64, product string, firstK interface{}, lastK interface{}) error {
-	defer func() {
-		e := recover()
-		if e != nil {
-			debug.PrintStack()
-		}
-	}()
+	defer common.PrintStackIfPainic()
 
 	orm.db.Where("Timestamp >= ? and Timestamp < ? and Product = ?", startTS, endTS, product).Order("Timestamp desc").Limit(1).First(lastK)
 	orm.db.Where("Timestamp >= ? and Timestamp < ? and Product = ?", startTS, endTS, product).Order("Timestamp asc").Limit(1).First(firstK)
@@ -212,8 +236,6 @@ func (orm *ORM) GetKlineMinTimestamp(k IKline) int64 {
 // Rule1. No deals to handle between [startTS, endTS), anchorEndTS <- startTS
 func (orm *ORM) Deal2Kline1min(startTS, endTS int64) (anchorEndTS int64, newK int, err error) {
 
-	tx := orm.db.Begin()
-
 	// 1. Get anchor start time.
 	if endTS <= startTS {
 		return -1, 0, fmt.Errorf("EndTimestamp %d <= StartTimestamp %d, somewhere goes wrong", endTS, startTS)
@@ -234,6 +256,9 @@ func (orm *ORM) Deal2Kline1min(startTS, endTS int64) (anchorEndTS int64, newK in
 			acTS = minDealTS
 		}
 	}
+
+	tx := orm.db.Begin()
+	defer orm.deferRollbackTx(tx, err)
 
 	anchorTime := time.Unix(acTS, 0).UTC()
 	anchorStartTime := time.Date(
@@ -302,15 +327,15 @@ func (orm *ORM) Deal2Kline1min(startTS, endTS int64) (anchorEndTS int64, newK in
 	return anchorEndTS, len(productKlines), nil
 }
 
-func (orm *ORM) deleteKlinesBefore(unixTS int64, kline interface{}) error {
+func (orm *ORM) deleteKlinesBefore(unixTS int64, kline interface{}) (err error ){
 
 	tx := orm.db.Begin()
+	defer orm.deferRollbackTx(tx, err)
 
 	r := tx.Delete(kline, " Timestamp < ? ", unixTS)
 	if r.Error == nil {
 		tx.Commit()
 	} else {
-		tx.Rollback()
 		return r.Error
 	}
 	return nil
@@ -355,11 +380,7 @@ func (orm *ORM) getLatestKlinesByProduct(product string, limit int, anchorTS int
 		r = orm.db.Where("Product = ?", product).Order("Timestamp desc").Limit(limit).Find(klines)
 	}
 
-	if r.Error != nil {
-		return r.Error
-	}
-
-	return nil
+	return r.Error
 }
 
 func (orm *ORM) GetKlinesByTimeRange(product string, startTS, endTS int64, klines interface{}) error {
@@ -368,11 +389,7 @@ func (orm *ORM) GetKlinesByTimeRange(product string, startTS, endTS int64, kline
 	r = orm.db.Where("Timestamp >= ? and Timestamp < ? and Product = ?", startTS, endTS, product).
 		Order("Timestamp desc").Find(klines)
 
-	if r.Error != nil {
-		return r.Error
-	}
-
-	return nil
+	return r.Error
 }
 
 func (orm *ORM) GetLatestKlineM1ByProduct(product string, limit int) (*[]KlineM1, error) {
@@ -386,8 +403,6 @@ func (orm *ORM) GetLatestKlineM1ByProduct(product string, limit int) (*[]KlineM1
 
 // KlineM1 --> KlineM*
 func (orm *ORM) MergeKlineM1(startTS, endTS int64, destKline IKline) (anchorEndTS int64, newKCnt int, err error) {
-
-	tx := orm.db.Begin()
 
 	kM1, _ := NewKlineFactory("kline_m1", nil)
 	// 0. destKline should not be KlineM1 & endTS should be greater than startTS
@@ -409,11 +424,14 @@ func (orm *ORM) MergeKlineM1(startTS, endTS int64, destKline IKline) (anchorEndT
 		minTS := orm.GetKlineMinTimestamp(kM1.(IKline))
 		// No Deals to handle if minDealTS == -1, anchorEndTS <-- startTS
 		if minTS == -1 {
-			return startTS, 0, errors.New("No KlineM1 to handled, return without converting job.")
+			return startTS, 0, errors.New("DestKline:" + destKline.GetTableName() + ". No KlineM1 to handled, return without converting job.")
 		} else {
 			acTS = minTS
 		}
 	}
+
+	tx := orm.db.Begin()
+	defer orm.deferRollbackTx(tx, err)
 
 	anchorTime := time.Unix(acTS, 0).UTC()
 	var anchorStartTime time.Time
@@ -427,10 +445,6 @@ func (orm *ORM) MergeKlineM1(startTS, endTS int64, destKline IKline) (anchorEndT
 
 	// 2. Get anchor end time.
 	anchorEndTime := endTS
-	//dataSrcEndTime := orm.GetKlineMaxTimestamp(kM1.(IKline))
-	//if dataSrcEndTime < endTS {
-	//	anchorEndTime = dataSrcEndTime
-	//}
 
 	// 3. Collect product's kline by deals
 	productKlines := map[string][]interface{}{}
@@ -523,7 +537,7 @@ func (orm *ORM) KlineM1ToTicker(startTS, endTS int64) (m map[string]*Ticker, err
 
 	for _, p := range productList {
 		existsKM15 := bufferKM15[p]
-		if existsKM15 != nil {
+		if existsKM15 != nil && len(existsKM15) > 0 {
 			continue
 		}
 
@@ -542,7 +556,7 @@ func (orm *ORM) KlineM1ToTicker(startTS, endTS int64) (m map[string]*Ticker, err
 
 	for _, p := range productList {
 		existsKM1 := bufferKM1[p]
-		if existsKM1 != nil {
+		if existsKM1 != nil && len(existsKM1) > 0{
 			continue
 		}
 
@@ -563,10 +577,10 @@ func (orm *ORM) KlineM1ToTicker(startTS, endTS int64) (m map[string]*Ticker, err
 	}
 
 	// 3. For each updated product, generate new ticker by KlineM15 & KlineM1 & Deals in 24 Hours
-	(*orm.logger).Debug(fmt.Sprintf("KlineM15: %+v\n KlineM1: %+v\n Deals: %+v\n", orm.klineM15sBuffer, orm.klineM1sBuffer, bufferDeals))
+	orm.Debug(fmt.Sprintf("KlineM15: %+v\n KlineM1: %+v\n Deals: %+v\n", orm.klineM15sBuffer, orm.klineM1sBuffer, bufferDeals))
 	tickerMap := map[string]*Ticker{}
 
-	(*orm.logger).Debug(fmt.Sprintf("KlineM1ToTicker's productList %+v", productList))
+	orm.Debug(fmt.Sprintf("KlineM1ToTicker's productList %+v", productList))
 	for _, p := range productList {
 		klinesM1 := bufferKM1[p]
 		klinesM15 := bufferKM15[p]
@@ -581,9 +595,6 @@ func (orm *ORM) KlineM1ToTicker(startTS, endTS int64) (m map[string]*Ticker, err
 
 		// [X] 3.1 No klinesM1 & klinesM15 found, contine
 		// FLT. 20190411. Go ahead even if there's no klines.
-		//if len(iklines) == 0 {
-		//	continue
-		//}
 
 		// 3.2 Do iklines sort desc by timestamp.
 
@@ -606,7 +617,9 @@ func (orm *ORM) KlineM1ToTicker(startTS, endTS int64) (m map[string]*Ticker, err
 				}
 			}
 		} else {
-			allVolume, lowest, highest = 0.0, deals[0].Price, deals[0].Price
+			if len(deals) > 0 {
+				allVolume, lowest, highest = 0.0, deals[0].Price, deals[0].Price
+			}
 		}
 
 		fmt.Printf("KlineM1ToTicker Deals %+v\n", deals)
@@ -636,7 +649,8 @@ func (orm *ORM) KlineM1ToTicker(startTS, endTS int64) (m map[string]*Ticker, err
 		t.Volume = allVolume
 		t.High = highest
 		t.Low = lowest
-		t.Product = p
+		t.Symbol = p
+		t.CurrencyId = p
 		t.Change = (t.Close - t.Open)
 		t.ChangePercentage = t.Change / t.Open
 		t.Timestamp = endTS
@@ -644,7 +658,7 @@ func (orm *ORM) KlineM1ToTicker(startTS, endTS int64) (m map[string]*Ticker, err
 	}
 
 	for k, v := range tickerMap {
-		(*orm.logger).Debug(fmt.Sprintf("KlineM1ToTicker Ticker[%s] %s", k, v.PrettyString()))
+		orm.Debug(fmt.Sprintf("KlineM1ToTicker Ticker[%s] %s", k, v.PrettyString()))
 	}
 	return tickerMap, nil
 }
@@ -737,4 +751,46 @@ func (orm *ORM) GetOrderList(address, product string, open bool, offset, limit i
 
 	query.Order("timestamp desc").Offset(offset).Limit(limit).Find(&orders)
 	return &orders, total
+}
+
+// Transaction
+func (orm *ORM) AddTransactions(transactions *[]Transaction) (addedCnt int, err error) {
+	cnt := 0
+	tx := orm.db.Begin()
+
+	for _, transaction := range *transactions {
+		ret := tx.Create(&transaction)
+		if ret.Error != nil {
+			tx.Rollback()
+			return cnt, ret.Error
+		} else {
+			cnt += 1
+		}
+	}
+
+	tx.Commit()
+	return cnt, nil
+}
+
+func (orm *ORM) GetTransactionList(address string, txType, startTime, endTime int64, offset, limit int) (*[]Transaction, int) {
+	var txs []Transaction
+	query := orm.db.Model(Transaction{}).Where("address = ?", address)
+	if txType != 0 {
+		query = query.Where("type = ?", txType)
+	}
+	if startTime > 0 {
+		query = query.Where("timestamp >= ?", startTime)
+	}
+	if endTime > 0 {
+		query = query.Where("timestamp < ?", endTime)
+	}
+
+	var total int
+	query.Count(&total)
+	if offset >= total {
+		return &txs, total
+	}
+
+	query.Order("timestamp desc").Offset(offset).Limit(limit).Find(&txs)
+	return &txs, total
 }

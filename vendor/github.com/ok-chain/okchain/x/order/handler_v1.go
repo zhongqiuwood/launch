@@ -4,34 +4,26 @@ import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ok-chain/okchain/x/common"
+	"github.com/ok-chain/okchain/x/perf"
+	"github.com/ok-chain/okchain/x/version"
 	"github.com/pkg/errors"
 	"github.com/tendermint/tendermint/crypto/tmhash"
 	"strconv"
 )
 
-// NewHandler returns a handler for "nameservice" type messages.
 func NewHandler(keeper Keeper) sdk.Handler {
-	return func(ctx sdk.Context, msg sdk.Msg) sdk.Result {
-		switch msg := msg.(type) {
-		case MsgNewOrder:
-			return handleMsgNewOrder(ctx, keeper, msg)
-		case MsgCancelOrder:
-			return handleMsgCancelOrder(ctx, keeper, msg)
-		default:
-			errMsg := fmt.Sprintf("Unrecognized order Msg type: %v", msg.Type())
-			return sdk.ErrUnknownRequest(errMsg).Result()
-		}
+	handler := func(ctx sdk.Context, msg sdk.Msg) sdk.Result {
+		return version.GetVersionController().NewHandler(ctx, msg, keeper, getModule())
 	}
+	return handler
 }
 
+
 var mockBlockHeight int64 = -1
-
 func blockHeight(ctx sdk.Context) int64 {
-
 	if mockBlockHeight >= 0 {
 		return mockBlockHeight
 	}
-
 	return ctx.BlockHeight()
 }
 
@@ -60,11 +52,13 @@ func checkOrder(ctx sdk.Context, keeper Keeper, order *Order) error {
 }
 
 func placeOrder(ctx sdk.Context, keeper Keeper, order *Order, feeParams Params) error {
+	// charge fee for placing a new order
 	if !feeParams.NewOrder.IsZero() {
-		fee := GetOrderNewFee(order, ctx, keeper, feeParams)
-		err := keeper.SubtractCoins(ctx, order.Sender, fee)
-		if err != nil {
+		fee, _ := GetOrderNewFee(order, ctx, keeper, feeParams)
+		if err := keeper.SubtractCoins(ctx, order.Sender, fee); err == nil {
 			keeper.AddCollectedFees(ctx, fee, order.Sender, common.FeeTypeOrderNew)
+			order.RecordOrderNewFee(fee)
+		} else {
 			return err
 		}
 	}
@@ -86,8 +80,16 @@ func placeOrder(ctx sdk.Context, keeper Keeper, order *Order, feeParams Params) 
 	return nil
 }
 
+func PlaceOrder(ctx sdk.Context, keeper Keeper, order *Order, feeParams Params) error {
+	return placeOrder(ctx, keeper, order, feeParams)
+}
+
 // Handle MsgNewOrder
 func handleMsgNewOrder(ctx sdk.Context, keeper Keeper, msg MsgNewOrder) sdk.Result {
+
+	seq := perf.GetPerf().OnDeliverTxEnter(ctx, ModuleName, "handleMsgNewOrder")
+	defer perf.GetPerf().OnDeliverTxExit(ctx, ModuleName, "handleMsgNewOrder", seq)
+
 	price, _ := sdk.NewDecFromStr(msg.Price)
 	quantity, _ := sdk.NewDecFromStr(msg.Quantity)
 	order := &Order{
@@ -129,7 +131,7 @@ func handleMsgNewOrder(ctx sdk.Context, keeper Keeper, msg MsgNewOrder) sdk.Resu
 		if err := placeOrder(ctx, keeper, order, feeParams); err != nil {
 			return sdk.Result{
 				Code: sdk.CodeInsufficientCoins,
-				Log: err.Error(),
+				Log:  err.Error(),
 			}
 		}
 		if i == 0 {
@@ -146,35 +148,45 @@ func handleMsgNewOrder(ctx sdk.Context, keeper Keeper, msg MsgNewOrder) sdk.Resu
 	//}
 }
 
+
 func handleMsgCancelOrder(ctx sdk.Context, keeper Keeper, msg MsgCancelOrder) sdk.Result {
+
+	seq := perf.GetPerf().OnDeliverTxEnter(ctx, ModuleName, "handleMsgCancelOrder")
+	defer perf.GetPerf().OnDeliverTxExit(ctx, ModuleName, "handleMsgCancelOrder", seq)
+
 	order := keeper.GetOrder(ctx, msg.OrderId)
-	if order.Sender.String() != msg.Sender.String() {
-		return sdk.Result{
-			Code: sdk.CodeUnauthorized,
-			Log:  fmt.Sprintf("not the owner of order(%v)", msg.OrderId),
+	feeParams := keeper.GetParams(ctx)
+
+	// If order is invalid, try to charge cancel fee as penalty
+	if order == nil || order.Sender.String() != msg.Sender.String() || order.Status != OrderStatusOpen {
+		feePenalty := sdk.DecCoins{sdk.NewDecCoinFromDec(common.ChainAsset, feeParams.CancelNative)}
+		if err := keeper.SubtractCoins(ctx, msg.Sender, feePenalty); err == nil {
+			keeper.AddCollectedFees(ctx, feePenalty, msg.Sender, common.FeeTypeOrderCancel)
+		}
+
+		if order == nil || order.Status != OrderStatusOpen {
+			return sdk.Result{
+				Code: sdk.CodeInternal,
+				Log:  fmt.Sprintf("cannot cancel order(%v)", order),
+			}
+		} else {
+			return sdk.Result{
+				Code: sdk.CodeUnauthorized,
+				Log:  fmt.Sprintf("not the owner of order(%v)", msg.OrderId),
+			}
 		}
 	}
-	if order.Status != OrderStatusOpen {
-		return sdk.Result{
-			Code: sdk.CodeInternal,
-			Log:  fmt.Sprintf("cannot cancel order with status(%v)", order.Status),
-		}
-	}
+
 	order.Cancel()
 	// unlock coins in this order & charge fee
 	needUnlockCoins := order.NeedUnlockCoins()
-	if order.Status == OrderStatusCancelled { // charge fees only if fully cancelled
-		feeParams := keeper.GetParams(ctx)
-		fee, inOrder := GetOrderCancelFee(order, ctx, keeper, feeParams)
-		keeper.AddCollectedFees(ctx, fee, order.Sender, common.FeeTypeOrderCancel)
-		if inOrder {
-			needUnlockCoins = needUnlockCoins.Sub(fee)
-			keeper.BurnLockedCoins(ctx, order.Sender, fee)
-		} else {
-			keeper.SubtractCoins(ctx, order.Sender, fee)
-		}
-	}
 	keeper.UnlockCoins(ctx, msg.Sender, needUnlockCoins)
+	if order.Status == OrderStatusCancelled { // charge fees only if fully cancelled
+		fee := GetOrderCancelFee(order, ctx, keeper, feeParams)
+		keeper.SubtractCoins(ctx, order.Sender, fee)
+		keeper.AddCollectedFees(ctx, fee, order.Sender, common.FeeTypeOrderCancel)
+		order.RecordOrderCancelFee(fee)
+	}
 	keeper.SetOrder(ctx, order.OrderId, order)
 
 	// update depth book and orderIdsMap

@@ -102,7 +102,7 @@ func handleMsgDexListSubmitProposal(ctx sdk.Context, keeper Keeper, msg MsgDexLi
 	}
 
 	maxBlockHeight := keeper.GetDexListParams(ctx).MaxBlockHeight
-	if msg.BlockHeight > maxBlockHeight {
+	if msg.BlockHeight > uint64(ctx.BlockHeader().Height) + maxBlockHeight {
 		return sdk.NewError(DefaultParamspace, CodeInvalidParam, fmt.Sprintf("dex list block height can not be greater than %d", maxBlockHeight)).Result()
 	}
 
@@ -182,11 +182,6 @@ func handleMsgVote(ctx sdk.Context, keeper Keeper, msg MsgVote) sdk.Result {
 }
 
 func handleMsgDexList(ctx sdk.Context, keeper Keeper, msg MsgDexList) sdk.Result {
-	err := keeper.AddCollectedFees(ctx, keeper.GetGovTxFee(), msg.Owner)
-	if err != nil {
-		// TODO: panic should not happen
-		return err.Result()
-	}
 	proposal := keeper.GetProposal(ctx, msg.ProposalID)
 	dexListProposal, ok := proposal.(*DexListProposal)
 	if !ok {

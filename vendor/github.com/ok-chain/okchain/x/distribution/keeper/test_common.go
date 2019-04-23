@@ -145,6 +145,7 @@ func CreateTestInputAdvanced(t *testing.T, isCheckTx bool, initPower int64,
 	keeper.SetCommunityTax(ctx, communityTax)
 	keeper.SetBaseProposerReward(ctx, sdk.NewDecWithPrec(1, 2))
 	keeper.SetBonusProposerReward(ctx, sdk.NewDecWithPrec(4, 2))
+	keeper.SetWithdrawAddrEnabled(ctx, false)
 
 	return ctx, accountKeeper, keeper, sk, fck
 }
@@ -167,5 +168,8 @@ func (fck DummyFeeCollectionKeeper) ClearCollectedFees(_ sdk.Context) {
 	heldFees = sdk.Coins{}
 }
 func(fck DummyFeeCollectionKeeper)AddCollectedFees(ctx sdk.Context, coins sdk.Coins)(_ sdk.Coins){
-	return heldFees
+	newCoins := fck.GetCollectedFees(ctx).Add(coins)
+	fck.SetCollectedFees(newCoins)
+
+	return newCoins
 }

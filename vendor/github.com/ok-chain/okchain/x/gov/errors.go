@@ -31,6 +31,7 @@ const (
 	CodeInvalidMinTradeSize     sdk.CodeType = 19
 	CodeInvalidHeight           sdk.CodeType = 20
 	CodeInvalidMaxHeightPeriod  sdk.CodeType = 21
+	CodeInvalidParamSubspace    sdk.CodeType = 22
 )
 
 // Error constructors

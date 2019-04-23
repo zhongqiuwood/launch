@@ -18,12 +18,13 @@ const (
 	TotalSupplyUpperbound = int64(90000000000)
 )
 
-// NewHandler returns a handler for "nameservice" type messages.
+// NewHandler returns a handler for "token" type messages.
 func NewHandler(keeper Keeper) sdk.Handler {
 	return func(ctx sdk.Context, msg sdk.Msg) sdk.Result {
 		switch msg := msg.(type) {
 		case MsgTokenIssue:
 			return handleMsgTokenIssue(ctx, keeper, msg)
+
 		case MsgTokenBurn:
 			return handleMsgTokenBurn(ctx, keeper, msg)
 

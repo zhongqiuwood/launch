@@ -62,7 +62,7 @@ func (k Keeper) DropOrder(ctx sdk.Context, orderId string) {
 
 func (k Keeper) GetUpdatedOrderIds(ctx sdk.Context, blockHeight int64) []string {
 	store := ctx.KVStore(k.ordersStoreKey)
-	key := fmt.Sprintf("closedAt(%v)", blockHeight)
+	key := fmt.Sprintf("updatedAt(%v)", blockHeight)
 	bytes := store.Get([]byte(key))
 	var orderIds []string
 	if bytes == nil {
@@ -74,7 +74,7 @@ func (k Keeper) GetUpdatedOrderIds(ctx sdk.Context, blockHeight int64) []string 
 
 func (k Keeper) AddUpdatedOrderId(ctx sdk.Context, blockHeight int64, orderId string) {
 	store := ctx.KVStore(k.ordersStoreKey)
-	key := fmt.Sprintf("closedAt(%v)", blockHeight)
+	key := fmt.Sprintf("updatedAt(%v)", blockHeight)
 	orderIds := k.GetUpdatedOrderIds(ctx, blockHeight)
 	orderIds = append(orderIds, orderId)
 	store.Set([]byte(key), k.cdc.MustMarshalJSON(orderIds))
@@ -82,7 +82,7 @@ func (k Keeper) AddUpdatedOrderId(ctx sdk.Context, blockHeight int64, orderId st
 
 func (k Keeper) DropUpdatedOrderIds(ctx sdk.Context, blockHeight int64) {
 	store := ctx.KVStore(k.ordersStoreKey)
-	key := fmt.Sprintf("closedAt(%v)", blockHeight)
+	key := fmt.Sprintf("updatedAt(%v)", blockHeight)
 	store.Delete([]byte(key))
 }
 
@@ -188,16 +188,16 @@ func (k Keeper) GetBlockMatchResult(ctx sdk.Context, blockHeight int64) *BlockMa
 	store := ctx.KVStore(k.tradesStoreKey)
 	key := fmt.Sprintf("blockMatchResult:%d", blockHeight)
 	bytes := store.Get([]byte(key))
-	blockMatchResult := &BlockMatchResult{}
 	if bytes == nil {
-		return blockMatchResult
+		return nil
 	}
+	blockMatchResult := &BlockMatchResult{}
 	k.cdc.MustUnmarshalJSON(bytes, &blockMatchResult)
 	return blockMatchResult
 }
 
 func (k Keeper) DropBlockMatchResult(ctx sdk.Context, blockHeight int64) {
-	store := ctx.KVStore(k.ordersStoreKey)
+	store := ctx.KVStore(k.tradesStoreKey)
 	key := fmt.Sprintf("blockMatchResult:%d", blockHeight)
 	store.Delete([]byte(key))
 }

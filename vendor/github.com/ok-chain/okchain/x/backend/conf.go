@@ -5,6 +5,15 @@ import (
 	"encoding/json"
 	"github.com/tendermint/tendermint/libs/common"
 	"os"
+	)
+
+var (
+	DefaultMaintainConfile 	= "maintain.conf"
+	DefaultNodeHome 		= os.ExpandEnv("$HOME/.okchaind")
+	DefaultNodeCofig		= DefaultNodeHome + "/config"
+	DefaultNodeDataHome 	= DefaultNodeHome + "/data"
+	DefaultTestConfig       = DefaultNodeHome + "/test_config"
+	DefaultTestDataHome     = DefaultNodeHome + "/test_data"
 )
 
 type MaintainConf struct {
@@ -14,29 +23,32 @@ type MaintainConf struct {
 	BufferSize    int    `json:"buffer_size"`   //
 	SyncMode      string `json:"sync_mode"`     // mode: block or minutes
 	Sqlite3Path   string `json:"sqlite_3_path"` // path: ~/.okdex/db/sqlite3
-	LogSQL        bool   `json:"log_sql"`
-	CleanUpHour   int    `json:"clean_up_hour"` // 0 <= h <= 23
+	LogSQL        bool   `json:"log_sql"`		//
+	CleanUpsKeptDays map[string] int `json:"clean_ups_kept_days"` // 0 <= x <= 60
+	CleanUpsTime  string `json:"clean_ups_time"`// e.g.) 00:00:00, CleanUp job will be fired at this time.
 	GenesisTime   string `json:"genesis_time"`  // genesis_time: "2019-05-01 00:00:00"
 }
 
 func GetDefaultMaintainConfig() *MaintainConf {
-
 	m := MaintainConf{}
 
 	m.EnableBackend = false
 	m.HotKeptDays = 3
 	m.UpdateFreq = 60
 	m.BufferSize = 4096
-	m.Sqlite3Path = "/tmp/sqlite3"
+	m.Sqlite3Path = DefaultNodeDataHome + "/sqlite3"
 	m.LogSQL = true
-	m.CleanUpHour = 1
+	m.CleanUpsTime = "00:00:00"
+	m.CleanUpsKeptDays = map[string]int{}
+	m.CleanUpsKeptDays["kline_m1"] = 30
+	m.CleanUpsKeptDays["kline_m3"] = 30
+	m.CleanUpsKeptDays["kline_m5"] = 30
 	m.GenesisTime = "2019-04-01 00:00:00"
 
 	return &m
 }
 
 func LoadMaintainConf(confDir string, fileName string) (*MaintainConf, error) {
-
 	fPath := confDir + string(os.PathSeparator) + fileName
 	if _, err := os.Stat(fPath); err != nil {
 		return nil, err
@@ -45,26 +57,33 @@ func LoadMaintainConf(confDir string, fileName string) (*MaintainConf, error) {
 	bytes := common.MustReadFile(fPath)
 
 	m := MaintainConf{}
-	if err := json.Unmarshal(bytes, &m); err != nil {
-		return nil, err
-	}
-	return &m, nil
+	err := json.Unmarshal(bytes, &m)
+	return &m, err
 }
 
 func DumpMaintainConf(maintainConf *MaintainConf, confDir string, fileName string) error {
 	fPath := confDir + string(os.PathSeparator) + fileName
 
+	if _, err := os.Stat(confDir); err != nil {
+		os.MkdirAll(confDir, os.ModePerm)
+	}
+
 	if bs, err := json.Marshal(maintainConf); err != nil {
 		return err
 	} else {
 		var out bytes.Buffer
-		err = json.Indent(&out, bs, "", "  ")
-		if err == nil {
-			common.MustWriteFile(fPath, out.Bytes(), os.ModePerm)
-		} else {
-			return err
-		}
+		json.Indent(&out, bs, "", "  ")
+		common.MustWriteFile(fPath, out.Bytes(), os.ModePerm)
 	}
 
 	return nil
+}
+
+func SafeLoadMaintainConfig(configDir string) *MaintainConf {
+	maintainConf, _ := LoadMaintainConf(configDir, DefaultMaintainConfile)
+	if maintainConf == nil {
+		maintainConf = GetDefaultMaintainConfig()
+		DumpMaintainConf(maintainConf, configDir, DefaultMaintainConfile)
+	}
+	return maintainConf
 }

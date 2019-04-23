@@ -7,12 +7,21 @@ import (
 	"github.com/tendermint/tendermint/libs/common"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/staking/tags"
 	"github.com/ok-chain/okchain/x/staking/keeper"
 	"github.com/ok-chain/okchain/x/staking/types"
+	"fmt"
 )
+
+var mockBlockHeight int64 = -1
+
+func GetBlockHeight(ctx sdk.Context) int64 {
+	if mockBlockHeight >= 0 {
+		return mockBlockHeight
+	}
+	return ctx.BlockHeight()
+}
 
 func NewHandler(k keeper.Keeper) sdk.Handler {
 	return func(ctx sdk.Context, msg sdk.Msg) sdk.Result {
@@ -38,6 +47,7 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 func EndBlocker(ctx sdk.Context, k keeper.Keeper) ([]abci.ValidatorUpdate, sdk.Tags) {
 	resTags := sdk.NewTags()
 	validatorUpdates := make([]abci.ValidatorUpdate, 0)
+	//var validatorUpdates
 
 	// Remove all mature redelegation actions from the red action queue.
 	matureRedelegationActions := k.DequeueAllMatureRedelegationActionQueue(ctx, ctx.BlockHeader().Height)
@@ -58,9 +68,9 @@ func EndBlocker(ctx sdk.Context, k keeper.Keeper) ([]abci.ValidatorUpdate, sdk.T
 	// unbonded after the Endblocker (go from Bonded -> Unbonding during
 	// ApplyAndReturnValidatorSetUpdates and then Unbonding -> Unbonded during
 	// UnbondAllMatureValidatorQueue).
-	currentBlockHeight := ctx.BlockHeader().Height
+	currentBlockHeight := GetBlockHeight(ctx)
 	if currentBlockHeight%keeper.DefaultBlockHeightSpan == (keeper.DefaultBlockHeightSpan - 1) {
-		fmt.Printf("rotation of validator set at height: %d on %s\n", currentBlockHeight, time.Now())
+		fmt.Printf("endblocker at block height: %d on %s\n", currentBlockHeight, time.Now())
 		k.ClearDelegatorPool(ctx)
 		validatorUpdates = k.ApplyAndReturnValidatorSetUpdates(ctx)
 	}

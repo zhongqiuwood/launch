@@ -142,7 +142,7 @@ func (orderIdsMap OrderIdsMap) Fill(ctx sdk.Context, keeper Keeper, key string, 
 			break
 		}
 	}
-	*orderIds = (*orderIds)[index:]  // update orderIds, remove filled orderIds
+	*orderIds = (*orderIds)[index:] // update orderIds, remove filled orderIds
 	// Note: orderIds cannot be nil, we will use empty slice to remove data on keeper
 	if len(*orderIds) == 0 {
 		orderIdsMap[key] = &[]string{}
@@ -161,30 +161,26 @@ func fillOrder(order *Order, ctx sdk.Context, keeper Keeper, fillPrice, fillQuan
 	// update order
 	order.Fill(fillPrice, fillQuantity)
 	symbols := strings.Split(order.Product, "_")
-	// charge fee
-	fee, inOrder := GetDealFee(order, fillQuantity, ctx, keeper, feeParams)
-	keeper.AddCollectedFees(ctx, fee, order.Sender, common.FeeTypeOrderDeal)
-	if !inOrder {
-		keeper.SubtractCoins(ctx, order.Sender, fee)
-	}
+
 	// transfer tokens
 	if order.Side == "BUY" {
 		burnCoins := sdk.DecCoins{{symbols[1], fillPrice.Mul(fillQuantity)}}
 		receiveCoins := sdk.DecCoins{{symbols[0], fillQuantity}}
-		if inOrder {
-			receiveCoins = receiveCoins.Sub(fee)
-		}
 		keeper.BurnLockedCoins(ctx, order.Sender, burnCoins)
 		keeper.ReceiveLockedCoins(ctx, order.Sender, receiveCoins)
 	} else {
 		burnCoins := sdk.DecCoins{{symbols[0], fillQuantity}}
 		receiveCoins := sdk.DecCoins{{symbols[1], fillPrice.Mul(fillQuantity)}}
-		if inOrder {
-			receiveCoins = receiveCoins.Sub(fee)
-		}
 		keeper.BurnLockedCoins(ctx, order.Sender, burnCoins)
 		keeper.ReceiveLockedCoins(ctx, order.Sender, receiveCoins)
 	}
+
+	// charge fee
+	fee := GetDealFee(order, fillQuantity, ctx, keeper, feeParams)
+	keeper.AddCollectedFees(ctx, fee, order.Sender, common.FeeTypeOrderDeal)
+	order.RecordOrderDealFee(fee)
+	keeper.SubtractCoins(ctx, order.Sender, fee)
+
 	// update order to keeper
 	keeper.SetOrder(ctx, order.OrderId, order)
 	// record updated orderId

@@ -13,7 +13,7 @@ func EndBlocker(ctx sdk.Context, keeper Keeper) sdk.Tags {
 	resTags := sdk.NewTags()
 
 	// fetch waiting proposals whose voting periods have ended (are passed the block time)
-	waitingIterator := keeper.WaitingProposalQueueIterator(ctx)
+	waitingIterator := keeper.WaitingProposalQueueIterator(ctx, uint64(ctx.BlockHeight()))
 	defer waitingIterator.Close()
 	for ; waitingIterator.Valid(); waitingIterator.Next() {
 		var proposalID uint64
@@ -21,14 +21,22 @@ func EndBlocker(ctx sdk.Context, keeper Keeper) sdk.Tags {
 		keeper.cdc.MustUnmarshalBinaryLengthPrefixed(waitingIterator.Value(), &proposalID)
 		waitingProposal := keeper.GetProposal(ctx, proposalID)
 
-		Execute(ctx, keeper, waitingProposal)
-
-		logger.Info(
-			fmt.Sprintf(
-				"paramter proposal %d (%s);effective",
-				waitingProposal.GetProposalID(), waitingProposal.GetTitle(),
-			),
-		)
+		err := Execute(ctx, keeper, waitingProposal)
+		if err != nil {
+			logger.Info(
+				fmt.Sprintf("proposal %d (%s) excute failed",
+					waitingProposal.GetProposalID(),
+					waitingProposal.GetTitle(),
+				),
+			)
+		} else {
+			logger.Info(
+				fmt.Sprintf("proposal %d (%s) excute successfully",
+					waitingProposal.GetProposalID(),
+					waitingProposal.GetTitle(),
+				),
+			)
+		}
 	}
 
 	inactiveIterator := keeper.InactiveProposalQueueIterator(ctx, ctx.BlockHeader().Time)

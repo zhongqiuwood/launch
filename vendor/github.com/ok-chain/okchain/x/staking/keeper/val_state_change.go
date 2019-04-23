@@ -117,7 +117,7 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 
 	// set total power on lookup index if there are any updates
 	if len(updates) > 0 {
-		fmt.Printf("validator updates: %d\n", len(updates))
+		// fmt.Printf("validator updates: %d\n", len(updates))
 		k.SetLastTotalPower(ctx, totalPower)
 	}
 

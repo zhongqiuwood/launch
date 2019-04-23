@@ -75,7 +75,7 @@ func GetLastValidatorPowerKey(operator sdk.ValAddress) []byte {
 // NOTE the larger values are of higher value
 // nolint: unparam
 func getValidatorPowerRank(validator types.Validator) []byte {
-	potentialPower := validator.Tokens.Quo(sdk.NewIntFromBigInt(new(big.Int).Exp(big.NewInt(10), big.NewInt(9), nil)))
+	potentialPower := validator.Tokens.Quo(sdk.NewIntFromBigInt(new(big.Int).Exp(big.NewInt(10), big.NewInt(sdk.Precision), nil)))
 
 	// todo: deal with cases above 2**64, ref https://github.com/cosmos/cosmos-sdk/issues/2439#issuecomment-427167556
 	tendermintPower := potentialPower.Int64()

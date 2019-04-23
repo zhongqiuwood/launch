@@ -4,8 +4,6 @@ import (
 	"fmt"
 
 	abci "github.com/tendermint/tendermint/abci/types"
-	tmtypes "github.com/tendermint/tendermint/types"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ok-chain/okchain/x/staking/types"
 )
@@ -127,21 +125,6 @@ func ExportGenesis(ctx sdk.Context, keeper Keeper) types.GenesisState {
 		Redelegations:        redelegations,
 		Exported:             true,
 	}
-}
-
-// WriteValidators returns a slice of bonded genesis validators.
-func WriteValidators(ctx sdk.Context, keeper Keeper) (vals []tmtypes.GenesisValidator) {
-	keeper.IterateLastValidators(ctx, func(_ int64, validator sdk.Validator) (stop bool) {
-		vals = append(vals, tmtypes.GenesisValidator{
-			PubKey: validator.GetConsPubKey(),
-			Power:  validator.GetTendermintPower(),
-			Name:   validator.GetMoniker(),
-		})
-
-		return false
-	})
-
-	return
 }
 
 // ValidateGenesis validates the provided staking genesis state to ensure the

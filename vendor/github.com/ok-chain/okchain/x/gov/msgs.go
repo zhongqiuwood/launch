@@ -1,10 +1,10 @@
 package gov
 
 import (
-	"encoding/json"
 	"fmt"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"strings"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // Governance message types and routes
@@ -19,7 +19,7 @@ const (
 	MaxTitleLength       int = 140
 )
 
-var _, _, _ sdk.Msg = MsgSubmitProposal{}, MsgDeposit{}, MsgVote{}
+var _, _, _, _, _ sdk.Msg = MsgSubmitProposal{}, MsgDexListSubmitProposal{}, MsgDeposit{}, MsgVote{}, MsgDexList{}
 
 // MsgSubmitProposal
 type MsgSubmitProposal struct {
@@ -106,13 +106,11 @@ type MsgDexListSubmitProposal struct {
 	InitialDeposit sdk.DecCoins   `json:"initial_deposit"` //  Initial deposit paid by sender. Must be strictly positive.
 	ListAsset      string         `json:"list_asset"`      //  Symbol of asset listed on Dex.
 	QuoteAsset     string         `json:"quote_asset"`     //  Symbol of asset quoted by asset listed on Dex.
-	//ExpireTime     time.Duration  `json:"expire_time"`     //  Expire time from when proposal is passed.
 	InitPrice      sdk.Dec        `json:"init_price"`      //  Init price of asset listed on Dex.
 	BlockHeight    uint64         `json:"block_height"`    //  dex list at BlockHeight th block after passing
 	MaxPriceDigit  uint64         `json:"max_price_digit"` //  Decimal of price
 	MaxSizeDigit   uint64         `json:"max_size_digit"`  //  Decimal of trade quantity
-	//MergeTypes     string         `json:"merge_types"`     //  Level of merge depth
-	MinTradeSize   string `json:"min_trade_size"`
+	MinTradeSize   string         `json:"min_trade_size"`
 }
 
 func NewMsgDexListSubmitProposal(title, description string, proposalType ProposalKind, proposer sdk.AccAddress, initialDeposit sdk.DecCoins,
@@ -126,12 +124,12 @@ func NewMsgDexListSubmitProposal(title, description string, proposalType Proposa
 		ListAsset:      listAsset,
 		QuoteAsset:     quoteAsset,
 		//ExpireTime:     expireTime,
-		InitPrice:      initPrice,
-		BlockHeight:    blockHeight,
-		MaxPriceDigit:  maxPriceDigit,
-		MaxSizeDigit:   maxSizeDigit,
+		InitPrice:     initPrice,
+		BlockHeight:   blockHeight,
+		MaxPriceDigit: maxPriceDigit,
+		MaxSizeDigit:  maxSizeDigit,
 		//MergeTypes:     mergeTypes,
-		MinTradeSize:   minTradeSize,
+		MinTradeSize: minTradeSize,
 	}
 }
 
@@ -165,19 +163,17 @@ func (msg MsgDexListSubmitProposal) ValidateBasic() sdk.Error {
 	if len(msg.InitialDeposit) != 1 || msg.InitialDeposit[0].Denom != sdk.DefaultBondDenom {
 		return sdk.ErrInvalidCoins(fmt.Sprintf("DexList must deposit %s but got %s", sdk.DefaultBondDenom, msg.InitialDeposit.String()))
 	}
-	if msg.InitialDeposit.IsAnyNegative() {
-		return sdk.ErrInvalidCoins(msg.InitialDeposit.String())
-	}
+	//if msg.InitialDeposit.IsAnyNegative() {
+	//	return sdk.ErrInvalidCoins(msg.InitialDeposit.String())
+	//}
 	if msg.ListAsset == msg.QuoteAsset {
 		return sdk.ErrInvalidCoins(fmt.Sprintf("ListAsset can not equal to QuoteAsset"))
 	}
 	if msg.QuoteAsset != sdk.DefaultBondDenom {
 		return sdk.ErrInvalidCoins(fmt.Sprintf("DexList must quote %s but got %s", sdk.DefaultBondDenom, msg.QuoteAsset))
 	}
-	//if msg.ExpireTime*time.Second < MinExpireTime || msg.ExpireTime*time.Second > MaxExpireTime {
-	//	return ErrInvalidTime(DefaultCodespace, fmt.Sprintf("Dex list expire time must range from %v to %v but got %v", MinExpireTime, MaxExpireTime, msg.ExpireTime*time.Second))
-	//}
-	if msg.MaxPriceDigit > MaxSumPriceSizeDigit ||  msg.MaxSizeDigit > MaxSumPriceSizeDigit || (msg.MaxPriceDigit +  msg.MaxSizeDigit) > MaxSumPriceSizeDigit {
+
+	if msg.MaxPriceDigit > MaxSumPriceSizeDigit || msg.MaxSizeDigit > MaxSumPriceSizeDigit || (msg.MaxPriceDigit+msg.MaxSizeDigit) > MaxSumPriceSizeDigit {
 		return sdk.NewError(DefaultParamspace, CodeInvalidPriceDigit, fmt.Sprintf("Sum of MaxPriceDigit and MaxSizeDigit must less than or equal to %d", MaxSumPriceSizeDigit))
 	}
 	//if err := checkMergeTypes(msg.MergeTypes); err != nil {
@@ -186,7 +182,6 @@ func (msg MsgDexListSubmitProposal) ValidateBasic() sdk.Error {
 	if err := checkRange(msg.MinTradeSize, MaxMinTradeSizeUint, MinMinTradeSizeFloat); err != nil {
 		return sdk.NewError(DefaultParamspace, CodeInvalidMinTradeSize, fmt.Sprintf("MinTradeSize %s", err.Error()))
 	}
-	// TODO:check list asset issued
 	return nil
 }
 
@@ -335,11 +330,8 @@ func (msg MsgDexList) ValidateBasic() sdk.Error {
 
 // GetSignBytes Implements Msg.
 func (msg MsgDexList) GetSignBytes() []byte {
-	b, err := json.Marshal(msg)
-	if err != nil {
-		panic(err)
-	}
-	return sdk.MustSortJSON(b)
+	bz := msgCdc.MustMarshalJSON(msg)
+	return sdk.MustSortJSON(bz)
 }
 
 // GetSigners Implements Msg.
@@ -347,24 +339,28 @@ func (msg MsgDexList) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{msg.Owner}
 }
 
-func checkMergeTypes(mergeTypes string) error {
-	mergeTypes = strings.TrimSpace(mergeTypes)
-	merges := strings.Split(mergeTypes, ",")
-	if len(merges) > MaxMergeTypeSize {
-		return fmt.Errorf("length of MergeTypes must less than or equal to %d", MaxMergeTypeSize)
-	}
-	for _, merge := range merges {
-		if err := checkRange(strings.TrimSpace(merge), MaxMergeUint, MinMergeFloat); err != nil {
-			return err
-		}
-	}
-	return nil
-}
+//func checkMergeTypes(mergeTypes string) error {
+//	mergeTypes = strings.TrimSpace(mergeTypes)
+//	merges := strings.Split(mergeTypes, ",")
+//	if len(merges) > MaxMergeTypeSize {
+//		return fmt.Errorf("length of MergeTypes must less than or equal to %d", MaxMergeTypeSize)
+//	}
+//	for _, merge := range merges {
+//		if err := checkRange(strings.TrimSpace(merge), MaxMergeUint, MinMergeFloat); err != nil {
+//			return err
+//		}
+//	}
+//	return nil
+//}
 
 // verify str must be minFloat, minFloat*10, minFloat*100, ... or maxUint
 func checkRange(str, maxUint, minFloat string) error {
 	var midFloat string
-	contMin := strings.Count(strings.Split(minFloat, ".")[1], "0")
+	partsMin := strings.Split(minFloat, ".")
+	if len(partsMin) != 2 {
+		return fmt.Errorf("minFloat must be string of float")
+	}
+	contMin := strings.Count(partsMin[1], "0")
 	if contMin == 0 {
 		midFloat = "1"
 	} else {

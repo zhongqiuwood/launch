@@ -8,3 +8,4 @@ const (
 	FeeTypeOrderDeal   = "deal"
 )
 
+const ChainAsset = "okb"

@@ -2,8 +2,12 @@ package app
 
 import (
 	"fmt"
+	"github.com/cosmos/cosmos-sdk/baseapp"
+	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/ok-chain/okchain/util"
+	"github.com/ok-chain/okchain/x/perf"
 	abci "github.com/tendermint/tendermint/abci/types"
+	"github.com/tendermint/tendermint/crypto/tmhash"
 )
 
 // abci "github.com/tendermint/tendermint/abci/types"
@@ -62,14 +66,37 @@ func (app *DexApp) CheckTx(txBytes []byte) (res abci.ResponseCheckTx) {
 // Consensus Connection
 
 func (app *DexApp) BeginBlock(req abci.RequestBeginBlock) (res abci.ResponseBeginBlock) {
-	app.log("[ABCI interface] ---> BeginBlock")
+
+	app.log("[ABCI interface][%d] ---> BeginBlock in", app.LastBlockHeight())
+	defer app.log("[ABCI interface][%d]  ---> BeginBlock out", app.LastBlockHeight())
+
+	seq := perf.GetPerf().OnAppBeginBlockEnter(app.LastBlockHeight() + 1)
+	defer perf.GetPerf().OnAppBeginBlockExit(app.LastBlockHeight() + 1, seq)
+
 	return app.BaseApp.BeginBlock(req)
+}
+
+// sync txBytes to backend module
+func (app *DexApp) syncTx(txBytes []byte) {
+	if tx, err := auth.DefaultTxDecoder(app.cdc)(txBytes); err == nil {
+		if stdTx, ok := tx.(auth.StdTx); ok {
+			txHash := fmt.Sprintf("%X", tmhash.Sum(txBytes))
+			app.log("[Sync Tx(%s) to backend module]", txHash)
+			ctx := app.GetState(baseapp.RunTxModeDeliver).Context()
+			app.backendKeeper.ProduceTxEvent(ctx, &stdTx, txHash, ctx.BlockHeader().Time.Unix())
+		}
+	}
 }
 
 func (app *DexApp) DeliverTx(txBytes []byte) (res abci.ResponseDeliverTx) {
 	app.log("[ABCI interface] ---> DeliverTx in")
 	defer app.log("[ABCI interface] ---> DeliverTx out")
-	return app.BaseApp.DeliverTx(txBytes)
+
+	response := app.BaseApp.DeliverTx(txBytes)
+	if response.IsOK() {
+		app.syncTx(txBytes)
+	}
+	return response
 }
 
 // EndBlock implements the ABCI interface.
@@ -77,11 +104,17 @@ func (app *DexApp) EndBlock(req abci.RequestEndBlock) (res abci.ResponseEndBlock
 	app.log("[ABCI interface] ---> EndBlock in")
 	defer app.log("[ABCI interface] ---> EndBlock out")
 
+	seq := perf.GetPerf().OnAppEndBlockEnter(app.LastBlockHeight() + 1)
+	defer perf.GetPerf().OnAppEndBlockExit(app.LastBlockHeight() + 1, seq)
+
 	return app.BaseApp.EndBlock(req)
 }
 
 // Commit implements the ABCI interface.
 func (app *DexApp) Commit() abci.ResponseCommit {
+
+	seq := perf.GetPerf().OnCommitEnter(app.LastBlockHeight() + 1)
+	defer perf.GetPerf().OnCommitExit(app.LastBlockHeight() + 1, seq, app.Logger())
 
 	app.log("[ABCI interface] ---> Commit in")
 	res := app.BaseApp.Commit()
@@ -89,6 +122,7 @@ func (app *DexApp) Commit() abci.ResponseCommit {
 
 	return res
 }
+
 
 // Consensus Connection
 // ===================================
