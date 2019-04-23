@@ -36,7 +36,7 @@ ${SSH}@$1 << eeooff
     sudo systemctl start okchaind
     sudo systemctl status okchaind
     
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
     ./setseed.sh
     
     exit
@@ -57,7 +57,7 @@ eeooff
 function clean {
     echo clean@$1
 ${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
     ./clean.sh
     exit
 eeooff
@@ -75,7 +75,7 @@ eeooff
 function vote {
         echo vote@$1 proposal=$2
 ${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
     ./vote.sh $2
     exit
 eeooff
@@ -84,7 +84,7 @@ eeooff
 function issue {
         echo issue@$1 token=$2
 ${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
     ./issue.sh $2
     exit
 eeooff
@@ -93,7 +93,7 @@ eeooff
 function proposal {
         echo proposal@$1 token=$2
 ${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
     ./proposal.sh $2
     exit
 eeooff
@@ -103,7 +103,7 @@ eeooff
 function active {
         echo proposal@$1 proposal=$2
 ${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/cloud/profile
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
     ./active.sh $2
     exit
 eeooff
