@@ -2,7 +2,7 @@
 
 ## okchain launch 使用流程
 
-### 1. 生成Captain账户 *<Boos操作>*
+### 1. 生成Captain账户 *<Boss操作>*
 * 在一台离线机器创建`Captain账户`. 该账户将保存10亿个OKB
    ```sh
    okchaincli keys add captain --passwd 12345678
