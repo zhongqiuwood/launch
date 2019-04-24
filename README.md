@@ -2,29 +2,14 @@
 
 ## okchain launch 使用流程
 
-### 1. 生成Captain账户 *<Boss操作>*
-* 在一台离线机器创建`Captain账户`. 该账户将保存10亿个OKB
-   ```sh
-   okchaincli keys add captain --passwd 12345678
-   ```
-   将生成类似以下内容：
-   ```
-   NAME:   TYPE:   ADDRESS:                                        PUBKEY:
-   captain local   okchain1gxsegjq6xp4a30tc8kc8h7w9ej7vfx8a2zrr05  okchainpub1addwnpepqwa2v88qt4mgee5p2s0jl7dppw32jzt6jp98txk88q2x9ens94vcy6uawvt
-
-   **Important** write this mnemonic phrase in a safe place.
-   It is the only way to recover your account if you ever forget your password.
-
-   pulse whip pelican between bring decorate laptop abuse spend avoid pyramid judge
-   ```
-   ***务必保存好助记词***
-
-* 将账户`ADDRESS`公开给研发人员，如`okchain1gxsegjq6xp4a30tc8kc8h7w9ej7vfx8a2zrr05`
+### 1. 生成Captain账户 *<钱包组操作>*
+* 创建`Captain账户`，该账户将保存10亿个OKB
+* 将账户地址公开给研发人员，如`okchain1gxsegjq6xp4a30tc8kc8h7w9ej7vfx8a2zrr05`
 
 ### 2. 生成Admin账户 *<工程院操作>*
 * 在另外一台机器创建`Admin账户`. 该账户为第一个Validator的委托账户, 负责启动OKChain第一个超级节点和生成创世块
 
-   在初始块中为`Admin账户`分配1000000okb，用于创建Validator，日后将1000000okb返还给`Captain账户`
+   在初始块中为`Admin账户`分配1000000okb，用于创建Validator，日后将`Admin账户`余额全部返还给`Captain账户`
    ```
    okchaincli keys add admin --passwd 12345678
    ```
