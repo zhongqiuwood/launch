@@ -9,7 +9,7 @@
 ### 2. 生成Admin账户 *<工程院操作>*
 * 在另外一台机器创建`Admin账户`. 该账户为第一个Validator的委托账户, 负责启动OKChain第一个超级节点和生成创世块
 
-   在初始块中为`Admin账户`分配1000000okb，用于创建Validator，日后将`Admin账户`余额全部返还给`Captain账户`
+   在初始块中为`Admin账户`分配**至少1okb**，用于创建Validator，日后将`Admin账户`余额全部返还给`Captain账户`
    ```
    okchaincli keys add admin --passwd 12345678
    ```
@@ -22,11 +22,11 @@
    ```
 * 将"Admin账户"账户信息写入genesis.json
    ```
-    okchaind add-genesis-account cosmos1m3gmu4zlnv2hmqfu2jwr97r2653w9yshxkhfea 1000000okb
+    okchaind add-genesis-account cosmos1m3gmu4zlnv2hmqfu2jwr97r2653w9yshxkhfea 1okb
    ```
 * 用"Admin账户"的私钥和密码生成创世块交易
    ```shell
-    okchaind gentx --amount 1000000okb --min-self-delegation 1 --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.001 --pubkey $(okchaind tendermint show-validator) --name admin
+    okchaind gentx --amount 1okb --min-self-delegation 1 --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.001 --pubkey $(okchaind tendermint show-validator) --name admin
    ```
 * 查看交易文件，`$HOME/.okchaind/config/gentx/`中的内容
 
