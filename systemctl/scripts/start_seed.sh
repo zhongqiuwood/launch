@@ -24,12 +24,12 @@ if [ ! -d ${HOME_DAEMON} ]; then
     ${OKCHAIN_CLI} config indent true --home ${HOME_CLI}
 
     ${OKCHAIN_DAEMON} add-genesis-account $(${OKCHAIN_CLI} keys show admin -a --home ${HOME_CLI}) \
-        2000000okb --home ${HOME_DAEMON}
+        1okb --home ${HOME_DAEMON}
 
     ${OKCHAIN_DAEMON} add-genesis-account $(${OKCHAIN_CLI} keys show captain -a --home ${HOME_CLI}) \
         1000000000okb --home ${HOME_DAEMON}
 
-    ${OKCHAIN_DAEMON} gentx --amount 1000000okb --min-self-delegation 1 --commission-rate 0.1 \
+    ${OKCHAIN_DAEMON} gentx --amount 1okb --min-self-delegation 1 --commission-rate 0.1 \
         --commission-max-rate 0.5 --commission-max-change-rate 0.001 \
         --pubkey $(${OKCHAIN_DAEMON} tendermint show-validator --home ${HOME_DAEMON}) \
         --name admin --home ${HOME_DAEMON} --home-client ${HOME_CLI}
@@ -54,8 +54,8 @@ if [ ! -d ${HOME_DAEMON} ]; then
         ${OKCHAIN_CLI} config indent true --home ${home_cli}
 
         ${OKCHAIN_DAEMON} add-genesis-account $(${OKCHAIN_CLI} keys show ${host} -a --home ${home_cli}) \
-            2000000okb --home ${home_d}
-        ${OKCHAIN_DAEMON} gentx --amount 1000000okb --min-self-delegation 1 --commission-rate 0.1 \
+            1okb --home ${home_d}
+        ${OKCHAIN_DAEMON} gentx --amount 1okb --min-self-delegation 1 --commission-rate 0.1 \
             --commission-max-rate 0.5 --commission-max-change-rate 0.001 \
             --pubkey $(${OKCHAIN_DAEMON} tendermint show-validator --home ${home_d}) \
             --name ${host} --home ${home_d} --home-client ${home_cli}

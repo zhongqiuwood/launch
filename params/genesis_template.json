@@ -1,5 +1,5 @@
 {
-  "genesis_time": "2019-04-23T03:22:53.946802Z",
+  "genesis_time": "2019-04-25T07:36:18.986838Z",
   "chain_id": "okchain",
   "consensus_params": {
     "block": {
@@ -55,7 +55,7 @@
         "bonded_tokens": "0"
       },
       "params": {
-        "unbonding_time": "777600000000000",
+        "unbonding_time": "518400000000000",
         "max_validators": 21,
         "max_entries": 7,
         "bond_denom": "okb"
@@ -103,7 +103,7 @@
         "dex_list_vote_fee": [
           {
             "denom": "okb",
-            "amount": "0.00000000"
+            "amount": "1.00000000"
           }
         ],
         "dex_list_max_block_height": "10000",

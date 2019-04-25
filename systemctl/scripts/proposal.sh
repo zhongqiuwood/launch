@@ -4,7 +4,7 @@
 
 ${OKCHAIN_CLI} tx gov submit-dex-list-proposal \
     --title="list $1/okb" \
-    --description="list $1/okb" \
+    --description="" \
     --type=DexList \
     --deposit="100000okb" \
     --listAsset="$1" \
