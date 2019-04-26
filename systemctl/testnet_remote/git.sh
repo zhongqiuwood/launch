@@ -1,12 +1,16 @@
 #!/bin/bash
 
-. ./okchaind.profile
+PROFILE=cloud_okchaind.profile
 
-while getopts "c" opt; do
+while getopts "cp:" opt; do
   case $opt in
     c)
       echo "GIT_CLONE"
       GIT_CLONE="true"
+      ;;
+    p)
+      echo "PROFILE=$OPTARG"
+      PROFILE=$OPTARG
       ;;
     \?)
       echo "Invalid option: -$OPTARG"
@@ -14,6 +18,7 @@ while getopts "c" opt; do
   esac
 done
 
+. ./${PROFILE}
 
 function gitpull {
 echo git pull@$1
