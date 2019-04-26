@@ -64,12 +64,16 @@ sleep 5
 #okdexcli tx token mint -s okb -n ${AMOUNT} --from captain --chain-id okchain -y
 
 
-COINS=${AMOUNT}okb
+COINS=${AMOUNT}btc,\
+${AMOUNT}eos,\
+${AMOUNT}okb
 
 header=$(okchaincli keys show ${USER_NAME}0 -a --home ${OKDEXCLI_HOME}0)
 okecho okchaincli tx send ${header} ${COINS} --from captain -y --chain-id okchain --node ${RPC_INTERFACE}
 
-REWARD=${BALANCE}okb
+REWARD=${BALANCE}btc,\
+${BALANCE}eos,\
+${BALANCE}okb
 
 sleep 5
 okecho okchaincli query account ${header} --chain-id okchain --node ${RPC_INTERFACE}
@@ -85,10 +89,6 @@ done
 
 res=$(okchaincli query account $(okchaincli keys show captain -a) --node ${RPC_INTERFACE} |grep Coins)
 echo "captain ${res}"
-
-
-
-
 
 
 
