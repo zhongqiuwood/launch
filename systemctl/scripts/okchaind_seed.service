@@ -5,7 +5,6 @@ Description=okchaind
 Type=simple
 RemainAfterExit=yes
 ExecStart=/bin/bash /home/ubuntu/okchain/launch/systemctl/scripts/start_seed.sh
-ExecStop=/bin/bash /home/ubuntu/okchain/launch/systemctl/scripts/okchaind_kill.sh
 Restart=always
 User=ubuntu
 
