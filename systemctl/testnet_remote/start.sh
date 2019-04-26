@@ -1,14 +1,17 @@
 #!/bin/bash
 
-. ./okchaind.profile
-
+PROFILE=cloud_okchaind.profile
 TOKENS=(btc eth eos ltc xrp)
 
-while getopts "csta" opt; do
+while getopts "cstap:" opt; do
   case $opt in
     c)
       echo "CLEAN"
       CLEAN="true"
+      ;;
+    p)
+      echo "PROFILE=$OPTARG"
+      PROFILE=$OPTARG
       ;;
     t)
       echo "TOKEN"
@@ -28,6 +31,7 @@ while getopts "csta" opt; do
   esac
 done
 
+. ./${PROFILE}
 
 function startseed {
     echo startseed@$1
