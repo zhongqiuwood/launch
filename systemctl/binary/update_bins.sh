@@ -17,7 +17,7 @@ ssh root@192.168.13.116 << eeooff
     cp /usr/local/go/bin/okchaincli .
     cp /root/go/src/github.com/cosmos/launch/launch .
     ./zip.sh
-    ./gitpush
+    ./gitpush.sh
 eeooff
 echo done!
 }
