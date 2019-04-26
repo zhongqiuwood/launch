@@ -3,8 +3,12 @@
 PROFILE=cloud_okchaind.profile
 TOKENS=(btc eth eos ltc xrp)
 
-while getopts "cstap:" opt; do
+while getopts "rcstap:" opt; do
   case $opt in
+    r)
+      echo "RESTART"
+      RESTART="true"
+      ;;
     c)
       echo "CLEAN"
       CLEAN="true"
@@ -33,8 +37,8 @@ done
 
 . ./${PROFILE}
 
-function startseed {
-    echo startseed@$1
+start_seed_node() {
+    echo start_seed_node@$1
 ${SSH}@$1 << eeooff
     sudo systemctl stop okchaind
     sudo systemctl start okchaind
@@ -46,14 +50,13 @@ ${SSH}@$1 << eeooff
     exit
 eeooff
 }
-
-function startfull {
-    echo startfull@$1
+ 
+start_full_node() {
+    echo start_full_node@$1
 ${SSH}@$1 << eeooff
     sudo systemctl stop okchaind
     sudo systemctl start okchaind
     sudo systemctl status okchaind
-    
     exit
 eeooff
 }
@@ -72,6 +75,17 @@ function stop {
 ${SSH}@$1 << eeooff
     sudo systemctl stop okchaind
     sudo systemctl status okchaind
+    exit
+eeooff
+}
+
+function stop_and_cleanup {
+    echo stop@$1
+${SSH}@$1 << eeooff
+    sudo systemctl stop okchaind
+    sudo systemctl status okchaind
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
+    ./clean.sh
     exit
 eeooff
 }
@@ -113,8 +127,7 @@ ${SSH}@$1 << eeooff
 eeooff
 }
 
-function main {
-    if [ ! -z "${ACTIVE}" ];then
+exe_active() {
         for (( i=1;i<=${#TOKENS[@]};i++))
         do
             for host in ${OKCHAIN_TESTNET_SEED_HOST[@]}
@@ -123,13 +136,13 @@ function main {
             done
         done
         exit
-    fi
+}
 
-    if [ ! -z "${TOKEN}" ];then
+exe_ico() {
         for (( i=0;i<${#TOKENS[@]};i++))
         do
             token=${TOKENS[i]}
-            
+
             for host in ${OKCHAIN_TESTNET_SEED_HOST[@]}
             do
                 issue ${host} ${token}
@@ -139,14 +152,14 @@ function main {
             sleep 2
             for host in ${OKCHAIN_TESTNET_ALL_HOSTS[@]}
             do
-                let id=${i}+1
+                ((id = ${i} + 1))
                 vote ${host} ${id}
             done
         done
         exit
-    fi
+}
 
-    if [ ! -z "${STOP}" ];then
+exe_stop() {
         for host in ${OKCHAIN_TESTNET_ALL_HOSTS[@]}
         do
             stop ${host}
@@ -155,31 +168,58 @@ function main {
             fi
         done
         exit
-    fi
+}
+
+run() {
 
     echo "========== start seed node =========="
     for host in ${OKCHAIN_TESTNET_SEED_HOST[@]}
     do
-        if [ ! -z "${CLEAN}" ];then
+        if [ ! -z "${RESTART}" ];then
             stop ${host}
+        fi
+
+        if [ ! -z "${CLEAN}" ];then
             clean ${host}
         fi
 
-        startseed ${host}
+        start_seed_node ${host}
     done
-    
+
     echo "========== wating seed node done =========="
     sleep 30
 
     echo "========== start full node =========="
     for host in ${OKCHAIN_TESTNET_FULL_HOSTS[@]}
     do
+
+        if [ ! -z "${RESTART}" ];then
+            stop ${host}
+        fi
+
         if [ ! -z "${CLEAN}" ];then
             clean ${host}
         fi
 
-        startfull ${host}
+        start_full_node ${host} &
     done
+}
+
+
+function main {
+    if [ ! -z "${ACTIVE}" ];then
+        exe_active
+    fi
+
+    if [ ! -z "${TOKEN}" ];then
+       exe_ico
+    fi
+
+    if [ ! -z "${STOP}" ];then
+        exe_stop
+    fi
+
+    run
 }
 
 main

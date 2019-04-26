@@ -65,7 +65,7 @@ function main {
 
     for host in ${OKCHAIN_TESTNET_ALL_HOSTS[@]}
     do
-        gitpull ${host}
+        gitpull ${host} &
     done
 }
 
