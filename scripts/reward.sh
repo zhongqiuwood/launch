@@ -65,22 +65,21 @@ sleep 5
 
 
 COINS=${AMOUNT}btc,\
-${AMOUNT}eos,\
 ${AMOUNT}okb
 
 header=$(okchaincli keys show ${USER_NAME}0 -a --home ${OKDEXCLI_HOME}0)
 okecho okchaincli tx send ${header} ${COINS} --from captain -y --chain-id okchain --node ${RPC_INTERFACE}
 
 REWARD=${BALANCE}btc,\
-${BALANCE}eos,\
 ${BALANCE}okb
 
 sleep 5
 okecho okchaincli query account ${header} --chain-id okchain --node ${RPC_INTERFACE}
 
-okecho okchaincli tx send dummy ${REWARD} --from ${USER_NAME} -r ${USER_NUM} -y --chain-id okchain -p \
+okecho okchaincli tx send dummy ${REWARD} --from ${USER_NAME} -r ${USER_NUM} -y --chain-id okchain \
     --home ${OKDEXCLI_HOME} --node ${RPC_INTERFACE}
 
+exit
 for ((index=0;index<${USER_NUM};index++)) do
     res=$(okchaincli query account $(okchaincli keys show ${USER_NAME}${index} -a --home ${OKDEXCLI_HOME}${index}) \
         --node ${RPC_INTERFACE}|grep Coins)
