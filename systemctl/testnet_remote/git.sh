@@ -27,9 +27,7 @@ ${SSH}@$1 << eeooff
     git checkout .
     git pull
     cd ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/
-    gzip -dkf okchaind.gz
-    gzip -dkf okchaincli.gz
-    gzip -dkf launch.gz
+    ./unzip.sh
     mv ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
     cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
     ./service.sh
@@ -43,9 +41,7 @@ ${SSH}@$1 << eeooff
     sudo rm -rf ${OKCHAIN_LAUNCH_TOP}
     git clone ${LAUNCH_GIT} ${OKCHAIN_LAUNCH_TOP}
     cd ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/
-    gzip -dkf okchaind.gz
-    gzip -dkf okchaincli.gz
-    gzip -dkf launch.gz
+    ./unzip.sh
     mv ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
     cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
     ./service.sh

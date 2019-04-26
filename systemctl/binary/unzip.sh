@@ -2,9 +2,7 @@
 
 
 function main {
-    gzip -dkf okchaind.gz
-    gzip -dkf okchaincli.gz
-    gzip -dkf launch.gz
+      tar -zxvf okchainbins.tar.gz
 }
 
 main
