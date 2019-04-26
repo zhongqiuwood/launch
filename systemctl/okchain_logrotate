@@ -1,4 +1,4 @@
-/root/okchaind.log {
+/home/ubuntu/.okchaind/okchaind.log {
     daily
     create
     rotate 10

@@ -82,4 +82,4 @@ ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.seed_mode=true \
     --p2p.addr_book_strict=false \
     --log_level *:info \
-    --p2p.laddr tcp://${LOCAL_IP}:26656 2>&1 >> ${HOME}/okchaind.log
+    --p2p.laddr tcp://${LOCAL_IP}:26656
