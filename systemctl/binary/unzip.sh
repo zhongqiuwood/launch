@@ -2,7 +2,8 @@
 
 
 function main {
-      tar -zxvf okchainbins.tar.gz
+    echo "untar okchainbins.tar.gz..."
+    tar -zxvf okchainbins.tar.gz
 }
 
 main
