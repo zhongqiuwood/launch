@@ -22,5 +22,5 @@ fi
 ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.seeds ${SEED_NODE_ID}@${SEED_NODE_URL} \
     --p2p.addr_book_strict=false \
-    --log_level *:info \
+    --log_level main:info,state:info,x/order:info \
     --p2p.laddr tcp://${LOCAL_IP}:26656
