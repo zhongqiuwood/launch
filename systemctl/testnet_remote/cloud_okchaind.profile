@@ -1,5 +1,7 @@
 OKCHAIN_LAUNCH_TOP=/home/ubuntu/okchain/launch
 LAUNCH_GIT=https://github.com/okblockchainlab/launch.git
+OKBINS_GIT=https://github.com/okblockchainlab/okbins.git
+
 
 OKCHAIN_TESTNET_ALL_HOSTS=(okchain_cloud16 okchain_cloud21 okchain_cloud22 okchain_cloud23 okchain_cloud24 okchain_cloud25)
 OKCHAIN_TESTNET_SEED_HOST=okchain_cloud16

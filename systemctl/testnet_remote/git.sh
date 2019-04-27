@@ -26,8 +26,8 @@ ${SSH}@$1 << eeooff
     cd ${OKCHAIN_LAUNCH_TOP}
     git checkout .
     git pull
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/
-    ./unzip.sh
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/okbins
+    ../unzip.sh
     mv ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
     cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
     ./service.sh
@@ -41,7 +41,11 @@ ${SSH}@$1 << eeooff
     sudo rm -rf ${OKCHAIN_LAUNCH_TOP}
     git clone ${LAUNCH_GIT} ${OKCHAIN_LAUNCH_TOP}
     cd ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/
+
+    git clone ${OKBINS_GIT}
+    cd okbins
     ./unzip.sh
+
     mv ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
     cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
     ./service.sh
@@ -62,12 +66,12 @@ ssh root@192.168.13.116 << eeooff
     git stash
     git pull
     go build
-    cd /root/go/src/github.com/cosmos/launch/systemctl/binary/
+    cd /root/go/src/github.com/cosmos/launch/systemctl/binary/okbins
     cp /usr/local/go/bin/okchaind .
     cp /usr/local/go/bin/okchaincli .
     cp /root/go/src/github.com/cosmos/launch/launch .
-    ./zip.sh
-    ./gitpush.sh
+    ../zip.sh
+    ../gitpush.sh
 eeooff
 echo done!
 }
