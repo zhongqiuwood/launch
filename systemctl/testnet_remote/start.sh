@@ -3,8 +3,12 @@
 PROFILE=cloud_okchaind.profile
 TOKENS=(btc eth eos ltc xrp)
 
-while getopts "rcstap:" opt; do
+while getopts "qrcstap:" opt; do
   case $opt in
+    q)
+      echo "QUERY"
+      QUERY="true"
+      ;;
     r)
       echo "RESTART"
       RESTART="true"
@@ -56,6 +60,14 @@ start_full_node() {
 ${SSH}@$1 << eeooff
     sudo systemctl stop okchaind
     sudo systemctl start okchaind
+    sudo systemctl status okchaind
+    exit
+eeooff
+}
+
+query_node() {
+    echo start_full_node@$1
+${SSH}@$1 << eeooff
     sudo systemctl status okchaind
     exit
 eeooff
@@ -170,6 +182,14 @@ exe_stop() {
         exit
 }
 
+exe_query() {
+        for host in ${OKCHAIN_TESTNET_ALL_HOSTS[@]}
+        do
+            query_node ${host}
+        done
+        exit
+}
+
 run() {
 
     echo "========== start seed node =========="
@@ -217,6 +237,10 @@ function main {
 
     if [ ! -z "${STOP}" ];then
         exe_stop
+    fi
+
+    if [ ! -z "${QUERY}" ];then
+        exe_query
     fi
 
     run
