@@ -36,8 +36,8 @@ while getopts "c:x:b:d:P:p:su:q:" opt; do
       BATCH_NUM=$OPTARG
       ;;
     d)
-      echo "BALANCE=$OPTARG"
-      BALANCE=$OPTARG
+      echo "DEPTH=$OPTARG"
+      DEPTH=$OPTARG
       ;;
     P)
       echo "PRODUCT=$OPTARG"
@@ -57,3 +57,9 @@ done
 okchaincli tx order new ${PRODUCT} ${SIDE} ${PRICE} ${QUANTITY} --from ${USER} \
     -y -c ${CONCURRENT_NUM} -x ${NUM_PER_THREAD} -b ${BATCH_NUM} -d ${DEPTH} ${CC}
 
+
+
+
+exit
+
+okchaincli tx order new btc_okb SELL 0.1 1000000000 --from captain -y $CC

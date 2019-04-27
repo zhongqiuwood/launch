@@ -11,9 +11,12 @@ RPC_NODE=c16
 RPC_PORT=26657
 
 
-while getopts "c:h:u:a:b:n:" opt; do
+while getopts "c:h:u:a:b:n:N" opt; do
   case $opt in
-
+    N)
+      echo "CREATE_NEW_USER"
+      CREATE_NEW_USER="Y"
+      ;;
     n)
       echo "RPC_NODE=$OPTARG"
       RPC_NODE=$OPTARG
@@ -53,7 +56,9 @@ okecho() {
  $@
 }
 
-okecho ${CURDIR}/genacc.sh -u ${USER_NAME} -c ${USER_NUM} -r -h ${OKDEXCLI_HOME}
+if [ ! -z "${CREATE_NEW_USER}" ]; then
+    okecho ${CURDIR}/genacc.sh -u ${USER_NAME} -c ${USER_NUM} -r -h ${OKDEXCLI_HOME}
+fi
 
 okchaincli keys add --recover captain -y \
     -m "puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
