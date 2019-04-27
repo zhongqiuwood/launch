@@ -55,11 +55,11 @@ done
 
 
 okchaincli tx order new ${PRODUCT} ${SIDE} ${PRICE} ${QUANTITY} --from ${USER} \
-    -y -c ${CONCURRENT_NUM} -x ${NUM_PER_THREAD} -b ${BATCH_NUM} -d ${DEPTH} ${CC}
+    -y -c ${CONCURRENT_NUM} -x ${NUM_PER_THREAD} -b ${BATCH_NUM} -d ${DEPTH} ${CCC}
 
 
 
 
 exit
 
-okchaincli tx order new btc_okb SELL 0.1 1000000000 --from captain -y $CC
+okchaincli tx order new btc_okb SELL 0.1 1000000000 --from captain -y ${CCC}
