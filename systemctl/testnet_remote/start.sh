@@ -232,7 +232,9 @@ function main {
     fi
 
     if [ ! -z "${TOKEN}" ];then
-       exe_ico
+        exe_ico
+        sleep 60
+        exe_active
     fi
 
     if [ ! -z "${STOP}" ];then

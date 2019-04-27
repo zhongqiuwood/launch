@@ -70,6 +70,8 @@ ${SSH}@$1 << eeooff
     git checkout .
     git pull
     cd ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/okbins
+    git checkout .
+    git pull
     ../unzip.sh
 
     mv ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
