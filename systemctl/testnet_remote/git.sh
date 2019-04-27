@@ -20,20 +20,7 @@ done
 
 . ./${PROFILE}
 
-function pull_build {
-echo git pull@$1
-${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}
-    git checkout .
-    git pull
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/okbins
-    ../unzip.sh
-    mv ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
-    ./service.sh
-eeooff
-echo done!
-}
+
 
 function gitclone {
 echo git clone@$1
@@ -44,7 +31,7 @@ ${SSH}@$1 << eeooff
 
     git clone ${OKBINS_GIT}
     cd okbins
-    ./unzip.sh
+    ../unzip.sh
 
     mv ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
     cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
@@ -76,6 +63,21 @@ eeooff
 echo done!
 }
 
+function pull_build {
+echo git pull@$1
+${SSH}@$1 << eeooff
+    cd ${OKCHAIN_LAUNCH_TOP}
+    git checkout .
+    git pull
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/okbins
+    ../unzip.sh
+
+    mv ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
+    ./service.sh
+eeooff
+echo done!
+}
 
 function main {
     if [ ! -z "${GIT_CLONE}" ];then
