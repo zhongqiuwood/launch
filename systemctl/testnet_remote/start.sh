@@ -233,7 +233,7 @@ function main {
 
     if [ ! -z "${TOKEN}" ];then
         exe_ico
-        sleep 60
+        sleep 100
         exe_active
     fi
 

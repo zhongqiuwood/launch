@@ -3,15 +3,17 @@ set -e
 CURDIR=`dirname $0`
 
 # default params
-USER_NUM=16
+USER_NUM=32
 USER_NAME=user
 OKDEXCLI_HOME=~/.okchaincli
-BALANCE=10000
-RPC_NODE=localhost
+BALANCE=1000000
+RPC_NODE=c16
 RPC_PORT=26657
+
 
 while getopts "c:h:u:a:b:n:" opt; do
   case $opt in
+
     n)
       echo "RPC_NODE=$OPTARG"
       RPC_NODE=$OPTARG

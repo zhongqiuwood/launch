@@ -10,10 +10,19 @@ BATCH_NUM=10
 PRODUCT=btc_okb
 SIDE=BUY
 USER=user
+QUANTITY=0.1
+PRICE=0.1
 
-
-while getopts "c:x:b:d:p:su:" opt; do
+while getopts "c:x:b:d:P:p:su:q:" opt; do
   case $opt in
+    q)
+      echo "QUANTITY=$OPTARG"
+      QUANTITY=$OPTARG
+      ;;
+    p)
+      echo "PRICE=$OPTARG"
+      PRICE=$OPTARG
+      ;;
     c)
       echo "CONCURRENT_NUM=$OPTARG"
       CONCURRENT_NUM=$OPTARG
@@ -30,7 +39,7 @@ while getopts "c:x:b:d:p:su:" opt; do
       echo "BALANCE=$OPTARG"
       BALANCE=$OPTARG
       ;;
-    p)
+    P)
       echo "PRODUCT=$OPTARG"
       PRODUCT=$OPTARG
       ;;
@@ -45,6 +54,6 @@ while getopts "c:x:b:d:p:su:" opt; do
 done
 
 
-okchaincli tx order new ${PRODUCT} ${SIDE} 0.1 0.1 --from ${USER} \
+okchaincli tx order new ${PRODUCT} ${SIDE} ${PRICE} ${QUANTITY} --from ${USER} \
     -y -c ${CONCURRENT_NUM} -x ${NUM_PER_THREAD} -b ${BATCH_NUM} -d ${DEPTH} ${CC}
 
