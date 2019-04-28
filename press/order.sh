@@ -19,6 +19,10 @@ while getopts "c:x:b:d:P:p:su:q:" opt; do
       echo "QUANTITY=$OPTARG"
       QUANTITY=$OPTARG
       ;;
+    u)
+      echo "USER=$OPTARG"
+      USER=$OPTARG
+      ;;
     p)
       echo "PRICE=$OPTARG"
       PRICE=$OPTARG
