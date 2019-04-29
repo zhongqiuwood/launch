@@ -2,11 +2,15 @@
 
 PROFILE=cloud_okchaind.profile
 
-while getopts "cp:" opt; do
+while getopts "bcp:" opt; do
   case $opt in
     c)
       echo "GIT_CLONE"
       GIT_CLONE="true"
+      ;;
+    b)
+      echo "REBUILD_BINARIES"
+      REBUILD_BINARIES="true"
       ;;
     p)
       echo "PROFILE=$OPTARG"
@@ -41,7 +45,7 @@ echo done!
 }
 
 
-function push_build {
+function rebuild_and_push {
 ssh root@192.168.13.116 << eeooff
     source ~/env.sh
     cd /root/go/src/github.com/ok-chain/okchain
@@ -63,7 +67,7 @@ eeooff
 echo done!
 }
 
-function pull_build {
+function pull_update {
 echo git pull@$1
 ${SSH}@$1 << eeooff
     cd ${OKCHAIN_LAUNCH_TOP}
@@ -91,11 +95,13 @@ function main {
         exit
     fi
 
-    push_build
+    if [ ! -z "${REBUILD_BINARIES}" ];then
+        rebuild_and_push
+    fi
 
     for host in ${OKCHAIN_TESTNET_ALL_HOSTS[@]}
     do
-        pull_build ${host} &
+        pull_update ${host} &
     done
 }
 

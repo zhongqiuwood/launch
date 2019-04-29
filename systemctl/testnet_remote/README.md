@@ -1,14 +1,15 @@
 
 ## 1. 测试网络部署
 
-1. 执行```./git.sh```编译并上传最新的binaries到git, 再从git下载最新binaries
+1. 执行```./git.sh```仅更新launch脚本
+1. 执行```./git.sh -b```更新launch脚本，并编译并上传最新的binaries到git, 再从git下载最新binaries
 1. 执行```./start -r``` 启动系统
 
 ## 2. ```start.sh``` usage
 ```sh
 ./start.sh
 ```
-`-c` 清理所有相关数据后，启动节点
+`-c` 清理所有区块数据后，重新创建创世块启动节点
 
 `-s` 停止所有机器上的okchaind
 
