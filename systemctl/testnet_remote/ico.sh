@@ -3,8 +3,8 @@ set -e
 
 CURDIR=`dirname $0`
 . ${CURDIR}/../scripts/okchaind.profile
+. ./token.profile
 
-TOKENS=(btc eth eos ltc xrp xmr)
 OKCHAIN_CLI=okchaincli
 BEGIN_PROPOSALID=1
 ADMIN_HOME=~/.okchaincli/admin

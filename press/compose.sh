@@ -1,7 +1,6 @@
 #!/bin/bash
 
 PROFILE=cloud_okchaind.profile
-TOKENS=(btc eth eos ltc xrp)
 
 while getopts "qrcstap:" opt; do
   case $opt in

@@ -161,7 +161,7 @@ run() {
 function main {
 
     if [ ! -z "${TOKEN}" ];then
-        ./scripts/ico.sh
+        ./ico.sh
         exit
     fi
 
