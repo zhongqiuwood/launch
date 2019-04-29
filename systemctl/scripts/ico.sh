@@ -6,8 +6,25 @@ CURDIR=`dirname $0`
 
 TOKENS=(btc eth eos ltc xrp xmr)
 OKCHAIN_CLI=okchaincli
-PROPOSALID=1
+BEGIN_PROPOSALID=1
 ADMIN_HOME=~/.okchaincli/admin
+
+
+while getopts "ap:" opt; do
+  case $opt in
+    p)
+      echo "BEGIN_PROPOSALID=$OPTARG"
+      BEGIN_PROPOSALID=$OPTARG
+      ;;
+    a)
+      echo "ACTIVE_ONLY"
+      ACTIVE_ONLY="true"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG"
+      ;;
+  esac
+done
 
 if [ $# -gt 0 ]; then
     PROPOSALID=$1
@@ -35,11 +52,12 @@ proposal() {
         --maxSizeDigit=4 \
         --minTradeSize="0.001" \
         --from captain -y \
+        --chain-id okchain \
         --node ${TESTNET_RPC_INTERFACE}
 }
 
 issue() {
-    ${OKCHAIN_CLI} tx token issue --from captain --symbol ${1} \
+    ${OKCHAIN_CLI} tx token issue --from captain --symbol ${1} --chain-id okchain \
         -n 60000000000 --mintable=true -y --node ${TESTNET_RPC_INTERFACE}
 }
 
@@ -54,7 +72,7 @@ vote() {
 
 recover() {
 
-   ${OKCHAIN_CLI} keys add --recover captain -y -m "${CAPTAIN_MNEMONIC}" &
+   ${OKCHAIN_CLI} keys add --recover captain -y -m "${CAPTAIN_MNEMONIC}"
    for ((i=0; i<${#OKCHAIN_TESTNET_ALL_ADMIN_MNEMONIC[@]}; i++))
    do
        mnemonic=${OKCHAIN_TESTNET_ALL_ADMIN_MNEMONIC[i]}
@@ -63,10 +81,20 @@ recover() {
 }
 
 active() {
-    okecho ${OKCHAIN_CLI} tx gov dexlist --proposal $1 --from captain -y --node ${TESTNET_RPC_INTERFACE}
+    okecho ${OKCHAIN_CLI} tx gov dexlist --proposal $1 --chain-id okchain --from captain -y --node ${TESTNET_RPC_INTERFACE}
 }
 
+active_all() {
+    for ((i=0; i<${#TOKENS[@]}; i++))
+    do
+        ((proposal_id = i + $1))
+        okecho active ${proposal_id}
+    done
+}
+
+
 ico() {
+    # $1: 1st proposal id
     for ((i=0; i<${#TOKENS[@]}; i++))
     do
         token=${TOKENS[i]}
@@ -85,16 +113,18 @@ ico() {
     echo "sleeping ..."
     sleep 60
 
-    for ((i=0; i<${#TOKENS[@]}; i++))
-    do
-        ((proposal_id = i + $1))
-        okecho active ${proposal_id}
-    done
+    active_all $1
 }
 
 main() {
+
+    if [ ! -z "${ACTIVE_ONLY}" ]; then
+        active_all $1
+        exit
+    fi
+
     recover
     ico $1
 }
 
-main ${PROPOSALID}
+main ${BEGIN_PROPOSALID}

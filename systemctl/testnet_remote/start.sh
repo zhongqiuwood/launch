@@ -233,6 +233,7 @@ function main {
 
     if [ ! -z "${TOKEN}" ];then
         ../scripts/ico.sh
+        exit
     fi
 
     if [ ! -z "${STOP}" ];then
