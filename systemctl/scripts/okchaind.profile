@@ -3,6 +3,32 @@ OKCHAIN_CLI=/home/ubuntu/okchain/launch/systemctl/binary/okchaincli
 HOME_DAEMON=/home/ubuntu/.okchaind
 HOME_CLI=/home/ubuntu/.okchaincli
 
+CAPTAIN_MNEMONIC="puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
+ADMIN_MNEMONIC="keen border system oil inject hotel hood potato shed pumpkin legend actor"
+
+ADMIN1_MNEMONIC="shine left lumber budget elegant margin aunt truly prize snap shy claw"
+ADMIN2_MNEMONIC="tiny sudden coyote idea name thought consider jump occur aerobic approve media"
+ADMIN3_MNEMONIC="hole galaxy armed garlic casino tumble fitness six jungle success tissue jaguar"
+ADMIN4_MNEMONIC="breeze real effort sail deputy spray life real injury universe praise common"
+ADMIN5_MNEMONIC="action verb surge exercise order pause wait special account kid hard devote"
+
+OKCHAIN_TESTNET_FULL_MNEMONIC=(
+"${ADMIN1_MNEMONIC}"
+"${ADMIN2_MNEMONIC}"
+"${ADMIN3_MNEMONIC}"
+"${ADMIN4_MNEMONIC}"
+"${ADMIN5_MNEMONIC}"
+)
+
+OKCHAIN_TESTNET_ALL_ADMIN_MNEMONIC=(
+"${ADMIN_MNEMONIC}"
+"${ADMIN1_MNEMONIC}"
+"${ADMIN2_MNEMONIC}"
+"${ADMIN3_MNEMONIC}"
+"${ADMIN4_MNEMONIC}"
+"${ADMIN5_MNEMONIC}"
+)
+
 OKCHAIN_LAUNCH_TOP=/home/ubuntu/okchain/launch
 
 # 是否使用内网IP 

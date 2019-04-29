@@ -1,14 +1,6 @@
 #!/bin/bash
 
 IFS="!!"
-OKCHAIN_TESTNET_FULL_MNEMONIC=("shine left lumber budget elegant margin aunt truly prize snap shy claw"
-"tiny sudden coyote idea name thought consider jump occur aerobic approve media"
-"hole galaxy armed garlic casino tumble fitness six jungle success tissue jaguar"
-"breeze real effort sail deputy spray life real injury universe praise common"
-"action verb surge exercise order pause wait special account kid hard devote"
-)
-CAPTAIN_MNEMONIC="puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
-ADMIN_MNEMONIC="keen border system oil inject hotel hood potato shed pumpkin legend actor"
 
 . ${HOME}/okchain/launch/systemctl/scripts/okchaind.profile
 

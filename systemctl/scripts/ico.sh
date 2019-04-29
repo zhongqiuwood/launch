@@ -44,7 +44,7 @@ issue() {
 }
 
 vote() {
-   for ((idx=0; idx<${#OKCHAIN_TESTNET_FULL_MNEMONIC[@]}; idx++))
+   for ((idx=0; idx<${#OKCHAIN_TESTNET_ALL_ADMIN_MNEMONIC[@]}; idx++))
    do
        okecho ${OKCHAIN_CLI} tx gov vote $1 yes --from admin${idx} -y \
         --node ${TESTNET_RPC_INTERFACE} --home ${ADMIN_HOME}${idx} \
@@ -55,9 +55,9 @@ vote() {
 recover() {
 
    ${OKCHAIN_CLI} keys add --recover captain -y -m "${CAPTAIN_MNEMONIC}" &
-   for ((i=0; i<${#OKCHAIN_TESTNET_FULL_MNEMONIC[@]}; i++))
+   for ((i=0; i<${#OKCHAIN_TESTNET_ALL_ADMIN_MNEMONIC[@]}; i++))
    do
-       mnemonic=${OKCHAIN_TESTNET_FULL_MNEMONIC[i]}
+       mnemonic=${OKCHAIN_TESTNET_ALL_ADMIN_MNEMONIC[i]}
        ${OKCHAIN_CLI} keys add --recover admin${i} -y --home ${ADMIN_HOME}${i} -m "${mnemonic}" &
    done
 }
