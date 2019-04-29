@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #rm -rf ~/.okdexd
-#rm -rf ~/.okdexcli
+#rm -rf ~/.okchaincli
 
 ./killbyname.sh okdexd
 

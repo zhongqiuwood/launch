@@ -12,20 +12,20 @@ okchaincli tx send $(okchaincli keys show a0 -a) 10okb --from jack -y
 
 sleep 2
 #查询 a0 余额
-okchaincli query account $(okdexcli keys show a0 -a)
+okchaincli query account $(okchaincli keys show a0 -a)
 
 okchaincli tx send $(okchaincli keys show jack -a) 6okb --from a0 -y --generate-only > unsignedtx.json
 
-okdexcli tx sign --multisig=$(okdexcli keys show a0 -a) --from=a1 --output-document=signed.by.a1.json unsignedtx.json
-okdexcli tx sign --multisig=$(okdexcli keys show a0 -a) --from=a3 --output-document=signed.by.a3.json unsignedtx.json
+okchaincli tx sign --multisig=$(okchaincli keys show a0 -a) --from=a1 --output-document=signed.by.a1.json unsignedtx.json
+okchaincli tx sign --multisig=$(okchaincli keys show a0 -a) --from=a3 --output-document=signed.by.a3.json unsignedtx.json
 
-okdexcli tx multisign unsignedtx.json a0 signed.by.a1.json signed.by.a3.json > signedtx.json
+okchaincli tx multisign unsignedtx.json a0 signed.by.a1.json signed.by.a3.json > signedtx.json
 
-okdexcli tx sign --validate-signatures signedtx.json
+okchaincli tx sign --validate-signatures signedtx.json
 
 #after broadcast, validate signatures will fail
 exit
-okdexcli tx broadcast signedtx.json
-okdexcli query account $(okdexcli keys show jack -a)
-okdexcli query account $(okdexcli keys show a0 -a)
+okchaincli tx broadcast signedtx.json
+okchaincli query account $(okchaincli keys show jack -a)
+okchaincli query account $(okchaincli keys show a0 -a)
 

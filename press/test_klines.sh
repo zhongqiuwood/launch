@@ -28,7 +28,7 @@ okchaincli backend klines -g 60 -p xxb_okb -s 100
 okchaincli backend klines -g 180 -p xxb_okb -s 100
 
 # Restful API test
-nohup okchaincli rest-server --chain-id=okchain 2>&1 > ./okdexcli.log &
+nohup okchaincli rest-server --chain-id=okchain 2>&1 > ./okchaincli.log &
 sleep 0.5
 curl http://localhost:1317/tickers; echo
 curl "http://localhost:1317/tickers?count=100&sort=true"; echo

@@ -16,7 +16,7 @@ build
 #vendor/*
 dev/cache
 dev/okdexd
-dev/okdexcli
+dev/okchaincli
 okdexd.0.log
 home_gaiacli
 dev/okdex_testnet/cache

@@ -43,4 +43,4 @@ nohup ./okchaind start --log_level *:debug 2>&1 > ./okdexd.log &
 #okchaind start --log_level main:info,state:info,x/order:info
 
 #tail -f ./okdexd.log | grep -i -E "(rpc)|(http)"
-# nohup ./okchaincli rest-server --chain-id=okchain 2>&1 > ./okdexcli.log &
+# nohup ./okchaincli rest-server --chain-id=okchain 2>&1 > ./okchaincli.log &
