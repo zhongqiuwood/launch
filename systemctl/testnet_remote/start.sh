@@ -102,75 +102,6 @@ ${SSH}@$1 << eeooff
 eeooff
 }
 
-function vote {
-        echo vote@$1 proposal=$2
-${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
-    ./vote.sh $2
-    exit
-eeooff
-}
-
-function issue {
-        echo issue@$1 token=$2
-${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
-    ./issue.sh $2
-    exit
-eeooff
-}
-
-function proposal {
-        echo proposal@$1 token=$2
-${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
-    ./proposal.sh $2
-    exit
-eeooff
-}
-
-
-function active {
-        echo proposal@$1 proposal=$2
-${SSH}@$1 << eeooff
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
-    ./active.sh $2
-    exit
-eeooff
-}
-
-exe_active() {
-        for (( i=1;i<=${#TOKENS[@]};i++))
-        do
-            for host in ${OKCHAIN_TESTNET_SEED_HOST[@]}
-            do
-                active ${host} ${i}
-            done
-        done
-        exit
-}
-
-exe_ico() {
-        for (( i=0;i<${#TOKENS[@]};i++))
-        do
-            token=${TOKENS[i]}
-
-            for host in ${OKCHAIN_TESTNET_SEED_HOST[@]}
-            do
-                issue ${host} ${token}
-                sleep 2
-                proposal ${host} ${token}
-            done
-            sleep 2
-            for host in ${OKCHAIN_TESTNET_ALL_HOSTS[@]}
-            do
-                ((id = ${i} + 1))
-                vote ${host} ${id}
-            done
-        done
-        exit
-}
-
 exe_stop() {
         for host in ${OKCHAIN_TESTNET_ALL_HOSTS[@]}
         do
@@ -227,9 +158,6 @@ run() {
 
 
 function main {
-    if [ ! -z "${ACTIVE}" ];then
-        exe_active
-    fi
 
     if [ ! -z "${TOKEN}" ];then
         ../scripts/ico.sh
@@ -245,6 +173,7 @@ function main {
     fi
 
     run
+    exe_query
 }
 
 main

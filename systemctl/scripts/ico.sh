@@ -105,7 +105,7 @@ ico() {
         sleep 2
         okecho vote ${proposal_id}
 
-        echo "$i vote $token done"
+        echo "token_index[$i]: vote $token done"
         echo "------------------------------------"
 
     done
