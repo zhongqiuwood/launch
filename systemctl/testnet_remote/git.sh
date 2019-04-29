@@ -87,7 +87,7 @@ echo done!
 
 function main {
     if [ ! -z "${GIT_CLONE}" ];then
-        for host in ${OKCHAIN_TESTNET_ALL_HOSTS[@]}
+        for host in ${OKCHAIN_TESTNET_DEPLOYED_HOSTS[@]}
         do
             gitclone ${host}
         done
@@ -99,7 +99,7 @@ function main {
         rebuild_and_push
     fi
 
-    for host in ${OKCHAIN_TESTNET_ALL_HOSTS[@]}
+    for host in ${OKCHAIN_TESTNET_DEPLOYED_HOSTS[@]}
     do
         pull_update ${host} &
     done

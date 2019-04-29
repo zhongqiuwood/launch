@@ -40,7 +40,6 @@ round() {
 
 
 main() {
-    ./reward.sh -N -h ./products/${PRODUCT}/${PRODUCT}
 
     for((;;)) do
 
