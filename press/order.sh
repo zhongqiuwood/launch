@@ -13,9 +13,13 @@ USER=user
 QUANTITY=0.1
 PRICE=0.1
 OKDEXCLI_HOME=~/.okchaincli
-
-while getopts "c:x:b:d:P:p:su:q:h:" opt; do
+NODE=c22
+while getopts "c:x:b:d:P:p:su:q:h:n:" opt; do
   case $opt in
+    n)
+      echo "NODE=$OPTARG"
+      NODE=$OPTARG
+      ;;
     h)
       echo "OKDEXCLI_HOME=$OPTARG"
       OKDEXCLI_HOME=$OPTARG
@@ -62,21 +66,15 @@ while getopts "c:x:b:d:P:p:su:q:h:" opt; do
   esac
 done
 
-
 okecho() {
     echo "shell exec: [$@]"
     $@
 }
-
 
 okecho okchaincli tx order new ${PRODUCT} ${SIDE} ${PRICE} ${QUANTITY} \
     --from ${USER} \
     --home ${OKDEXCLI_HOME} \
     --chain-id okchain \
     -y -c ${CONCURRENT_NUM} \
-    -x ${NUM_PER_THREAD} -b ${BATCH_NUM} -d ${DEPTH} ${CC1}
+    -x ${NUM_PER_THREAD} -b ${BATCH_NUM} -d ${DEPTH} --node ${NODE}:26657
 
-
-exit
-
-okchaincli tx order new btc_okb SELL 0.1 1000000000 --from captain -y ${CCC}

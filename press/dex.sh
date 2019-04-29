@@ -24,18 +24,18 @@ ENV="-P ${PRODUCT} -h ./products/${PRODUCT}/${PRODUCT}"
 
 round() {
 
-    ./order.sh ${ENV}
-    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s
-    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s
-    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s
-    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s
-    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s
+    ./order.sh ${ENV} -n c22
+    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c21
+    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c22
+    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c23
+    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c24
+    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c25
 
-    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s
-    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s
-    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s
-    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s
-    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s
+    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c21
+    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c22
+    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c23
+    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c24
+    ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c25
 }
 
 
