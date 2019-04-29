@@ -1,2 +1,2 @@
-TOKENS=(btc eth eos ltc xrp)
+TOKENS=(btc eth eos ltc xrp xmr bts atom bch dash)
 
