@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
 
+CURDIR=`dirname $0`
+
+. ${CURDIR}/../systemctl/testnet_remote/token.profile
 
 MAX=$1
 
-okdexcli tx token mint -s okb -n ${MAX} --from captain --chain-id okchain -y ${CCC}
-okdexcli tx token mint -s btc -n ${MAX} --from captain --chain-id okchain -y ${CCC}
-okdexcli tx token mint -s eos -n ${MAX} --from captain --chain-id okchain -y ${CCC}
+mint(){
+    for token in ${TOKENS[@]}
+    do
+        okdexcli tx token mint -s ${token} -n ${MAX} --from captain --chain-id okchain -y ${CCC}
+    done
+}
 
-addr=$(okchaincli keys show -a captain)
+main(){
+    mint
+    addr=$(okchaincli keys show -a captain)
+    okdexcli query account ${addr} --chain-id okchain ${CCC}
+}
 
-okdexcli query account ${addr} --chain-id okchain ${CCC}
+main

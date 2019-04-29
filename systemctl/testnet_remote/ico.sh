@@ -2,7 +2,7 @@
 set -e
 
 CURDIR=`dirname $0`
-. ${CURDIR}/okchaind.profile
+. ${CURDIR}/../scripts/okchaind.profile
 
 TOKENS=(btc eth eos ltc xrp xmr)
 OKCHAIN_CLI=okchaincli
@@ -26,9 +26,6 @@ while getopts "ap:" opt; do
   esac
 done
 
-if [ $# -gt 0 ]; then
-    PROPOSALID=$1
-fi
 
 okecho() {
     echo "shell exec: [$@]"

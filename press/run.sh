@@ -1,32 +1,10 @@
 #!/bin/bash
 
+CURDIR=`dirname $0`
 
-for((;;)) do
-    ./mint.sh 10000
-    ./reward.sh
-    ./order.sh -c 10 -x 10 -b 10 -d 50 $1
-    ./order.sh -c 10 -x 10 -b 10 -d 50 $2
-    ./order.sh -c 10 -x 10 -b 10 -d 50 $1
-    ./order.sh -c 10 -x 10 -b 10 -d 50 $2
-    ./order.sh -c 10 -x 10 -b 10 -d 50 $1
-    ./order.sh -c 10 -x 10 -b 10 -d 50 $2
+. ${CURDIR}/../systemctl/testnet_remote/token.profile
+
+for token in ${TOKENS[@]}
+do
+   ./dex.sh -P ${token}_okb &
 done
-
-
-
-
-
-#for((;;)) do
-#    ./order.sh -q 1 -p 0.1 -c 20 -x 10 -b 10 -d 100
-#    ./order.sh -q 1 -p 0.1 -c 20 -x 10 -b 10 -d 100
-#    ./order.sh -q 1 -p 0.1 -c 20 -x 10 -b 10 -d 100
-#
-#    ./order.sh -q 1 -p 0.1 -c 20 -x 10 -b 10 -d 100 -s
-#    ./order.sh -q 1 -p 0.1 -c 20 -x 10 -b 10 -d 100 -s
-#    ./order.sh -q 1 -p 0.1 -c 20 -x 10 -b 10 -d 100 -s
-#
-#    ./reward.sh
-#    ./mint.sh 1000
-#done
-
-

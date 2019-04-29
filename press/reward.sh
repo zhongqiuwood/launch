@@ -2,6 +2,8 @@
 set -e
 CURDIR=`dirname $0`
 
+. ${CURDIR}/../systemctl/testnet_remote/token.profile
+
 # default params
 USER_NUM=32
 USER_NAME=user
@@ -9,7 +11,6 @@ OKDEXCLI_HOME=~/.okchaincli
 BALANCE=1000000
 RPC_NODE=c22
 RPC_PORT=26657
-
 
 while getopts "c:h:u:a:b:n:N" opt; do
   case $opt in
@@ -49,43 +50,55 @@ done
 ((AMOUNT = USER_NUM * BALANCE))
 RPC_INTERFACE=${RPC_NODE}:${RPC_PORT}
 
+init() {
 
+    for token in ${TOKENS[@]}
+    do
+        COINS=${COINS}${AMOUNT}${token}","
+        REWARD=${REWARD}${BALANCE}${token}","
+    done
+
+    COINS=${COINS}${AMOUNT}okb
+    REWARD=${REWARD}${BALANCE}okb
+
+    echo "[${COINS}]"
+    echo "[${REWARD}]"
+}
 
 okecho() {
  echo "shell exec: [$@]"
  $@
 }
 
-if [ ! -z "${CREATE_NEW_USER}" ]; then
-    okecho ${CURDIR}/genacc.sh -u ${USER_NAME} -c ${USER_NUM} -r -h ${OKDEXCLI_HOME}
-fi
+main() {
 
-okchaincli keys add --recover captain -y \
-    -m "puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
+    init
 
-sleep 5
+    if [ ! -z "${CREATE_NEW_USER}" ]; then
+        okecho ${CURDIR}/genacc.sh -u ${USER_NAME} -c ${USER_NUM} -r -h ${OKDEXCLI_HOME}
+    fi
 
-#okdexcli tx token mint -s btc -n ${AMOUNT} --from captain --chain-id okchain -y
-#okdexcli tx token mint -s eos -n ${AMOUNT} --from captain --chain-id okchain -y
-#okdexcli tx token mint -s okb -n ${AMOUNT} --from captain --chain-id okchain -y
+    okchaincli keys add --recover captain -y \
+        -m "puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
+
+    sleep 5
+
+    header=$(okchaincli keys show ${USER_NAME}0 -a --home ${OKDEXCLI_HOME}0)
+    okecho okchaincli tx send ${header} ${COINS} --from captain -y --chain-id okchain --node ${RPC_INTERFACE}
+
+    sleep 5
+    okecho okchaincli query account ${header} --chain-id okchain --node ${RPC_INTERFACE}
+    okecho okchaincli tx send dummy ${REWARD} --from ${USER_NAME} -r ${USER_NUM} -y --chain-id okchain \
+        --home ${OKDEXCLI_HOME} --node ${RPC_INTERFACE}
+}
 
 
-COINS=${AMOUNT}btc,\
-${AMOUNT}okb
+main
 
-header=$(okchaincli keys show ${USER_NAME}0 -a --home ${OKDEXCLI_HOME}0)
-okecho okchaincli tx send ${header} ${COINS} --from captain -y --chain-id okchain --node ${RPC_INTERFACE}
-
-REWARD=${BALANCE}btc,\
-${BALANCE}okb
-
-sleep 5
-okecho okchaincli query account ${header} --chain-id okchain --node ${RPC_INTERFACE}
-
-okecho okchaincli tx send dummy ${REWARD} --from ${USER_NAME} -r ${USER_NUM} -y --chain-id okchain \
-    --home ${OKDEXCLI_HOME} --node ${RPC_INTERFACE}
 
 exit
+
+
 for ((index=0;index<${USER_NUM};index++)) do
     res=$(okchaincli query account $(okchaincli keys show ${USER_NAME}${index} -a --home ${OKDEXCLI_HOME}${index}) \
         --node ${RPC_INTERFACE}|grep Coins)

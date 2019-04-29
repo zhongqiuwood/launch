@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PROFILE=cloud_okchaind.profile
-TOKENS=(btc eth eos ltc xrp)
+TOKEN_PROFILE=token.profile
 
 while getopts "qrcstap:" opt; do
   case $opt in
@@ -40,6 +40,7 @@ while getopts "qrcstap:" opt; do
 done
 
 . ./${PROFILE}
+. ./${TOKEN_PROFILE}
 
 start_seed_node() {
     echo start_seed_node@$1
@@ -160,7 +161,7 @@ run() {
 function main {
 
     if [ ! -z "${TOKEN}" ];then
-        ../scripts/ico.sh
+        ./scripts/ico.sh
         exit
     fi
 

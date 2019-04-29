@@ -12,9 +12,14 @@ SIDE=BUY
 USER=user
 QUANTITY=0.1
 PRICE=0.1
+OKDEXCLI_HOME=~/.okchaincli
 
-while getopts "c:x:b:d:P:p:su:q:" opt; do
+while getopts "c:x:b:d:P:p:su:q:h:" opt; do
   case $opt in
+    h)
+      echo "OKDEXCLI_HOME=$OPTARG"
+      OKDEXCLI_HOME=$OPTARG
+      ;;
     q)
       echo "QUANTITY=$OPTARG"
       QUANTITY=$OPTARG
@@ -58,10 +63,18 @@ while getopts "c:x:b:d:P:p:su:q:" opt; do
 done
 
 
-okchaincli tx order new ${PRODUCT} ${SIDE} ${PRICE} ${QUANTITY} --from ${USER} \
-    -y -c ${CONCURRENT_NUM} -x ${NUM_PER_THREAD} -b ${BATCH_NUM} -d ${DEPTH} ${CCC}
+okecho() {
+    echo "shell exec: [$@]"
+    $@
+}
 
 
+okecho okchaincli tx order new ${PRODUCT} ${SIDE} ${PRICE} ${QUANTITY} \
+    --from ${USER} \
+    --home ${OKDEXCLI_HOME} \
+    --chain-id okchain \
+    -y -c ${CONCURRENT_NUM} \
+    -x ${NUM_PER_THREAD} -b ${BATCH_NUM} -d ${DEPTH} ${CC1}
 
 
 exit
