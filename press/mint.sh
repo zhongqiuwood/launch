@@ -11,6 +11,8 @@ mint(){
     do
         okdexcli tx token mint -s ${token} -n ${MAX} --from captain --chain-id okchain -y ${CCC}
     done
+    okdexcli tx token mint -s okb -n ${MAX} --from captain --chain-id okchain -y ${CCC}
+    okdexcli tx token mint -s okb -n ${MAX} --from captain --chain-id okchain -y ${CCC}
 }
 
 main(){

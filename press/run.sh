@@ -6,5 +6,5 @@ CURDIR=`dirname $0`
 
 for token in ${TOKENS[@]}
 do
-   ./dex.sh -P ${token}_okb &
+   ./dex.sh -P ${token}_okb 2>&1 >${token}_okb.json &
 done

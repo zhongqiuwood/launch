@@ -81,6 +81,8 @@ main() {
     okchaincli keys add --recover captain -y \
         -m "puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
 
+
+    ./mint.sh ${AMOUNT}
     sleep 5
 
     header=$(okchaincli keys show ${USER_NAME}0 -a --home ${OKDEXCLI_HOME}0)

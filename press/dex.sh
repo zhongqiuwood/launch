@@ -46,7 +46,6 @@ main() {
 
         round
 
-        ./mint.sh 10000
         ./reward.sh
     done
 }
