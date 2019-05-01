@@ -4,7 +4,7 @@
 PRODUCT=btc_okb
 OKDEXCLI_HOME=~/.okchaincli
 
-while getopts "P:h:" opt; do
+while getopts "P:h:n" opt; do
   case $opt in
     P)
       echo "PRODUCT=$OPTARG"

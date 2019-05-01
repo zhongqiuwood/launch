@@ -6,7 +6,7 @@ CURDIR=`dirname $0`
 . ${CURDIR}/../systemctl/testnet_remote/token.profile
 
 # default params
-USER_NUM=32
+USER_NUM=10
 USER_NAME=user
 OKDEXCLI_HOME=user_home/user
 BALANCE=1000000
@@ -55,7 +55,7 @@ while getopts "c:h:u:a:b:n:Ni:" opt; do
 done
 ((AMOUNT = USER_NUM * BALANCE))
 RPC_INTERFACE=${RPC_NODE}:${RPC_PORT}
-ADMIN_HOME=admin${ADMIN_INDEX}_home
+ADMIN_HOME=admin_home/admin${ADMIN_INDEX}
 
 
 init() {
@@ -107,7 +107,7 @@ main() {
         okecho ${CURDIR}/genacc.sh -u ${USER_NAME} -c ${USER_NUM} -r -h ${OKDEXCLI_HOME}
     fi
 
-    sleep 3
+    sleep 10
 
     header=$(okchaincli keys show ${USER_NAME}0 -a --home ${OKDEXCLI_HOME}0)
     okecho okchaincli tx send ${header} ${COINS} --from admin${ADMIN_INDEX} -y \

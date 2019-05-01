@@ -60,7 +60,7 @@ for ((index=0;index<${USER_NUM};index++,flow_control++)) do
         sleep 5
         flow_control=0
     fi
-    newkey ${USER_NAME} ${index} &
+    newkey ${USER_NAME} ${index}
 done
 
 

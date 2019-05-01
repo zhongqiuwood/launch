@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+#set -e
 
 CURDIR=`dirname $0`
 . ${CURDIR}/../scripts/okchaind.profile
@@ -122,6 +122,9 @@ main() {
 
     recover
     ico $1
+
+
+    okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep base_asset_symbol|wc -l
 }
 
 main ${BEGIN_PROPOSALID}
