@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -e
 CURDIR=`dirname $0`
 
 . ${CURDIR}/../systemctl/testnet_remote/token.profile

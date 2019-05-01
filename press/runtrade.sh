@@ -27,7 +27,7 @@ sleep 1
 index=0
 for token in ${TOKENS[@]}
 do
-    trade $index ${token}&
+    trade $index ${token}
     ((index++))
 done
 
