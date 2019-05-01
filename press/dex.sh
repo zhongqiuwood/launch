@@ -51,7 +51,7 @@ main() {
 
         round
 
-        ./reward.sh
+#        ./reward.sh
     done
 }
 
