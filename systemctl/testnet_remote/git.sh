@@ -47,10 +47,11 @@ echo done!
 
 function rebuild_and_push {
 ssh root@192.168.13.116 << eeooff
-    source ~/env.sh
+    source /root/env.sh
     cd /root/go/src/github.com/ok-chain/okchain
     git stash
     git pull
+    git checkout dev
     make install
 
     cd /root/go/src/github.com/cosmos/launch

@@ -13,3 +13,7 @@ export CC4=
 export CC5=
 export CCC=
 export CC13=
+
+
+KEY_FILE=admin_pkey.json
+ADDR_FILE=admin_addr.json

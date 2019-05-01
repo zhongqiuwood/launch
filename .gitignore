@@ -31,5 +31,7 @@ tendermint.1*
 cosmos-sdk.1*
 built-in-stubs.jar
 press_cache
+admin*home
+*_home
 .idea
 *_okb

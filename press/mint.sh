@@ -6,13 +6,18 @@ CURDIR=`dirname $0`
 
 MAX=$1
 
+okecho() {
+ echo "shell exec: [$@]"
+ $@
+}
+
 mint(){
     for token in ${TOKENS[@]}
     do
-        okchaincli tx token mint -s ${token} -n ${MAX} --from captain --chain-id okchain -y ${CC1}
+        okecho okchaincli tx token mint -s ${token} -n ${MAX} --from captain --chain-id okchain -y ${CC1}
     done
-    okchaincli tx token mint -s okb -n ${MAX} --from captain --chain-id okchain -y ${CC1}
-    okchaincli tx token mint -s okb -n ${MAX} --from captain --chain-id okchain -y ${CC1}
+    okecho okchaincli tx token mint -s okb -n ${MAX} --from captain --chain-id okchain -y ${CC1}
+#    okchaincli tx token mint -s okb -n ${MAX} --from captain --chain-id okchain -y ${CC1}
 }
 
 main(){

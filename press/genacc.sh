@@ -1,4 +1,8 @@
 #!/bin/bash
+set -e
+CURDIR=`dirname $0`
+. ${CURDIR}/env.profile
+
 
 # default params
 USER_NUM=2
@@ -38,6 +42,11 @@ function newkey() {
     okchaincli keys add ${1}${2} --home ${OKDEXCLI_HOME}${2} -y
 }
 
+function recover() {
+    echo "okchaincli keys add ${1}${2} --home ${OKDEXCLI_HOME}${2}"
+    okchaincli keys add ${1}${2} --home ${OKDEXCLI_HOME}${2} -y
+}
+
 if [ "${REMOVE}" == "Y" ]; then
     rm -rf ${OKDEXCLI_HOME}*
     okchaincli config chain-id okchain
@@ -45,7 +54,7 @@ if [ "${REMOVE}" == "Y" ]; then
 fi
 
 flow_control=0
-for ((index=0;index<=${USER_NUM};index++,flow_control++)) do
+for ((index=0;index<${USER_NUM};index++,flow_control++)) do
     if [ ${flow_control} -eq 128 ]; then
         echo "flow_control: ${flow_control}, sleep 5s..."
         sleep 5

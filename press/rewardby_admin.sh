@@ -1,26 +1,28 @@
 #!/bin/bash
 set -e
 CURDIR=`dirname $0`
+. ${CURDIR}/env.profile
 
 . ${CURDIR}/../systemctl/testnet_remote/token.profile
 
 # default params
 USER_NUM=32
 USER_NAME=user
-OKDEXCLI_HOME=~/.okchaincli
+OKDEXCLI_HOME=user_home/user
 BALANCE=1000000
-RPC_NODE=c22
+RPC_NODE=localhost
 RPC_PORT=26657
+ADMIN_INDEX=0
 
-while getopts "c:h:u:a:b:n:N:R" opt; do
+while getopts "c:h:u:a:b:n:Ni:" opt; do
   case $opt in
     N)
       echo "CREATE_NEW_USER"
       CREATE_NEW_USER="Y"
       ;;
-    R)
-      echo "RECOVER_USER"
-      RECOVER_USER="Y"
+    i)
+      echo "ADMIN_INDEX=$OPTARG"
+      ADMIN_INDEX=$OPTARG
       ;;
     n)
       echo "RPC_NODE=$OPTARG"
@@ -53,7 +55,7 @@ while getopts "c:h:u:a:b:n:N:R" opt; do
 done
 ((AMOUNT = USER_NUM * BALANCE))
 RPC_INTERFACE=${RPC_NODE}:${RPC_PORT}
-echo "RPC_INTERFACE: $RPC_INTERFACE"
+ADMIN_HOME=admin${ADMIN_INDEX}_home
 
 
 init() {
@@ -76,28 +78,41 @@ okecho() {
  $@
 }
 
+recover_admin() {
+    if [ ! -f ${KEY_FILE} ]; then
+        "${KEY_FILE} does not exist!"
+        exit
+    fi
+
+    index=0
+    cat ${KEY_FILE} | while read line
+    do
+        if [ $index -eq ${ADMIN_INDEX} ]; then
+            okchaincli keys add admin${ADMIN_INDEX} --recover -m "${line}" -y --home ${ADMIN_HOME}
+            okecho okchaincli keys show admin${ADMIN_INDEX} -a --home ${ADMIN_HOME}
+            echo "$line"
+            break
+        fi
+        ((index++))
+    done
+}
+
 main() {
 
     init
 
+    recover_admin
+
     if [ ! -z "${CREATE_NEW_USER}" ]; then
         okecho ${CURDIR}/genacc.sh -u ${USER_NAME} -c ${USER_NUM} -r -h ${OKDEXCLI_HOME}
-        sleep 5
     fi
 
-    if [ ! -z "${RECOVER_USER}" ]; then
-        okecho ${CURDIR}/recovacc.sh -u ${USER_NAME} -c ${USER_NUM} -r -h ${OKDEXCLI_HOME}
-        sleep 5
-    fi
-
-    okchaincli keys add --recover captain -y \
-        -m "puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
-
-#    ./mint.sh ${AMOUNT}
-#    sleep 5
+    sleep 3
 
     header=$(okchaincli keys show ${USER_NAME}0 -a --home ${OKDEXCLI_HOME}0)
-    okecho okchaincli tx send ${header} ${COINS} --from captain -y --chain-id okchain --node ${RPC_INTERFACE}
+    okecho okchaincli tx send ${header} ${COINS} --from admin${ADMIN_INDEX} -y \
+        --chain-id okchain --node ${RPC_INTERFACE} \
+        --home ${ADMIN_HOME}
 
     sleep 5
     okecho okchaincli query account ${header} --chain-id okchain --node ${RPC_INTERFACE}
@@ -107,19 +122,6 @@ main() {
 
 
 main
-
-
-exit
-
-
-for ((index=0;index<${USER_NUM};index++)) do
-    res=$(okchaincli query account $(okchaincli keys show ${USER_NAME}${index} -a --home ${OKDEXCLI_HOME}${index}) \
-        --node ${RPC_INTERFACE}|grep Coins)
-    echo "${USER_NAME}${index} ${res}"
-done
-
-res=$(okchaincli query account $(okchaincli keys show captain -a) --node ${RPC_INTERFACE} |grep Coins)
-echo "captain ${res}"
 
 
 

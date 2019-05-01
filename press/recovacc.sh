@@ -1,5 +1,8 @@
 #!/bin/bash
-. ./env.profile
+set -e
+CURDIR=`dirname $0`
+. ${CURDIR}/env.profile
+
 
 # default params
 USER_NUM=2
@@ -31,32 +34,21 @@ while getopts "c:h:u:r" opt; do
   esac
 done
 
-
-CUR_DIR=`pwd`
-
-function newkey() {
-    echo "okchaincli keys add ${1}${2} --home ${OKDEXCLI_HOME}${2}"
-    okchaincli keys add ${1}${2} --home ${OKDEXCLI_HOME}${2} -y
-}
-
-if [ -f ${KEY_FILE} ]; then
-    rm ${KEY_FILE}
+if [ "${REMOVE}" == "Y" ]; then
+    rm -rf ${OKDEXCLI_HOME}*
+    okchaincli config chain-id okchain
+    okchaincli config trust-node true
 fi
-
-if [ -f ${ADDR_FILE} ]; then
-    rm ${ADDR_FILE}
-fi
-
-for ((index=0; index < ${USER_NUM}; index++)) do
-    okchaincli keys mnemonic >> ${KEY_FILE}
-done
 
 index=0
 cat ${KEY_FILE} | while read line
 do
    echo $line
-   okchaincli keys add user${index} --recover -m "$line" -y
-   okchaincli keys show user${index} -a >> ${ADDR_FILE}
+   okchaincli keys add ${USER_NAME}${index} --home ${OKDEXCLI_HOME}${index} --recover -m "$line" -y &
    ((index++))
-   echo "------------------------------"
+
+   if [ $index -eq ${USER_NUM} ]; then
+        break
+   fi
 done
+
