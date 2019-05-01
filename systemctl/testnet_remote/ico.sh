@@ -55,7 +55,7 @@ proposal() {
 
 issue() {
     ${OKCHAIN_CLI} tx token issue --from captain --symbol ${1} --chain-id okchain \
-        -n 60000000000 --mintable=true -y --node ${TESTNET_RPC_INTERFACE}
+        -n 89999999999 --mintable=true -y --node ${TESTNET_RPC_INTERFACE}
 }
 
 vote() {

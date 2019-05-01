@@ -5,6 +5,8 @@ USER_NUM=2
 USER_NAME=user
 OKDEXCLI_HOME=~/.okchaincli
 REMOVE=n
+KEY_FILE=admin_pkey.json
+ADDR_FILE=admin_addr.json
 
 while getopts "c:h:u:r" opt; do
   case $opt in
@@ -38,22 +40,24 @@ function newkey() {
     okchaincli keys add ${1}${2} --home ${OKDEXCLI_HOME}${2} -y
 }
 
-if [ "${REMOVE}" == "Y" ]; then
-    rm -rf ${OKDEXCLI_HOME}*
-    okchaincli config chain-id okchain
-    okchaincli config trust-node true
+if [ -f ${KEY_FILE} ]; then
+    rm ${KEY_FILE}
 fi
 
-flow_control=0
-for ((index=0;index<=${USER_NUM};index++,flow_control++)) do
-    if [ ${flow_control} -eq 128 ]; then
-        echo "flow_control: ${flow_control}, sleep 5s..."
-        sleep 5
-        flow_control=0
-    fi
-    newkey ${USER_NAME} ${index} &
+if [ -f ${ADDR_FILE} ]; then
+    rm ${ADDR_FILE}
+fi
+
+for ((index=0; index < ${USER_NUM}; index++)) do
+    okchaincli keys mnemonic >> ${KEY_FILE}
 done
 
-
-
-
+index=0
+cat ${KEY_FILE} | while read line
+do
+   echo $line
+   okchaincli keys add user${index} --recover -m "$line" -y
+   okchaincli keys show user${index} -a >> ${ADDR_FILE}
+   ((index++))
+   echo "------------------------------"
+done

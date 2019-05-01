@@ -10,4 +10,3 @@ sleep 2
 okchaincli query token info $1
 
 
-okchain14q9yyysp5uphhtnlztxf3pl4huk4fk63crsf7d
