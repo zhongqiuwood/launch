@@ -5,9 +5,8 @@ okecho() {
  $@
 }
 
-okecho okchaincli query account $(okchaincli keys show alice -a)
+token=$1
+index=$2
 
-
-#printf "\njack\n"
-okecho okchaincli query account $(okchaincli keys show jack -a)
+okecho okchaincli query account $(okchaincli keys show user$index --home ./products/$token_okb/$token_okb$index -a) --node c22:26657
 

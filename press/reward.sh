@@ -12,8 +12,13 @@ BALANCE=1000000
 RPC_NODE=c22
 RPC_PORT=26657
 
-while getopts "c:h:u:a:b:n:N:R" opt; do
+
+while getopts "c:h:u:a:b:n:N:Rm" opt; do
   case $opt in
+    m)
+      echo "MINT_COINS=Y"
+      MINT_COINS="Y"
+      ;;
     N)
       echo "CREATE_NEW_USER"
       CREATE_NEW_USER="Y"
@@ -93,7 +98,6 @@ main() {
     okchaincli keys add --recover captain -y \
         -m "puzzle glide follow cruel say burst deliver wild tragic galaxy lumber offer"
 
-#    ./mint.sh ${AMOUNT}
 #    sleep 5
 
     header=$(okchaincli keys show ${USER_NAME}0 -a --home ${OKDEXCLI_HOME}0)
@@ -103,6 +107,10 @@ main() {
     okecho okchaincli query account ${header} --chain-id okchain --node ${RPC_INTERFACE}
     okecho okchaincli tx send dummy ${REWARD} --from ${USER_NAME} -r ${USER_NUM} -y --chain-id okchain \
         --home ${OKDEXCLI_HOME} --node ${RPC_INTERFACE}
+
+    if [ ! -z "${MINT_COINS}" ]; then
+        okecho ./mint.sh ${AMOUNT} ${RPC_INTERFACE}
+    fi
 }
 
 

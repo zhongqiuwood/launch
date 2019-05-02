@@ -4,7 +4,8 @@ CURDIR=`dirname $0`
 
 . ${CURDIR}/../systemctl/testnet_remote/token.profile
 
-MAX=$1
+AMOUNT=$1
+RPC_INTERFACE=$2
 
 okecho() {
  echo "shell exec: [$@]"
@@ -14,16 +15,17 @@ okecho() {
 mint(){
     for token in ${TOKENS[@]}
     do
-        okecho okchaincli tx token mint -s ${token} -n ${MAX} --from captain --chain-id okchain -y ${CC1}
+        okecho okchaincli tx token mint -s ${token} -n ${AMOUNT} \
+            --from captain --chain-id okchain -y --node ${RPC_INTERFACE}
     done
-    okecho okchaincli tx token mint -s okb -n ${MAX} --from captain --chain-id okchain -y ${CC1}
-#    okchaincli tx token mint -s okb -n ${MAX} --from captain --chain-id okchain -y ${CC1}
+    okecho okchaincli tx token mint -s okb -n ${AMOUNT} \
+        --from captain --chain-id okchain -y --node ${RPC_INTERFACE}
 }
 
 main(){
     mint
     addr=$(okchaincli keys show -a captain)
-    okchaincli query account ${addr} --chain-id okchain ${CC1}
+    okchaincli query account ${addr} --chain-id okchain --node ${RPC_INTERFACE}
 }
 
 main
