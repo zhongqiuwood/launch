@@ -1,8 +1,8 @@
 #!/bin/bash
 
 okecho() {
- echo "shell exec: [$@]"
- $@
+    echo "shell exec: [$@]"
+    $@
 }
 
 token=$1
