@@ -10,7 +10,7 @@ BEGIN_PROPOSALID=1
 ADMIN_HOME=~/.okchaincli/admin
 
 
-while getopts "ap:Pvq" opt; do
+while getopts "i:apvVq" opt; do
   case $opt in
     q)
       echo "QUERY_ONLY"
@@ -20,11 +20,15 @@ while getopts "ap:Pvq" opt; do
       echo "VOTE_ONLY"
       VOTE_ONLY="Y"
       ;;
-    P)
+    V)
+      echo "VOTE_ONE"
+      VOTE_ONE="Y"
+      ;;
+    p)
       echo "PROPOSAL_ONLY"
       PROPOSAL_ONLY="Y"
       ;;
-    p)
+    i)
       echo "BEGIN_PROPOSALID=$OPTARG"
       BEGIN_PROPOSALID=$OPTARG
       ;;
@@ -85,7 +89,7 @@ recover() {
    for ((i=0; i<${#OKCHAIN_TESTNET_ALL_ADMIN_MNEMONIC[@]}; i++))
    do
        mnemonic=${OKCHAIN_TESTNET_ALL_ADMIN_MNEMONIC[i]}
-       ${OKCHAIN_CLI} keys add --recover admin${i} -y --home ${ADMIN_HOME}${i} -m "${mnemonic}" &
+       ${OKCHAIN_CLI} keys add --recover admin${i} -y --home ${ADMIN_HOME}${i} -m "${mnemonic}"
    done
 }
 
@@ -125,25 +129,21 @@ ico() {
     active_all $1
 }
 
-proposal_only() {
+proposal_vote_only() {
     # $1: 1st proposal id
     for ((i=0; i<${#TOKENS[@]}; i++))
     do
         token=${TOKENS[i]}
         okecho proposal ${token}
+        sleep 1
+
+        ((proposal_id = i + $1))
+        okecho vote ${proposal_id}
+
         echo "------------------------------------"
     done
 }
 
-vote_only() {
-    # $1: 1st proposal id
-    for ((i=0; i<${#TOKENS[@]}; i++))
-    do
-        ((proposal_id = i + $1))
-        okecho vote ${proposal_id}
-        echo "------------------------------------"
-    done
-}
 
 query_only() {
     # $1: 1st proposal id
@@ -159,10 +159,10 @@ query_only() {
 
 main() {
 
-        okchaincli config chain-id okchain
-        okchaincli config trust-node true
-        okchaincli config output json
-        okchaincli config indent true
+    okchaincli config chain-id okchain
+    okchaincli config trust-node true
+    okchaincli config output json
+    okchaincli config indent true
 
     if [ ! -z "${QUERY_ONLY}" ]; then
         query_only
@@ -175,21 +175,14 @@ main() {
         exit
     fi
 
-    if [ ! -z "${PROPOSAL_ONLY}" ]; then
-        proposal_only $1
-        okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep base_asset_symbol|wc -l
-        exit
-    fi
-
-    if [ ! -z "${VOTE_ONLY}" ]; then
-            recover
-
-        vote_only $1
-        okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep base_asset_symbol|wc -l
-        exit
-    fi
-
     recover
+
+    if [ ! -z "${PROPOSAL_ONLY}" ]; then
+        proposal_vote_only $1
+        okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep base_asset_symbol|wc -l
+        exit
+    fi
+
     ico $1
 
     okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep base_asset_symbol|wc -l
