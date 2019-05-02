@@ -1,12 +1,13 @@
 #!/bin/bash
+CURDIR=`dirname $0`
 
-./killbyname.sh dex.sh
+${CURDIR}/killbyname.sh dex.sh
 sleep 1
-./killbyname.sh reward.sh
+${CURDIR}/killbyname.sh reward.sh
 sleep 1
-./killbyname.sh order.sh
+${CURDIR}/killbyname.sh order.sh
 sleep 1
-./killbyname.sh okchaincli
+${CURDIR}/killbyname.sh okchaincli
 sleep 1
-rm -rf ./products
-rm -rf ~/.okchaincli
+rm -rf ${CURDIR}/products
+rm -rf ${HOME}/.okchaincli
