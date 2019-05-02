@@ -15,11 +15,10 @@ trade() {
 
     admin_index=$1
     token=$2
-
-    dexonly=$3
+    reward=$3
 
     # 1000000 per user
-    if [ -z "$dexonly" ]; then
+    if [ "$reward" == "reward" ]; then
         okecho ${CURDIR}/rewardby_admin.sh -N -i ${admin_index} -n c22 -c 16 -b 1000000 -h ${CURDIR}/products/${token}_okb/${token}_okb
     fi
 

@@ -6,5 +6,5 @@ CURDIR=`dirname $0`
 
 ./prerun.sh
 
-./runtrade.sh 2>&1 > a.json &
+./runtrade.sh reward 2>&1 > a.json &
 
