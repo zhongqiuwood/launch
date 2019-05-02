@@ -9,5 +9,5 @@ ${CURDIR}/killbyname.sh order.sh
 sleep 1
 ${CURDIR}/killbyname.sh okchaincli
 sleep 1
-rm -rf ${CURDIR}/products
-rm -rf ${HOME}/.okchaincli
+#rm -rf ${CURDIR}/products
+#rm -rf ${HOME}/.okchaincli
