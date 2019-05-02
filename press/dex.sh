@@ -41,6 +41,8 @@ round() {
     okecho ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c23
     okecho ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c24
     okecho ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c25
+
+    okecho ./order.sh ${ENV} -c 10 -x 10 -b 10 -d 1 -p 0.1 -s -n c21
 }
 
 
