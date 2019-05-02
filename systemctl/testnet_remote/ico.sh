@@ -10,8 +10,20 @@ BEGIN_PROPOSALID=1
 ADMIN_HOME=~/.okchaincli/admin
 
 
-while getopts "ap:" opt; do
+while getopts "ap:Pvq" opt; do
   case $opt in
+    q)
+      echo "QUERY_ONLY"
+      QUERY_ONLY="Y"
+      ;;
+    v)
+      echo "VOTE_ONLY"
+      VOTE_ONLY="Y"
+      ;;
+    P)
+      echo "PROPOSAL_ONLY"
+      PROPOSAL_ONLY="Y"
+      ;;
     p)
       echo "BEGIN_PROPOSALID=$OPTARG"
       BEGIN_PROPOSALID=$OPTARG
@@ -113,18 +125,75 @@ ico() {
     active_all $1
 }
 
+proposal_only() {
+    # $1: 1st proposal id
+    for ((i=0; i<${#TOKENS[@]}; i++))
+    do
+        token=${TOKENS[i]}
+        okecho proposal ${token}
+        echo "------------------------------------"
+    done
+}
+
+vote_only() {
+    # $1: 1st proposal id
+    for ((i=0; i<${#TOKENS[@]}; i++))
+    do
+        ((proposal_id = i + $1))
+        okecho vote ${proposal_id}
+        echo "------------------------------------"
+    done
+}
+
+query_only() {
+    # $1: 1st proposal id
+    for ((i=0; i<${#TOKENS[@]}; i++))
+    do
+        token=${TOKENS[i]}
+        okecho okchaincli query token info $token --node ${TESTNET_RPC_INTERFACE} --chain-id okchain
+        echo "------------------------------------"
+    done
+    okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} --chain-id okchain|grep base_asset_symbol|wc -l
+
+}
+
 main() {
+
+        okchaincli config chain-id okchain
+        okchaincli config trust-node true
+        okchaincli config output json
+        okchaincli config indent true
+
+    if [ ! -z "${QUERY_ONLY}" ]; then
+        query_only
+        exit
+    fi
 
     if [ ! -z "${ACTIVE_ONLY}" ]; then
         active_all $1
+        okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep base_asset_symbol|wc -l
+        exit
+    fi
+
+    if [ ! -z "${PROPOSAL_ONLY}" ]; then
+        proposal_only $1
+        okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep base_asset_symbol|wc -l
+        exit
+    fi
+
+    if [ ! -z "${VOTE_ONLY}" ]; then
+            recover
+
+        vote_only $1
+        okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep base_asset_symbol|wc -l
         exit
     fi
 
     recover
     ico $1
 
-
     okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep base_asset_symbol|wc -l
+#    okchaincli query token tokenpair  |grep base_asset_symbol|wc -l
 }
 
 main ${BEGIN_PROPOSALID}
